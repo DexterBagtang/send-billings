@@ -14,9 +14,33 @@
                             <h1 class="page-header-title">
                                 {{--                                <div class="page-header-icon"><i data-feather="file"></i></div>--}}
                                 Billing Files
+
                             </h1>
                         </div>
-                        <div class="col-12 col-xl-auto mb-3"></div>
+                        <div class="col-12 col-xl-auto mb-3">
+                            @if(session()->get('sending'))
+                                {{--                                    <div class="alert alert-success">--}}
+                                {{--                                        {{ session()->get('success') }}--}}
+                                {{--                                    </div><br />--}}
+                                <div class="alert alert-success alert-dismissible fade show float-end" role="alert">
+                                    <h5 class="alert-heading">Sending Now !</h5>
+                                    <hr>
+                                    {{ session()->get('sending') }}
+                                    <button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
+                            @endif
+
+
+                            @if ($errors->any())
+                                <div class="alert alert-danger">
+                                    <ul>
+                                        @foreach ($errors->all() as $error)
+                                            <li>{{ $error }}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            @endif
+                        </div>
                     </div>
                 </div>
             </div>
@@ -25,7 +49,7 @@
         <div class="container-xl px-4 mt-4">
             <div class="card mb-4">
                 <div class="card-header" style="font-size: 25px">
-                    Sent billings for the month of {{$month.'-'.$year}}
+                    Sending billings for the month of {{$month.'-'.$year}}
                     <div class="float-end">
                         {{--                        Total Billings = {{count($billings)}} <br>--}}
                         Sending Billings = {{$countSent}} <br>

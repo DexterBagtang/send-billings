@@ -193,7 +193,8 @@ class EmailController extends Controller
                 }
                 $delaySecond = $i+= 30;
             }
-            dd("email sending");
+//            dd("email sending");
+            return redirect('sendBillingSending')->with('sending','Billings are now sending !');
         }
 
 
