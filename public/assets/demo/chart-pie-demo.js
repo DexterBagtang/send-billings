@@ -10,7 +10,7 @@ var myPieChart = new Chart(ctx, {
     data: {
         labels: ["Direct", "Referral", "Social"],
         datasets: [{
-            data: [55, 30, 15],
+            data: [50, 49, 1],
             backgroundColor: [
                 "rgba(0, 97, 242, 1)",
                 "rgba(0, 172, 105, 1)",

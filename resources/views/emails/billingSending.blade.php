@@ -26,7 +26,7 @@
                                     <h5 class="alert-heading">Sending Now !</h5>
                                     <hr>
                                     {{ session()->get('sending') }}
-                                    <button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close"></button>
+                                    <button class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                                 </div>
                             @endif
 

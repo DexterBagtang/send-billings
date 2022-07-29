@@ -154,7 +154,8 @@ class EmailController extends Controller
         $countNotSent = count($billingNotSent);
 
         if ($countNotSent == 0){
-            dd("no billings to be send");
+//            dd("no billings to be send");
+            return redirect('sendBillingFiles')->with('error',"No billings to be send for the month of $month-$year");
         }
         else{
             for ($x=0; $x<=$all; $x+=$each){
@@ -194,16 +195,8 @@ class EmailController extends Controller
                 $delaySecond = $i+= 30;
             }
 //            dd("email sending");
-            return redirect('sendBillingSending')->with('sending','Billings are now sending !');
+            return back()->with('sending','Billings are now sending !');
         }
-
-
-
-
-//        dd($billings,$all,$file);
-
-
-
     }
 
     public function sendBillingSent(){

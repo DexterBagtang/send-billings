@@ -12,7 +12,41 @@
                                 Billing Files
                             </h1>
                         </div>
-                        <div class="col-12 col-xl-auto mb-3"></div>
+                        <div class="col-12 col-xl-auto mb-3">
+                            @if(session()->get('sending'))
+                                {{--                                    <div class="alert alert-success">--}}
+                                {{--                                        {{ session()->get('success') }}--}}
+                                {{--                                    </div><br />--}}
+                                <div class="alert alert-success alert-dismissible fade show float-end" role="alert">
+                                    <h5 class="alert-heading">Note !</h5>
+                                    <hr>
+                                    {{ session()->get('sending') }}
+                                    <a class="btn-close" type="" data-bs-dismiss="alert" aria-label="Close"></a>
+                                </div>
+                            @endif
+                                @if(session()->get('error'))
+                                    {{--                                    <div class="alert alert-success">--}}
+                                    {{--                                        {{ session()->get('success') }}--}}
+                                    {{--                                    </div><br />--}}
+                                    <div class="alert alert-danger alert-dismissible fade show float-end" role="alert">
+                                        <h5 class="alert-heading">Note !</h5>
+                                        <hr>
+                                        {{ session()->get('error') }}
+                                        <a class="btn-close" type="" data-bs-dismiss="alert" aria-label="Close"></a>
+                                    </div>
+                                @endif
+
+
+                            @if ($errors->any())
+                                <div class="alert alert-danger">
+                                    <ul>
+                                        @foreach ($errors->all() as $error)
+                                            <li>{{ $error }}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            @endif
+                        </div>
                     </div>
                 </div>
             </div>
@@ -176,8 +210,8 @@
                                         You are about to send the billings for the month of {{$month.'-'.$year}}
                                     </div>
                                     <div class="modal-footer">
-                                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
                                         <input type="submit" class="btn btn-primary" value="Send Now">
+                                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
                                     </div>
                                 </div>
                             </div>

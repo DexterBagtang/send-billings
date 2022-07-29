@@ -247,7 +247,7 @@
 {{--                        </nav>--}}
 {{--                    </div>--}}
                     <!-- Sidenav Heading (Addons)-->
-                    <div class="sidenav-menu-heading text-center text-black" style="font-size: 13px"><span class="text-danger">B</span>illing
+                    <div class="sidenav-menu-heading text-center text-black" style="font-size: 13px" onclick="window.location.href='{{url('/')}}'"><span class="text-danger">B</span>illing
                          Sy<span style="color: goldenrod">zz</span>tem</div>
                     <!-- Sidenav Link (Charts)-->
 {{--                    <a class="nav-link" href="charts.html">--}}
