@@ -21,12 +21,56 @@
         <div class="container-xl px-4 mt-4">
             <div class="card mb-4">
                 <div class="card-header">
-                    {{count(json_decode($upload->fileNames))}} Files
+                    <!-- Dashboard card navigation-->
+                    <ul class="nav nav-tabs card-header-tabs" id="dashboardNav" role="tablist">
+                        <li class="nav-item me-1"><a class="nav-link active" id="overview-pill" href="#overview" data-bs-toggle="tab" role="tab" aria-controls="overview" aria-selected="true">Billings</a></li>
+                        @if(count($nullFiles) > 0)
+                        <li class="nav-item"><a class="nav-link" id="activities-pill" href="#activities" data-bs-toggle="tab" role="tab" aria-controls="activities" aria-selected="false">
+                                Unknown Billings <span class="badge bg-danger text-white">{{count($nullFiles)}}</span></a>
+                        </li>
+                        @endif
+                    </ul>
+{{--                    {{count(json_decode($upload->fileNames))}} Files--}}
                 </div>
                 <div class="card-body">
-                    <form action="">
-                        <table id="datatablesSimple">
-                            <thead>
+                    <div class="tab-content" id="dashboardNavContent">
+                        <div class="tab-pane fade show active" id="overview" role="tabpanel" aria-labelledby="overview-pill">
+{{--                            <form action="">--}}
+                                <table id="datatablesSimple">
+                                    <thead>
+                                    <tr>
+                                        <th>Company</th>
+                                        <th>Account #</th>
+                                        <th>Contract #</th>
+                                        <th>Email</th>
+                                        <th>File</th>
+
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    @foreach($files as $file)
+                                        <tr>
+                                            <td>{{$file->company}}</td>
+                                            <td>{{$file->account_number}}</td>
+                                            <td>{{$file->contract_number}}</td>
+                                            <td>{{$file->email}}</td>
+                                            <td>
+                                                <a class="btn btn-outline-dark" href="{{asset('billing_files/'.$file->month.'-'.$file->year.'/'.$file->filename)}}">
+                                                    {{--                                        <i data-feather="file"></i>{{$file->filename}}--}}
+                                                    <div class="nav-link-icon"><i data-feather="file"></i> </div>
+                                                    {{$file->filename}}
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                    </tbody>
+                                </table>
+{{--                            </form>--}}
+                        </div>
+
+                        <div class="tab-pane fade" id="activities" role="tabpanel" aria-labelledby="activities-pill">
+                            <table id="datatablesSimple2">
+                                <thead>
                                 <tr>
                                     <th>Company</th>
                                     <th>Account #</th>
@@ -35,26 +79,27 @@
                                     <th>File</th>
 
                                 </tr>
-                            </thead>
-                            <tbody>
-                            @foreach($files as $file)
-                            <tr>
-                                <td>{{$file->company}}</td>
-                                <td>{{$file->account_number}}</td>
-                                <td>{{$file->contract_number}}</td>
-                                <td>{{$file->email}}</td>
-                                <td>
-                                    <a class="btn btn-outline-dark" href="{{asset('billing_files/'.$file->month.'-'.$file->year.'/'.$file->filename)}}">
-{{--                                        <i data-feather="file"></i>{{$file->filename}}--}}
-                                        <div class="nav-link-icon"><i data-feather="file"></i> </div>
-                                        {{$file->filename}}
-                                    </a>
-                                </td>
-                            </tr>
-                            @endforeach
-                            </tbody>
-                        </table>
-                    </form>
+                                </thead>
+                                <tbody>
+                                @foreach($nullFiles as $nullfile)
+                                    <tr>
+                                        <td>Unknown</td>
+                                        <td>Unknown</td>
+                                        <td>Unknown</td>
+                                        <td>Unknown</td>
+                                        <td>
+                                            <a class="btn btn-outline-dark" href="{{asset('billing_files/'.$nullfile->month.'-'.$nullfile->year.'/'.$nullfile->filename)}}">
+                                                {{--                                        <i data-feather="file"></i>{{$file->filename}}--}}
+                                                <div class="nav-link-icon"><i data-feather="file"></i> </div>
+                                                {{$nullfile->filename}}
+                                            </a>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
             </div>
             {{--            <div class="card card-icon mb-4">--}}
@@ -73,6 +118,9 @@
             {{--                </div>--}}
             {{--            </div>--}}
         </div>
+
+
+
     </main>
 @endsection
 

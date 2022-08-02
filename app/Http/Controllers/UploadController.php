@@ -52,19 +52,30 @@ class UploadController extends Controller
 
 
 
-                $client = Client::query()->where('account_number','=',$a_no)->where('contract_number','=',$c_no)->first();
-//                dd($name,$a_no,$c_no,$client,Auth::user()->name);
-                $bill_file = new File();
-                $bill_file->filename = $name;
-                $bill_file->clients_id = $client->id;
-                $bill_file->month = $request->input('month');
-                $bill_file->year = $request->input('year');
-                $bill_file->uploader = Auth::user()->name;
-                $bill_file->emailStatus = "for sending";
-                $bill_file->save();
-                $id = DB::table('files')->orderBy('id','desc')->first();
-                $ids[] = $id->id;
-                $filename[] = $bill_file->filename;
+                $client = Client::query()->where('account_number','=',$a_no)
+                    ->where('contract_number','=',$c_no)
+                    ->first();
+
+//                    dd($name,$a_no,$c_no,$client,Auth::user()->name);
+                    $bill_file = new File();
+                    $bill_file->filename = $name;
+
+                    if ($client != null){
+                        $bill_file->clients_id = $client->id;
+                    }
+                    else{
+                        $bill_file->clients_id = null;
+                    }
+
+                    $bill_file->month = $request->input('month');
+                    $bill_file->year = $request->input('year');
+                    $bill_file->uploader = Auth::user()->name;
+                    $bill_file->emailStatus = "for sending";
+                    $bill_file->save();
+                    $id = DB::table('files')->orderBy('id','desc')->first();
+                    $ids[] = $id->id;
+                    $filename[] = $bill_file->filename;
+//
 
             }
             $store = json_encode($filename);
@@ -144,7 +155,15 @@ class UploadController extends Controller
             ->select('files.*','clients.email','clients.company','clients.account_number','clients.contract_number')
             ->get();
 //        dd($files);
-        return view('files.viewUploadedFiles')->with('upload',$upload)->with('files',$files);
+
+        $nullFiles = DB::table('files')
+            ->whereIn('files.id',$filesId)
+            ->where('clients_id','=',null)
+            ->get();
+//        dd($nullFiles);
+        return view('files.viewUploadedFiles')->with('upload',$upload)
+            ->with('nullFiles',$nullFiles)
+            ->with('files',$files);
     }
 
 

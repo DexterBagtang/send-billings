@@ -100,7 +100,7 @@
                             </div>
                         </div>
                         <div class="card-footer d-flex align-items-center justify-content-between small">
-                            <a class="text-white stretched-link" href="{{url('sendBillingFiles')}}">View Billings</a>
+                            <a class="text-white stretched-link" href="{{url('billingFiles')}}">View Billings</a>
                             <div class="text-white"><i class="fas fa-angle-right"></i></div>
                         </div>
                     </div>
@@ -117,7 +117,7 @@
                             </div>
                         </div>
                         <div class="card-footer d-flex align-items-center justify-content-between small">
-                            <a class="text-white stretched-link" href="#!">View Sent Billings</a>
+                            <a class="text-white stretched-link" href="{{url('sendBillingSent')}}">View Sent Billings</a>
                             <div class="text-white"><i class="fas fa-angle-right"></i></div>
                         </div>
                     </div>

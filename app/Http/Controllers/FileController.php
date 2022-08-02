@@ -23,7 +23,22 @@ class FileController extends Controller
 //            ->orderBy('files.created_at','desc')
             ->get();
 //        dd($billings);
-        return view('files.billingFiles')->with('billings',$billings)->with('month',$month)->with('year',$year);
+
+        $nullFiles = DB::table('files')
+            ->where('month','=',$month)
+            ->where('year','=',$year)
+            ->where('clients_id','=',null)
+            ->get();
+//        dd($nullFiles);
+//        if(count($nullFiles) > 0){
+//            dd('not null');
+//        }
+//        else{
+//            dd('null');
+//        }
+
+
+        return view('files.billingFiles')->with('billings',$billings)->with('month',$month)->with('year',$year)->with('nullFiles',$nullFiles);
     }
 
     public function billingFilesPost(Request $request){
@@ -39,7 +54,13 @@ class FileController extends Controller
 //            ->orderBy('created_at','desc')
             ->get();
 //        dd($billings);
-        return view('files.billingFiles')->with('billings',$billings)->with('month',$month)->with('year',$year);
+        $nullFiles = DB::table('files')
+            ->where('month','=',$month)
+            ->where('year','=',$year)
+            ->where('clients_id','=',null)
+            ->get();
+
+        return view('files.billingFiles')->with('billings',$billings)->with('month',$month)->with('year',$year)->with('nullFiles',$nullFiles);
 
     }
 }

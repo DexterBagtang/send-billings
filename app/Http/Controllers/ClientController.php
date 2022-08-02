@@ -43,11 +43,15 @@ class ClientController extends Controller
 
     }
 
+
+
     public function editClient($id){
         $client = Client::find($id);
         return view('clients.editClient',compact('client'));
 //        return view('clients.editClient')->with('client',$client);
     }
+
+
 
     public function editedClient(Request $request){
         $client = Client::find($request->id);
@@ -61,5 +65,6 @@ class ClientController extends Controller
 
         return redirect('clients')->with('success','Client edited successfully');
     }
+
 
 }

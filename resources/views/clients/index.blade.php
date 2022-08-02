@@ -104,34 +104,44 @@
                             <td>{{$client->contact}}</td>
                             <td><div class="badge bg-primary text-white rounded-pill">Active</div></td>
                             <td>
-                                <a href="{{url("editClient/$client->id")}}"
-                                   class="btn btn-datatable btn-icon btn-transparent-dark me-2" title="Edit">
-                                    <i data-feather="edit-3"></i>
-                                </a>
-{{--                                <button class="btn btn-datatable btn-icon btn-transparent-dark"><i data-feather="trash-2"></i></button>--}}
+{{--                                <a href="{{url("editClient/$client->id")}}"--}}
+{{--                                   class="btn btn-datatable btn-icon btn-transparent-dark me-2" title="Edit">--}}
+{{--                                    <i data-feather="edit-3"></i>--}}
+{{--                                </a>--}}
+{{--                                <button class="btn btn-datatable btn-icon btn-transparent-dark" ><i data-feather="edit"></i></button>--}}
+                                <!-- Button trigger modal -->
+                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                                    Edit
+                                </button>
+
+                                <!-- Modal -->
+                                <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="staticBackdropLabel">{{$client->name}}</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                ...
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                <button type="button" class="btn btn-primary">Understood</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </td>
+
                         </tr>
                         @endforeach
                         </tbody>
                     </table>
                 </div>
             </div>
-{{--            <div class="card card-icon mb-4">--}}
-{{--                <div class="row g-0">--}}
-{{--                    <div class="col-auto card-icon-aside bg-primary"><i class="me-1 text-white-50" data-feather="alert-triangle"></i></div>--}}
-{{--                    <div class="col">--}}
-{{--                        <div class="card-body py-5">--}}
-{{--                            <h5 class="card-title">Third-Party Documentation Available</h5>--}}
-{{--                            <p class="card-text">Simple DataTables is a third party plugin that is used to generate the demo table above. For more information about how to use Simple DataTables with your project, please visit the official documentation.</p>--}}
-{{--                            <a class="btn btn-primary btn-sm" href="https://github.com/fiduswriter/Simple-DataTables" target="_blank">--}}
-{{--                                <i class="me-1" data-feather="external-link"></i>--}}
-{{--                                Visit Simple DataTables Docs--}}
-{{--                            </a>--}}
-{{--                        </div>--}}
-{{--                    </div>--}}
-{{--                </div>--}}
-{{--            </div>--}}
         </div>
+
     </main>
 @endsection
 
@@ -141,4 +151,5 @@
     <script src="{{asset('js/datatables/datatables-simple-demo.js')}}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.17.1/components/prism-core.min.js" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.17.1/plugins/autoloader/prism-autoloader.min.js" crossorigin="anonymous"></script>
+
 @endsection
