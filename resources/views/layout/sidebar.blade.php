@@ -257,25 +257,25 @@
                     <div class="sidenav-menu-heading">File</div>
                     <!-- Sidenav Link (Tables)-->
                     <a class="nav-link {{(request()->is('clients')) ? 'active' : ''}}" href="{{url('clients')}}">
-                        <div class="nav-link-icon"><i data-feather="filter"></i></div>
+                        <div class="nav-link-icon {{(request()->is('clients')) ? 'text-info' : ''}}"><i data-feather="filter"></i></div>
                         Clients
                     </a>
 
                     <!-- Sidenav Link (Upload File)-->
                     <a class="nav-link {{(request()->is('uploadFile')) ? 'active' : ''}}" href="{{url('uploadFile')}}">
-                        <div class="nav-link-icon"><i data-feather="upload"></i></div>
+                        <div class="nav-link-icon {{(request()->is('uploadFile')) ? 'text-dark' : ''}}"><i data-feather="upload"></i></div>
                         Upload Generated PDF
                     </a>
 
                     <!-- Sidenav Link (Files) -->
                     <a class="nav-link {{(request()->is('uploadedFiles')) ? 'active' : ''}}" href="{{url('uploadedFiles')}}">
-                        <div class="nav-link-icon"><i data-feather="folder"></i></div>
+                        <div class="nav-link-icon {{(request()->is('uploadedFiles')) ? 'text-warning' : ''}}"><i data-feather="folder"></i></div>
                         Uploaded Files
                     </a>
 
                     <!-- Sidenav Link (Billing Files) -->
                     <a class="nav-link {{(request()->is('billingFiles')) ? 'active' : ''}}" href="{{url('billingFiles')}}">
-                        <div class="nav-link-icon"><i data-feather="file-text"></i></div>
+                        <div class="nav-link-icon {{(request()->is('billingFiles')) ? 'text-secondary' : ''}}"><i data-feather="file-text"></i></div>
                         Billing Files
                     </a>
 
@@ -283,20 +283,27 @@
 
                     <!-- Sidenav Link (Send Billings) -->
                     <a class="nav-link {{(request()->is('sendBillingFiles')) ? 'active' : ''}}" href="{{url('sendBillingFiles')}}">
-                        <div class="nav-link-icon"><i data-feather="send"></i></div>
+                        <div class="nav-link-icon text-primary"><i data-feather="send"></i></div>
                         Send Billing
                     </a>
 
                     <!-- Sidenav Link (Sent Billings) -->
                     <a class="nav-link {{(request()->is('sendBillingSent')) ? 'active' : ''}}" href="{{url('sendBillingSent')}}">
-                        <div class="nav-link-icon"><i data-feather="check-circle"></i></div>
+                        <div class="nav-link-icon text-success"><i data-feather="check-circle"></i></div>
                         Sent
+{{--                        <span class="badge bg-danger text-white ms-2 text-xs">{{$finalcountsent}}</span>--}}
                     </a>
 
                     <!-- Sidenav Link (Sending Billings) -->
                     <a class="nav-link {{(request()->is('sendBillingSending')) ? 'active' : ''}}" href="{{url('sendBillingSending')}}">
-                        <div class="nav-link-icon"><i data-feather="trending-up"></i></div>
+                        <div class="nav-link-icon text-warning"><i data-feather="trending-up"></i></div>
                         Sending
+                    </a>
+
+                    <!-- Sidenav Link (Failed) -->
+                    <a class="nav-link {{(request()->is('sendBillingFailed')) ? 'active' : ''}}" href="{{url('sendBillingFailed')}}">
+                        <div class="nav-link-icon text-danger"><i data-feather="alert-circle"></i></div>
+                        Failed
                     </a>
 
                 </div>

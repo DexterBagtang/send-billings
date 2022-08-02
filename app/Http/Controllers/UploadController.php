@@ -60,7 +60,7 @@ class UploadController extends Controller
                 $bill_file->month = $request->input('month');
                 $bill_file->year = $request->input('year');
                 $bill_file->uploader = Auth::user()->name;
-                $bill_file->emailStatus = "not sent";
+                $bill_file->emailStatus = "for sending";
                 $bill_file->save();
                 $id = DB::table('files')->orderBy('id','desc')->first();
                 $ids[] = $id->id;

@@ -16,8 +16,9 @@
                 </div>
                 <!-- Date range picker example-->
                 <div class="input-group input-group-joined border-0 shadow" style="width: 16.5rem">
-                    <span class="input-group-text"><i data-feather="calendar"></i></span>
-                    <input class="form-control ps-0 pointer" id="litepickerRangePlugin" placeholder="Select date range..." />
+{{--                    <span class="input-group-text"><i data-feather="calendar"></i></span>--}}
+{{--                    <span class="form-control ps-0 pointer">{{\Carbon\Carbon::now()->format('F - Y')}}</span>--}}
+{{--                    <input class="form-control ps-0 pointer" id="litepickerRangePlugin" placeholder="Select date range..." />--}}
                 </div>
             </div>
 {{--            <!-- Illustration dashboard card example-->--}}
@@ -40,45 +41,45 @@
             <div class="row">
                 <div class="col-xl-4 mb-4">
                     <!-- Dashboard example card 1-->
-                    <a class="card lift h-100" href="#!">
+                    <a class="card lift h-100" href="{{url('clients')}}">
                         <div class="card-body d-flex justify-content-center flex-column">
                             <div class="d-flex align-items-center justify-content-between">
                                 <div class="me-3">
                                     <i class="feather-xl text-primary mb-3" data-feather="user"></i>
                                     <h5>Clients</h5>
-                                    <div class="text-muted small">To create informative visual elements on your pages</div>
+                                    <div class="text-muted small">There are <span class="text-danger">{{$clientsCount}}</span> active clients</div>
                                 </div>
-                                <img src="assets/img/illustrations/browser-stats.svg" alt="..." style="width: 8rem" />
+                                <img src="{{asset('assets/img/illustrations/clients2.jpg')}}" alt="..." style="width: 8rem" />
                             </div>
                         </div>
                     </a>
                 </div>
                 <div class="col-xl-4 mb-4">
                     <!-- Dashboard example card 2-->
-                    <a class="card lift h-100" href="#!">
+                    <a class="card lift h-100" href="{{url('billingFiles')}}">
                         <div class="card-body d-flex justify-content-center flex-column">
                             <div class="d-flex align-items-center justify-content-between">
                                 <div class="me-3">
                                     <i class="feather-xl text-secondary mb-3" data-feather="file"></i>
                                     <h5>Billings</h5>
-                                    <div class="text-muted small">To keep you on track when working with our toolkit</div>
+                                    <div class="text-muted small">You have a total of <span class="text-danger">{{$billingsCount}}</span> billings</div>
                                 </div>
-                                <img src="assets/img/illustrations/processing.svg" alt="..." style="width: 8rem" />
+                                <img src="assets/img/illustrations/windows.svg" alt="..." style="width: 8rem" />
                             </div>
                         </div>
                     </a>
                 </div>
                 <div class="col-xl-4 mb-4">
                     <!-- Dashboard example card 3-->
-                    <a class="card lift h-100" href="#!">
+                    <a class="card lift h-100" href="{{url('uploadFile')}}">
                         <div class="card-body d-flex justify-content-center flex-column">
                             <div class="d-flex align-items-center justify-content-between">
                                 <div class="me-3">
-                                    <i class="feather-xl text-green mb-3" data-feather="layout"></i>
-                                    <h5>Pages &amp; Layouts</h5>
-                                    <div class="text-muted small">To help get you started when building your new UI</div>
+                                    <i class="feather-xl text-green mb-3" data-feather="upload"></i>
+                                    <h5>Upload Billings</h5>
+                                    <div class="text-muted small">Upload generated pdf now</div>
                                 </div>
-                                <img src="assets/img/illustrations/windows.svg" alt="..." style="width: 8rem" />
+                                <img src="assets/img/illustrations/upload.jpg" alt="..." style="width: 8rem" />
                             </div>
                         </div>
                     </a>
@@ -92,14 +93,14 @@
                         <div class="card-body">
                             <div class="d-flex justify-content-between align-items-center">
                                 <div class="me-3">
-                                    <div class="text-white-75 small">Total Billings</div>
-                                    <div class="text-lg fw-bold">#</div>
+                                    <div class="text-white-75 small">{{$month}} Total Billings</div>
+                                    <div class="text-lg fw-bold">{{$monthBillings}}</div>
                                 </div>
                                 <i class="feather-xl text-white-50" data-feather="file-text"></i>
                             </div>
                         </div>
                         <div class="card-footer d-flex align-items-center justify-content-between small">
-                            <a class="text-white stretched-link" href="#!">View Billings</a>
+                            <a class="text-white stretched-link" href="{{url('sendBillingFiles')}}">View Billings</a>
                             <div class="text-white"><i class="fas fa-angle-right"></i></div>
                         </div>
                     </div>
@@ -110,7 +111,7 @@
                             <div class="d-flex justify-content-between align-items-center">
                                 <div class="me-3">
                                     <div class="text-white-75 small">Sent Billings</div>
-                                    <div class="text-lg fw-bold">#</div>
+                                    <div class="text-lg fw-bold">{{$sent}}</div>
                                 </div>
                                 <i class="feather-xl text-white-50" data-feather="check-square"></i>
                             </div>
@@ -128,13 +129,20 @@
                             <div class="d-flex justify-content-between align-items-center">
                                 <div class="me-3">
                                     <div class="text-white-75 small">Sending</div>
-                                    <div class="text-lg fw-bold">#</div>
+
+                                    <div class="text-lg fw-bold">{{$sending}}</div>
                                 </div>
+                                @if($sending == 0)
                                 <i class="feather-xl text-white-50" data-feather="send"></i>
+                                @else
+                                <div class="spinner-border feather-xl text-white-50" role="status">
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
+                                @endif
                             </div>
                         </div>
                         <div class="card-footer d-flex align-items-center justify-content-between small">
-                            <a class="text-white stretched-link" href="#!">View Sending Billings</a>
+                            <a class="text-white stretched-link" href="{{url('sendBillingSending')}}">View Sending Billings</a>
                             <div class="text-white"><i class="fas fa-angle-right"></i></div>
                         </div>
                     </div>
@@ -146,13 +154,13 @@
                             <div class="d-flex justify-content-between align-items-center">
                                 <div class="me-3">
                                     <div class="text-white-75 small">Sending Failed</div>
-                                    <div class="text-lg fw-bold">#</div>
+                                    <div class="text-lg fw-bold">{{$failed}}</div>
                                 </div>
-                                <i class="feather-xl text-white-50" data-feather="message-circle"></i>
+                                <i class="feather-xl text-white-50" data-feather="alert-triangle"></i>
                             </div>
                         </div>
                         <div class="card-footer d-flex align-items-center justify-content-between small">
-                            <a class="text-white stretched-link" href="#!">View Failed Billings</a>
+                            <a class="text-white stretched-link" href="{{url('sendBillingFailed')}}">View Failed Billings</a>
                             <div class="text-white"><i class="fas fa-angle-right"></i></div>
                         </div>
                     </div>

@@ -17,7 +17,8 @@ class EmailController extends Controller
             ->where('month','=',$month)
             ->where('year','=',$year)
             ->join('clients','files.clients_id','=','clients.id')
-            ->select('clients.*','files.filename','files.month','files.year','files.emailStatus')
+            ->select('files.*','clients.name','clients.company','clients.email')
+//            ->select('clients.*','files.filename','files.month','files.year','files.emailStatus')
 //            ->distinct()
 //            ->orderBy('files.created_at','desc')
             ->get();
@@ -25,7 +26,7 @@ class EmailController extends Controller
         $billingNotSent = DB::table('files')
             ->where('month','=',$month)
             ->where('year','=',$year)
-            ->where('emailStatus','=','not sent')
+            ->where('emailStatus','=','for sending')
             ->join('clients','files.clients_id','=','clients.id')
             ->select('clients.*','files.filename','files.month','files.year','files.emailStatus')
 //            ->distinct()
@@ -54,6 +55,15 @@ class EmailController extends Controller
 //            ->orderBy('files.created_at','desc')
             ->get();
         $countSent = count($billingSent);
+
+        $billingFailed = DB::table('files')
+            ->where('month','=',$month)
+            ->where('year','=',$year)
+            ->where('emailStatus','=','sending error')
+            ->join('clients','files.clients_id','=','clients.id')
+            ->select('clients.*','files.filename','files.month','files.year','files.emailStatus')
+            ->count();
+
 //        dd($billingSent);
         return view('emails.billingFiles')
             ->with('billings',$billings)
@@ -61,7 +71,8 @@ class EmailController extends Controller
             ->with('year',$year)
             ->with('countSending',$countSending)
             ->with('countSent',$countSent)
-            ->with('notSent',$countNotSent);
+            ->with('notSent',$countNotSent)
+            ->with('billingFailed',$billingFailed);
 
     }
 
@@ -82,7 +93,7 @@ class EmailController extends Controller
         $billingNotSent = DB::table('files')
             ->where('month','=',$month)
             ->where('year','=',$year)
-            ->where('emailStatus','=','not sent')
+            ->where('emailStatus','=','for sending')
             ->join('clients','files.clients_id','=','clients.id')
             ->select('clients.*','files.filename','files.month','files.year','files.emailStatus')
 //            ->distinct()
@@ -145,7 +156,7 @@ class EmailController extends Controller
         $billingNotSent = DB::table('files')
             ->where('month','=',$month)
             ->where('year','=',$year)
-            ->where('emailStatus','=','not sent')
+            ->where('emailStatus','=','for sending')
             ->join('clients','files.clients_id','=','clients.id')
             ->select('clients.*','files.filename','files.month','files.year','files.emailStatus')
 //            ->distinct()
@@ -162,7 +173,7 @@ class EmailController extends Controller
                 $billings = DB::table('files')
                     ->where('month','=',$month)
                     ->where('year','=',$year)
-                    ->where('emailStatus','=','not sent')
+                    ->where('emailStatus','=','for sending')
                     ->join('clients','files.clients_id','=','clients.id')
                     ->select('clients.*','files.filename','files.month','files.year','files.emailStatus','files.id')
                     ->take($each)
@@ -208,10 +219,12 @@ class EmailController extends Controller
             ->where('year','=',$year)
             ->where('emailStatus','=','sent')
             ->join('clients','files.clients_id','=','clients.id')
-            ->select('clients.*','files.filename','files.month','files.year','files.emailStatus')
+            ->select('clients.*','files.filename','files.month','files.year','files.emailStatus','files.created_at','files.emailDate')
 //            ->distinct()
-//            ->orderBy('files.created_at','desc')
+            ->orderBy('files.emailDate','desc')
             ->get();
+
+//        dd($billingSent);
         $countSent = count($billingSent);
         return view('emails.billingSent')
             ->with('month',$month)
@@ -229,7 +242,7 @@ class EmailController extends Controller
             ->where('year','=',$year)
             ->where('emailStatus','=','sending')
             ->join('clients','files.clients_id','=','clients.id')
-            ->select('clients.*','files.filename','files.month','files.year','files.emailStatus')
+            ->select('clients.*','files.filename','files.month','files.year','files.emailStatus','files.created_at')
 //            ->distinct()
 //            ->orderBy('files.created_at','desc')
             ->get();
@@ -239,5 +252,21 @@ class EmailController extends Controller
             ->with('year',$year)
             ->with('billings',$billingSent)
             ->with('countSent',$countSent);
+    }
+
+    public function sendBillingFailed(){
+        $month = now()->format('F');
+        $year = now()->format('Y');
+        $billingFailed = DB::table('files')
+            ->where('month','=',$month)
+            ->where('year','=',$year)
+            ->where('emailStatus','=','sending error')
+            ->join('clients','files.clients_id','=','clients.id')
+            ->select('clients.*','files.filename','files.month','files.year','files.emailStatus','files.created_at')
+            ->get();
+        $countFailed = count($billingFailed);
+
+        return view('emails.billingFailed',compact(['countFailed',
+            'month','year']))->with('billings',$billingFailed);
     }
 }

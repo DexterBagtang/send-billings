@@ -43,6 +43,7 @@ class SendEmailJob implements ShouldQueue
             ->where('id','=',$this->id)
             ->first();
         $file->emailStatus = "sending error";
+        $file->emailDate = now();
         $file->update();
 
 
@@ -54,6 +55,7 @@ class SendEmailJob implements ShouldQueue
             ->where('id','=',$this->id)
             ->first();
         $file->emailStatus = "sent";
+        $file->emailDate = now();
         $file->update();
     }
 }

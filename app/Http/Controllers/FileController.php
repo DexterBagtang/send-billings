@@ -18,7 +18,7 @@ class FileController extends Controller
             ->where('month','=',$month)
             ->where('year','=',$year)
             ->join('clients','files.clients_id','=','clients.id')
-            ->select('clients.*','files.filename','files.month','files.year')
+            ->select('clients.*','files.filename','files.month','files.year','files.created_at')
 //            ->distinct()
 //            ->orderBy('files.created_at','desc')
             ->get();
@@ -34,7 +34,7 @@ class FileController extends Controller
             ->where('month','=',$month)
             ->where('year','=',$year)
             ->join('clients','files.clients_id','=','clients.id')
-            ->select('clients.*','files.filename','files.month','files.year')
+            ->select('clients.*','files.filename','files.month','files.year','files.created_at')
 //            ->distinct()
 //            ->orderBy('created_at','desc')
             ->get();

@@ -121,7 +121,9 @@
                                         {{$billing->filename}}
                                     </a>
                                 </td>
-                                <td>{{$billing->created_at}}</td>
+{{--                                <td>{{$billing->created_at}}</td>--}}
+                                <td>{{\Carbon\Carbon::parse($billing->created_at)->format('F d, Y - h:i A')}}</td>
+
                                 <td>
                                     <button class="btn btn-datatable btn-icon btn-transparent-dark me-2"><i data-feather="more-vertical"></i></button>
                                     <button class="btn btn-datatable btn-icon btn-transparent-dark"><i data-feather="trash-2"></i></button>

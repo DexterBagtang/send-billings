@@ -28,7 +28,7 @@ window.addEventListener('DOMContentLoaded', event => {
             fixedColumns: true,
             sortable:true,
             paging:true,
-            perPage:10,
+            perPage:3,
             firstLast:true,
 
             ajax:"data.json"

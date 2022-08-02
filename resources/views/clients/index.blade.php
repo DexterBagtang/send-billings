@@ -2,25 +2,71 @@
 
 @section('content')
     <main>
-        <header class="page-header page-header-compact page-header-light border-bottom bg-white mb-4">
-            <div class="container-xl px-4">
-                <div class="page-header-content">
-                    <div class="row align-items-center justify-content-between pt-3">
-                        <div class="col-auto mb-3">
-                            <h1 class="page-header-title">
+{{--        <header class="page-header page-header-compact page-header-light border-bottom bg-white mb-4">--}}
+{{--            <div class="container-xl px-4">--}}
+{{--                <div class="page-header-content">--}}
+{{--                    <div class="row align-items-center justify-content-between pt-3">--}}
+{{--                        <div class="col-auto mb-3">--}}
+{{--                            <h1 class="page-header-title">--}}
 {{--                                <div class="page-header-icon"><i data-feather="file"></i></div>--}}
-                                Clients
-                            </h1>
-                        </div>
-                        <div class="col-12 col-xl-auto mb-3"></div>
-                    </div>
-                </div>
-            </div>
-        </header>
+{{--                                Clients--}}
+{{--                            </h1>--}}
+{{--                        </div>--}}
+{{--                        <div class="col-12 col-xl-auto mb-3">--}}
+{{--                            @if(session()->get('success'))--}}
+{{--                                                                    <div class="alert alert-success">--}}
+{{--                                                                        {{ session()->get('success') }}--}}
+{{--                                                                    </div><br />--}}
+{{--                                <div class="alert alert-success alert-dismissible fade show float-end" role="alert">--}}
+{{--                                    <h5 class="alert-heading"></h5>--}}
+{{--                                    <hr>--}}
+{{--                                    {{ session()->get('success') }}--}}
+{{--                                    <a class="btn-close" type="" data-bs-dismiss="alert" aria-label="Close"></a>--}}
+{{--                                </div>--}}
+{{--                            @endif--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
+{{--            </div>--}}
+{{--        </header>--}}
+
         <!-- Main page content-->
         <div class="container-xl px-4 mt-4">
+            <!-- Custom page header alternative example-->
+            <div class="d-flex justify-content-between align-items-sm-center flex-column flex-sm-row mb-4">
+                <div class="me-4 mb-3 mb-sm-0">
+                    <h1 class="mb-0">Clients</h1>
+                    <div class="small">
+                        <span class="fw-500 text-primary">{{\Carbon\Carbon::now()->format('l')}}</span>
+                        &middot; {{\Carbon\Carbon::now()->format('F d, Y')}}
+{{--                        &middot; <span id="hours">00</span>:<span id="minutes">00</span> <span>{{\Carbon\Carbon::now()->format('A')}}</span>--}}
+                    </div>
+                </div>
+                <!-- Date range picker example-->
+{{--                <div class="input-group input-group-joined border-0 shadow" style="width: 16.5rem">--}}
+{{--                    <span class="input-group-text"><i data-feather="calendar"></i></span>--}}
+{{--                    <input class="form-control ps-0 pointer" id="litepickerRangePlugin" placeholder="Select date range..." />--}}
+{{--                </div>--}}
+            </div>
             <div class="card mb-4">
-                <div class="card-header"></div>
+                <div class="card-header">
+                    <a href="{{url('addClient')}}" class="btn btn-primary">Add Client</a>
+                    <div class="float-end">
+                        @if(session()->get('success'))
+{{--                            <div class="alert alert-success">--}}
+{{--                                {{ session()->get('success') }}--}}
+{{--                                <a class="btn-close" type="" data-bs-dismiss="alert" aria-label="Close"></a>--}}
+
+{{--                            </div><br />--}}
+                            <div class="alert alert-success alert-dismissible fade show float-end" role="alert">
+{{--                                <h5 class="alert-heading"></h5>--}}
+{{--                                <hr>--}}
+                                {{ session()->get('success') }}
+                                <a class="btn-close" type="" data-bs-dismiss="alert" aria-label="Close"></a>
+                            </div>
+                        @endif
+                    </div>
+                </div>
                 <div class="card-body">
                     <table id="datatablesSimple1">
                         <thead>
@@ -58,8 +104,11 @@
                             <td>{{$client->contact}}</td>
                             <td><div class="badge bg-primary text-white rounded-pill">Active</div></td>
                             <td>
-                                <button class="btn btn-datatable btn-icon btn-transparent-dark me-2"><i data-feather="more-vertical"></i></button>
-                                <button class="btn btn-datatable btn-icon btn-transparent-dark"><i data-feather="trash-2"></i></button>
+                                <a href="{{url("editClient/$client->id")}}"
+                                   class="btn btn-datatable btn-icon btn-transparent-dark me-2" title="Edit">
+                                    <i data-feather="edit-3"></i>
+                                </a>
+{{--                                <button class="btn btn-datatable btn-icon btn-transparent-dark"><i data-feather="trash-2"></i></button>--}}
                             </td>
                         </tr>
                         @endforeach
@@ -90,4 +139,6 @@
 @section('script')
     <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
     <script src="{{asset('js/datatables/datatables-simple-demo.js')}}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.17.1/components/prism-core.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.17.1/plugins/autoloader/prism-autoloader.min.js" crossorigin="anonymous"></script>
 @endsection

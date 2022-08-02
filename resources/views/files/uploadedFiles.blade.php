@@ -43,9 +43,9 @@
 {{--                            <th>Files</th>--}}
                             <th>Uploader</th>
                             <th>Number of Files</th>
+                            <th>Date Uploaded</th>
                             <th>Month</th>
                             <th>Year</th>
-                            <th>Date Uploaded</th>
 {{--                            <th>Status</th>--}}
                             <th>Actions</th>
                         </tr>
@@ -74,13 +74,15 @@
 {{--                                </td>--}}
                                 <td>{{$upload->uploader}}</td>
                                 <td>{{$upload->fileCount}}</td>
+                                <td>{{\Carbon\Carbon::parse($upload->created_at)->format('F d, Y - h:i A')}}</td>
                                 <td>{{$upload->month}}</td>
                                 <td>{{$upload->year}}</td>
-                                <td>{{$upload->created_at}}</td>
 {{--                                <td><div class="badge bg-primary text-white rounded-pill">Active</div></td>--}}
                                 <td>
-                                    <a href="{{url('viewUploadedFiles/'.$upload->id)}}" class="btn btn-datatable btn-icon btn-transparent-dark me-2"><i data-feather="more-vertical"></i></a>
-                                    <a class="btn btn-datatable btn-icon btn-transparent-dark"><i data-feather="trash-2"></i></a>
+                                    <a href="{{url('viewUploadedFiles/'.$upload->id)}}" class="btn btn-outline-dark" title="View">
+                                        View<i data-feather="arrow-right"></i>
+                                    </a>
+{{--                                    <a class="btn btn-datatable btn-icon btn-transparent-dark"><i data-feather="trash-2"></i></a>--}}
                                 </td>
                             </tr>
                         @endforeach

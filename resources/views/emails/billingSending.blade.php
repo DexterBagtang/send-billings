@@ -10,14 +10,6 @@
             <div class="container-xl px-4">
                 <div class="page-header-content">
                     <div class="row align-items-center justify-content-between pt-3">
-                        <div class="col-auto mb-3">
-                            <h1 class="page-header-title">
-                                {{--                                <div class="page-header-icon"><i data-feather="file"></i></div>--}}
-                                Billing Files
-
-                            </h1>
-                        </div>
-                        <div class="col-12 col-xl-auto mb-3">
                             @if(session()->get('sending'))
                                 {{--                                    <div class="alert alert-success">--}}
                                 {{--                                        {{ session()->get('success') }}--}}
@@ -40,7 +32,6 @@
                                     </ul>
                                 </div>
                             @endif
-                        </div>
                     </div>
                 </div>
             </div>
@@ -60,55 +51,55 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    <form  id="billingForm" method="POST" action="{{url('sendBillingFilesPost')}}" enctype="multipart/form-data">
-                        @csrf
-                        <div class="row">
-                            <div class="col-md-5">
-                                <div class="form-group">
-                                    <label for="form-label">Month</label>
-                                    <select class="form-select" aria-label="select" name="month" id="exampleSelectBorder">
-                                        <option value="January" {{($month == "January") ? 'selected' : ''}}>January</option>
-                                        <option value="February" {{($month == "February") ? 'selected' : ''}}>February</option>
-                                        <option value="March" {{($month == "March") ? 'selected' : ''}}>March</option>
-                                        <option value="April" {{($month == "April") ? 'selected' : ''}}>April</option>
-                                        <option value="May" {{($month == "May") ? 'selected' : ''}}>May</option>
-                                        <option value="June" {{($month == "June") ? 'selected' : ''}}>June</option>
-                                        <option value="July" {{($month == "July") ? 'selected' : ''}}>July</option>
-                                        <option value="August" {{($month == "August") ? 'selected' : ''}}>August</option>
-                                        <option value="September" {{($month == "September") ? 'selected' : ''}}>September</option>
-                                        <option value="October" {{($month == "October") ? 'selected' : ''}}>October</option>
-                                        <option value="November" {{($month == "November") ? 'selected' : ''}}>November</option>
-                                        <option value="December" {{($month == "December") ? 'selected' : ''}}>December</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-md-5">
-                                <div class="form-group">
-                                    <label for="form-label">Year</label>
-                                    <select class="form-select" aria-label="select" name="year" id="exampleSelectBorder">
-                                        <option value="2020" {{($year == "2020") ? 'selected' : ''}}>2020</option>
-                                        <option value="2021" {{($year == "2021") ? 'selected' : ''}}>2021</option>
-                                        <option value="2022" {{($year == "2022") ? 'selected' : ''}}>2022</option>
-                                        <option value="2023" {{($year == "2023") ? 'selected' : ''}}>2023</option>
-                                        <option value="2024" {{($year == "2024") ? 'selected' : ''}}>2024</option>
-                                        <option value="2025" {{($year == "2025") ? 'selected' : ''}}>2025</option>
-                                        <option value="2026" {{($year == "2026") ? 'selected' : ''}}>2026</option>
-                                        <option value="2027" {{($year == "2027") ? 'selected' : ''}}>2027</option>
+{{--                    <form  id="billingForm" method="POST" action="{{url('sendBillingFilesPost')}}" enctype="multipart/form-data">--}}
+{{--                        @csrf--}}
+{{--                        <div class="row">--}}
+{{--                            <div class="col-md-5">--}}
+{{--                                <div class="form-group">--}}
+{{--                                    <label for="form-label">Month</label>--}}
+{{--                                    <select class="form-select" aria-label="select" name="month" id="exampleSelectBorder">--}}
+{{--                                        <option value="January" {{($month == "January") ? 'selected' : ''}}>January</option>--}}
+{{--                                        <option value="February" {{($month == "February") ? 'selected' : ''}}>February</option>--}}
+{{--                                        <option value="March" {{($month == "March") ? 'selected' : ''}}>March</option>--}}
+{{--                                        <option value="April" {{($month == "April") ? 'selected' : ''}}>April</option>--}}
+{{--                                        <option value="May" {{($month == "May") ? 'selected' : ''}}>May</option>--}}
+{{--                                        <option value="June" {{($month == "June") ? 'selected' : ''}}>June</option>--}}
+{{--                                        <option value="July" {{($month == "July") ? 'selected' : ''}}>July</option>--}}
+{{--                                        <option value="August" {{($month == "August") ? 'selected' : ''}}>August</option>--}}
+{{--                                        <option value="September" {{($month == "September") ? 'selected' : ''}}>September</option>--}}
+{{--                                        <option value="October" {{($month == "October") ? 'selected' : ''}}>October</option>--}}
+{{--                                        <option value="November" {{($month == "November") ? 'selected' : ''}}>November</option>--}}
+{{--                                        <option value="December" {{($month == "December") ? 'selected' : ''}}>December</option>--}}
+{{--                                    </select>--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
+{{--                            <div class="col-md-5">--}}
+{{--                                <div class="form-group">--}}
+{{--                                    <label for="form-label">Year</label>--}}
+{{--                                    <select class="form-select" aria-label="select" name="year" id="exampleSelectBorder">--}}
+{{--                                        <option value="2020" {{($year == "2020") ? 'selected' : ''}}>2020</option>--}}
+{{--                                        <option value="2021" {{($year == "2021") ? 'selected' : ''}}>2021</option>--}}
+{{--                                        <option value="2022" {{($year == "2022") ? 'selected' : ''}}>2022</option>--}}
+{{--                                        <option value="2023" {{($year == "2023") ? 'selected' : ''}}>2023</option>--}}
+{{--                                        <option value="2024" {{($year == "2024") ? 'selected' : ''}}>2024</option>--}}
+{{--                                        <option value="2025" {{($year == "2025") ? 'selected' : ''}}>2025</option>--}}
+{{--                                        <option value="2026" {{($year == "2026") ? 'selected' : ''}}>2026</option>--}}
+{{--                                        <option value="2027" {{($year == "2027") ? 'selected' : ''}}>2027</option>--}}
 
-                                    </select>
-                                </div>
-                            </div>
+{{--                                    </select>--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
 
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    <label for="" class="form-label"></label>
-                                    <input type="submit" class="btn btn-outline-success form-control" id="submit" value="Submit">
-                                </div>
-                            </div>
-                        </div>
-                    </form>
+{{--                            <div class="col-md-2">--}}
+{{--                                <div class="form-group">--}}
+{{--                                    <label for="" class="form-label"></label>--}}
+{{--                                    <input type="submit" class="btn btn-outline-success form-control" id="submit" value="Submit">--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
+{{--                    </form>--}}
 
-                    <hr>
+{{--                    <hr>--}}
 
                     {{--                    <div class="accordion accordion-flush" id="accordionFlushExample">--}}
                     {{--                        <div class="accordion-item">--}}

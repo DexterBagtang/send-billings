@@ -1,10 +1,13 @@
 <?php
 
 use App\Http\Controllers\ClientController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EmailController;
 use App\Http\Controllers\FileController;
 use App\Http\Controllers\UploadController;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\View;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,11 +20,20 @@ use Illuminate\Support\Facades\Route;
 |
 */
 Route::middleware('auth')->group(function () {
-    Route::get('/', function () {
-//        return view('index');
-        return view('index2');
-    });
+//    Route::get('/', function () {
+////
+////        return view('index');
+//        return view('index2');
+//    });
+    //-----------------Dashboard-----------------------------------//
+    Route::get('/',([DashboardController::class,'dashboard']));
+
+    //-----------------Clients-------------------------------------//
     Route::get('clients',([ClientController::class,'index']));
+    Route::get('addClient',([ClientController::class,'addClient']));
+    Route::post('addedClient',([ClientController::class,'addedClient']));
+    Route::get('editClient/{id}',([ClientController::class,'editClient']));
+    Route::post('editedClient',([ClientController::class,'editedClient']));
 
     Route::get('uploadFile',([UploadController::class,'upload']));
     Route::post('uploadedFile',([UploadController::class,'uploaded']));
@@ -38,6 +50,7 @@ Route::middleware('auth')->group(function () {
     Route::post('sendBillingNow',([EmailController::class,'sendBillingNow']));
     Route::get('sendBillingSent',([EmailController::class,'sendBillingSent']));
     Route::get('sendBillingSending',([EmailController::class,'sendBillingSending']));
+    Route::get('sendBillingFailed',([EmailController::class,'sendBillingFailed']));
 
 
 });
