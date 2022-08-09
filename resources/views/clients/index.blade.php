@@ -104,34 +104,40 @@
                             <td>{{$client->contact}}</td>
                             <td><div class="badge bg-primary text-white rounded-pill">Active</div></td>
                             <td>
-{{--                                <a href="{{url("editClient/$client->id")}}"--}}
-{{--                                   class="btn btn-datatable btn-icon btn-transparent-dark me-2" title="Edit">--}}
-{{--                                    <i data-feather="edit-3"></i>--}}
-{{--                                </a>--}}
+
+                                <a href="{{url("editClient/$client->id")}}"
+                                   class="btn btn-datatable btn-icon btn-transparent-dark me-2" title="Edit">
+                                    <i data-feather="edit-3"></i>
+                                </a>
 {{--                                <button class="btn btn-datatable btn-icon btn-transparent-dark" ><i data-feather="edit"></i></button>--}}
                                 <!-- Button trigger modal -->
-                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-                                    Edit
-                                </button>
+{{--                                <a href="{{url("edit_client/$client->id")}}"  class="btn btn-primary" >--}}
+{{--                                    Edit--}}
+{{--                                </a>--}}
+{{--                                <a href="" id="editCompany" data-bs-toggle="modal" data-bs-target='#practice_modal' data-id="{{ $client->id }}">Edit</a>--}}
 
-                                <!-- Modal -->
-                                <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="staticBackdropLabel">{{$client->name}}</h5>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                            </div>
-                                            <div class="modal-body">
-                                                ...
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                                <button type="button" class="btn btn-primary">Understood</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+{{--                                <!-- Modal -->--}}
+{{--                                <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">--}}
+{{--                                    <div class="modal-dialog">--}}
+{{--                                        <div class="modal-content">--}}
+{{--                                            <div class="modal-header">--}}
+{{--                                                <h5 class="modal-title" id="staticBackdropLabel"></h5>--}}
+{{--                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>--}}
+{{--                                            </div>--}}
+{{--                                            <form action="">--}}
+{{--                                                @csrf--}}
+{{--                                                <div class="modal-body">--}}
+{{--                                                    {{$client->name}}--}}
+{{--                                                </div>--}}
+{{--                                            </form>--}}
+
+{{--                                            <div class="modal-footer">--}}
+{{--                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>--}}
+{{--                                                <button type="button" class="btn btn-primary">Understood</button>--}}
+{{--                                            </div>--}}
+{{--                                        </div>--}}
+{{--                                    </div>--}}
+{{--                                </div>--}}
                             </td>
 
                         </tr>

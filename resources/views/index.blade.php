@@ -1,148 +1,118 @@
-@extends('layout.app')
+{{--@extends('layout.app')--}}
 
-@section('content')
-    <style>
-        @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600&display=swap");
+{{--@section('content')--}}
+{{--    <!DOCTYPE html>--}}
+{{--<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">--}}
+{{--<head>--}}
+{{--    <meta charset="utf-8">--}}
+{{--    <meta name="viewport" content="width=device-width, initial-scale=1">--}}
+{{--    <title>Laravel 8 Add/Remove Multiple Input Fields Example</title>--}}
+{{--    <!-- CSS -->--}}
+{{--    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet">--}}
+{{--    <style>--}}
+{{--        .container {--}}
+{{--            max-width: 600px;--}}
+{{--        }--}}
+{{--    </style>--}}
+{{--</head>--}}
+{{--<body>--}}
+{{--<div class="container">--}}
+{{--    <form action="" method="POST">--}}
+{{--        @csrf--}}
+{{--        @if ($errors->any())--}}
+{{--            <div class="alert alert-danger" role="alert">--}}
+{{--                <ul>--}}
+{{--                    @foreach ($errors->all() as $error)--}}
+{{--                        <li>{{ $error }}</li>--}}
+{{--                    @endforeach--}}
+{{--                </ul>--}}
+{{--            </div>--}}
+{{--        @endif--}}
+{{--        @if (Session::has('success'))--}}
+{{--            <div class="alert alert-success text-center">--}}
+{{--                <p>{{ Session::get('success') }}</p>--}}
+{{--            </div>--}}
+{{--        @endif--}}
+{{--        <table class="table table-bordered" id="dynamicAddRemove">--}}
+{{--            <tr>--}}
+{{--                <th>Subject</th>--}}
+{{--                <th>Action</th>--}}
+{{--            </tr>--}}
+{{--            <tr>--}}
+{{--                <td><input type="text" name="addMoreInputFields[0][subject]" placeholder="Enter subject" class="form-control" />--}}
+{{--                </td>--}}
+{{--                <td><button type="button" name="add" id="dynamic-ar" class="btn btn-outline-primary">Add Subject</button></td>--}}
+{{--            </tr>--}}
+{{--        </table>--}}
+{{--        <button type="submit" class="btn btn-outline-success btn-block">Save</button>--}}
+{{--    </form>--}}
+{{--</div>--}}
+{{--</body>--}}
+{{--<!-- JavaScript -->--}}
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: "Poppins", sans-serif;
-            -webkit-touch-callout: none;
-            -webkit-user-select: none;
-            -khtml-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
-            user-select: none;
-        }
+{{--<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>--}}
+{{--<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"></script>--}}
+{{--<script type="text/javascript">--}}
+{{--    var i = 0;--}}
+{{--    $("#dynamic-ar").click(function () {--}}
+{{--        ++i;--}}
+{{--        $("#dynamicAddRemove").append('' +--}}
+{{--            '<tr>' +--}}
+{{--            '<td>' +--}}
+{{--            '   <input type="text" name="addMoreInputFields[' + i +--}}
+{{--            '][subject]" placeholder="Enter subject" class="form-control" />' +--}}
+{{--                '</td>' +--}}
+{{--            '<td>' +--}}
+{{--                '<button type="button" class="btn btn-outline-danger remove-input-field">Delete</button>' +--}}
+{{--            '</td>' +--}}
+{{--            '</tr>'--}}
+{{--        );--}}
+{{--    });--}}
+{{--    $(document).on('click', '.remove-input-field', function () {--}}
+{{--        $(this).parents('tr').remove();--}}
+{{--    });--}}
+{{--</script>--}}
+{{--</html>--}}
+{{--@endsection--}}
 
-        body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            background: #060a1f;
-        }
 
-        #clock h2 {
-            position: relative;
-            display: block;
-            color: #fff;
-            text-align: center;
-            margin: 10px 0;
-            font-weight: 700;
-            text-transform: 0.4em;
-            font-size: 2em;
-        }
-
-        #clock #time {
-            display: flex;
-        }
-
-        #clock #time div {
-            position: relative;
-            margin: 0 5px;
-            -webkit-box-reflect: below 1px linear-gradient(transparent, #0004);
-        }
-
-        #clock #time div span {
-            position: relative;
-            display: block;
-            width: 100px;
-            height: 80px;
-            background: #2196f3;
-            color: #fff;
-            font-weight: 300;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 3em;
-            z-index: 10;
-            box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.2);
-        }
-
-        #clock #time div span:nth-child(2) {
-            height: 30px;
-            font-size: 0.7em;
-            letter-spacing: 0.2em;
-            font-weight: 500;
-            z-index: 9;
-            box-shadow: none;
-            background: #127fd6;
-            text-transform: uppercase;
-        }
-
-        #clock #time div:nth-last-child(2) span {
-            background: #ff006a;
-        }
-
-        #clock #time div:nth-last-child(2) span:nth-child(2) {
-            background: #ec0062;
-        }
-
-        #clock #time div:nth-last-child(1) span {
-            position: absolute;
-            bottom: 0;
-            width: 60px;
-            height: 40px;
-            font-size: 1.5em;
-            background: #fff;
-            color: #000;
-            -webkit-box-reflect: below 1px linear-gradient(transparent, #0004);
-        }
-    </style>
-    <body>
-    <div id="clock">
-        <h2>{{\Carbon\Carbon::now()->format('l, jS \of F Y')}}</h2>
-        <h2>Time is</h2>
-        <div id="time">
-            <div>
-                <span id="hours">00</span>
-                <span>Hours</span>
-            </div>
-            <div>
-                <span id="minutes">00</span>
-                <span>Minutes</span>
-            </div>
-            <div>
-                <span id="seconds">00</span>
-                <span>Seconds</span>
-            </div>
-            <div>
-                <span id="phase">AM</span>
-            </div>
-        </div>
+    <!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Document</title>
+</head>
+<body>
+<div class="p-6 max-w-sm mx-auto bg-white rounded-xl shadow-lg flex items-center space-x-4">
+    <div class="shrink-0">
+        <img class="h-12 w-12" src="/img/logo.svg" alt="ChitChat Logo">
     </div>
-    <script>
-        function clock() {
-            var hours = document.getElementById("hours");
-            var minutes = document.getElementById("minutes");
-            var seconds = document.getElementById("seconds");
-            var phase = document.getElementById("phase");
+    <div>
+        <div class="text-xl font-medium text-black">ChitChat</div>
+        <p class="text-slate-500">You have a new message!</p>
+    </div>
+</div>
 
+<main class="my-0 mx-auto max-w-3xl text-center">
+    <h2 class="p-6 text-4xl">A Basic Tailwind CSS Example</h2>
 
+    <p class="px-10 pb-10 text-left">Tailwind CSS works by scanning all of your HTML files, JavaScript components, and any other templates for class names, generating the corresponding styles and then writing them to a static CSS file. It's fast, flexible, and reliable — with zero-runtime.</p>
 
-            var h = new Date().getHours();
-            var m = new Date().getMinutes();
-            var s = new Date().getSeconds();
-            var am = "AM";
+    <button class="bg-sky-600 hover:bg-sky-700 px-5 py-3 text-white rounded-lg">BUTTON EXAMPLE</button>
 
-            if (h > 12) {
-                h = h - 12;
-                var am = "PM";
-            }
+    <div class="bg-green-300 border-green-600 border-b-2 p-5 m-5 rounded-lg">
+        Hello World
+    </div>
 
-            h = h < 10 ? "0" + h : h;
-            m = m < 10 ? "0" + m : m;
-            s = s < 10 ? "0" + s : s;
+    <div class="bg-gray-700 border-5 p-5 m-5 text-white text-3xl rounded-lg">
+        TailWind CSS
+    </div>
 
-            hours.innerHTML = h;
-            minutes.innerHTML = m;
-            seconds.innerHTML = s;
-            phase.innerHTML = am;
-        }
+</main>
 
-        var interval = setInterval(clock, 1000);
-    </script>
-@endsection
+</body>
+</html>

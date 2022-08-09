@@ -36,6 +36,20 @@ class DashboardController extends Controller
             ->where('year','=',$year)
             ->where('emailStatus','=','sending error')
             ->count();
+
+        $time = date('H');
+        if ($time < 12){
+            $greet = "Good morning";
+        }elseif($time >= 12 && $time < 17){
+            $greet = "Good afternoon";
+        }elseif($time >= 17 && $time < 19){
+            $greet = "Good evening";
+        }else{
+            $greet = "Good night";
+        }
+
+//        dd($greetings);
+
         return view('index2')
             ->with('month',$month)
             ->with('year',$year)
@@ -44,7 +58,8 @@ class DashboardController extends Controller
             ->with('sending',$monthBillingSending)
             ->with('failed',$monthBillingFailed)
             ->with('clientsCount',$clientsCount)
-            ->with('billingsCount',$billingsCount);
+            ->with('billingsCount',$billingsCount)
+            ->with('greet',$greet);
 
     }
 

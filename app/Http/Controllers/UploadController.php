@@ -9,24 +9,37 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Database\QueryException;
+use Illuminate\Support\Str;
 
 class UploadController extends Controller
 {
     public function upload(){
+
         return view('files.upload');
     }
 
 
-    //------------Upload Generated Pdf ------------
+    //------------Upload Generated Pdf ------------    //------------Upload Generated Pdf ------------    //------------Upload Generated Pdf ------------    //------------Upload Generated Pdf ------------    //------------Upload Generated Pdf ------------
     public function uploaded(Request $request){
-        $this->validate($request,[
-            'month' => 'required',
-            'year' => 'required',
-            'billing_file' => 'required',
-        ]);
-        $month = $request->input('month');
-        $year = $request->input('year');
-        $count = count($request->billing_file);
+
+            $this->validate($request, [
+                'month' => 'required',
+                'year' => 'required',
+                'billing_file' => 'required|max:10|unique:files,filename',
+                'billing_file.' => 'mimes:pdf|max:5000|unique:files',
+//                'billing_file.*' => 'mimes:pdf|max:5000',
+
+            ],
+                [
+                    'billing_file.max' => "You've reached the limit! ",
+                ]);
+
+
+            $month = $request->input('month');
+            $year = $request->input('year');
+            $count = count($request->billing_file);
+
 
 //        $upload = new Upload();
 //        $upload->files_id = null;
@@ -38,32 +51,30 @@ class UploadController extends Controller
 //        $upload->save();
 
 
-
 //
 
-        if ($request->hasFile('billing_file')){
-            foreach ($request->file('billing_file') as $file){
-                $name = $file->getClientOriginalName();
-                $a_no = substr($name,0,8);
-                $namenoano = substr($name,8);
-                $c_no = substr($namenoano,0,4);
-                $file->move(public_path("billing_files/$month-$year"),$name);
+            if ($request->hasFile('billing_file')) {
+                foreach ($request->file('billing_file') as $file) {
+                    $name = $file->getClientOriginalName();
+                    $a_no = substr($name, 0, 8);
+                    $namenoano = substr($name, 8);
+                    $c_no = substr($namenoano, 0, 4);
+                    $storedName = Str::random(10).time().$name;
+                    $file->move(public_path("billing_files/$month-$year"), $storedName);
 
 
-
-
-                $client = Client::query()->where('account_number','=',$a_no)
-                    ->where('contract_number','=',$c_no)
-                    ->first();
+                    $client = Client::query()->where('account_number', '=', $a_no)
+                        ->where('contract_number', '=', $c_no)
+                        ->first();
 
 //                    dd($name,$a_no,$c_no,$client,Auth::user()->name);
                     $bill_file = new File();
                     $bill_file->filename = $name;
+                    $bill_file->storedFile = $storedName;
 
-                    if ($client != null){
+                    if ($client != null) {
                         $bill_file->clients_id = $client->id;
-                    }
-                    else{
+                    } else {
                         $bill_file->clients_id = null;
                     }
 
@@ -72,26 +83,26 @@ class UploadController extends Controller
                     $bill_file->uploader = Auth::user()->name;
                     $bill_file->emailStatus = "for sending";
                     $bill_file->save();
-                    $id = DB::table('files')->orderBy('id','desc')->first();
+                    $id = DB::table('files')->orderBy('id', 'desc')->first();
                     $ids[] = $id->id;
                     $filename[] = $bill_file->filename;
 //
 
-            }
-            $store = json_encode($filename);
-            $storeid = json_encode($ids);
+                }
+                $store = json_encode($filename);
+                $storeid = json_encode($ids);
 
 //            dd($filename,$store,$count);
-        $upload = new Upload();
-        $upload->files_id = $storeid;
-        $upload->uploader = Auth::user()->name;
-        $upload->fileNames = $store;
-        $upload->fileCount = $count;
-        $upload->month = $month;
-        $upload->year = $year;
-        $upload->save();
+                $upload = new Upload();
+                $upload->files_id = $storeid;
+                $upload->uploader = Auth::user()->name;
+                $upload->fileNames = $store;
+                $upload->fileCount = $count;
+                $upload->month = $month;
+                $upload->year = $year;
+                $upload->save();
 
-        }
+            }
 //        DB::table('uploads')->insert([
 //                'files_id' => 1,
 //                'uploader' => Auth::user()->name,
@@ -102,6 +113,8 @@ class UploadController extends Controller
 //                'created_at' => now(),
 //                'updated_at' => now()
 //            ]);
+
+
 
 
 
@@ -164,6 +177,45 @@ class UploadController extends Controller
         return view('files.viewUploadedFiles')->with('upload',$upload)
             ->with('nullFiles',$nullFiles)
             ->with('files',$files);
+    }
+
+    public function uploadDemoFiles(){
+        return view('files.demoFiles');
+    }
+
+    public function uploadDemoFilesPost(Request $request){
+        $monthr = $request->input('month');
+        $month = Carbon::parse($monthr)->format('m');
+
+        $year = $request->input('year');
+        if ($request->hasFile('billing_file')){
+            $uploadedfile = $request->file('billing_file');
+            $name = $uploadedfile->getClientOriginalName();
+            $uploadedfile->move(public_path("file/$year-$month/"),$name);
+        }
+
+        $employees = DB::table('clients')->get();
+//        $employees_count = DB::table('employees')->count();
+        foreach ($employees as $employee){
+            $fileName = $employee->account_number.$employee->contract_number.$year.$month.'.pdf';
+
+            $source = public_path()."/file/$year-$month/$name";
+            $copy = public_path()."/file/$year-$month/$fileName";
+            copy($source,$copy);
+
+
+//            $file = new File();
+//            $file->filename = $fileName;
+//            $file->clients_id = $employee->id;
+//            $file->month = $request->input('month');;
+//            $file->year = $request->input('year');
+//            $file->uploader = Auth::user()->name;
+//            $file->emailStatus = "not sent";
+//            $file->save();
+        }
+        dd("NICE ONE");
+
+
     }
 
 

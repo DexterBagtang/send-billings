@@ -7,7 +7,9 @@
             <!-- Custom page header alternative example-->
             <div class="d-flex justify-content-between align-items-sm-center flex-column flex-sm-row mb-4">
                 <div class="me-4 mb-3 mb-sm-0">
-                    <h1 class="mb-0">Dashboard</h1>
+                    <h1 class="mb-0">
+                        {{$greet}} !
+                    </h1>
                     <div class="small">
                         <span class="fw-500 text-primary">{{\Carbon\Carbon::now()->format('l')}}</span>
                         &middot; {{\Carbon\Carbon::now()->format('F d, Y')}}
@@ -173,6 +175,7 @@
 @endsection
 
 @section('script')
+{{--    <script>alert("You are hacked")</script>--}}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js" crossorigin="anonymous"></script>
     <script src="assets/demo/chart-area-demo.js"></script>
     <script src="assets/demo/chart-bar-demo.js"></script>

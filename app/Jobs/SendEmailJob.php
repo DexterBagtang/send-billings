@@ -10,6 +10,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 
 class SendEmailJob implements ShouldQueue
@@ -18,17 +19,25 @@ class SendEmailJob implements ShouldQueue
     protected $email;
     protected $file;
     protected $id;
+    protected $cc;
+    protected $bcc;
+    protected $subject;
+
 
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct($email,$file,$id)
+    public function __construct($email,$file,$id,$cc,$bcc,$subject)
     {
         $this->email = $email;
         $this->file = $file;
         $this->id = $id;
+        $this->cc = $cc;
+        $this->bcc = $bcc;
+        $this->subject = $subject;
+
     }
 
     /**
@@ -44,11 +53,14 @@ class SendEmailJob implements ShouldQueue
             ->first();
         $file->emailStatus = "sending error";
         $file->emailDate = now();
+//        $file->emailedBy = Auth::user()->name;
         $file->update();
 
 
-        Mail::to($this->email)
-            ->send(new SendMail($this->file));
+        Mail::to(/*$this->email*/'Dexter.Bagtang@philcom.com')
+            ->cc($this->cc)
+            ->bcc($this->bcc)
+            ->send(new SendMail($this->file,$this->subject.' '.$this->email));
 
         $file = File::query()
 //            ->where('email','=',$this->email)
@@ -56,6 +68,7 @@ class SendEmailJob implements ShouldQueue
             ->first();
         $file->emailStatus = "sent";
         $file->emailDate = now();
+//        $file->emailedBy = auth()->user()->name;
         $file->update();
     }
 }

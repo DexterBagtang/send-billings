@@ -6,6 +6,10 @@ window.addEventListener('DOMContentLoaded', event => {
     if (datatablesSimple) {
         new simpleDatatables.DataTable(datatablesSimple);
     }
+    const datatablesSimple4 = document.getElementById('datatablesSimple4');
+    if (datatablesSimple4) {
+        new simpleDatatables.DataTable(datatablesSimple4);
+    }
 
     const datatablesSimple1 = document.getElementById('datatablesSimple1');
     if (datatablesSimple1) {
@@ -33,10 +37,22 @@ window.addEventListener('DOMContentLoaded', event => {
 
             ajax:"data.json"
         });
-
         setInterval( function () {
             datatablesSimple2.ajax.reload();
         }, 30000 );
+    }
+
+    const datatablesSimple3 = document.getElementById('datatablesSimple3');
+    if (datatablesSimple3) {
+        new simpleDatatables.DataTable(datatablesSimple3,{
+            searchable:true,
+            fixedHeight: false,
+            fixedColumns: true,
+            sortable:true,
+            paging:true,
+            perPage:5,
+            firstLast:true,
+        });
     }
 
 });

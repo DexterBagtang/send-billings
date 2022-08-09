@@ -17,11 +17,15 @@ return new class extends Migration
             $table->id();
             $table->integer('clients_id')->nullable();
             $table->string('filename');
+            $table->string('storedFile');
             $table->string('month');
             $table->string('year');
             $table->string('uploader');
             $table->string('emailStatus');
             $table->dateTime('emailDate')->nullable();
+            $table->string('emailedBy')->nullable();
+            $table->softDeletes();
+            $table->string('deletedBy')->nullable();
             $table->timestamps();
         });
     }

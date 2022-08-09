@@ -92,7 +92,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="" class="form-label">Upload</label>
-                                    <input type="file" class="form-control" name="billing_file[]" id="customFile" multiple >
+                                    <input type="file" class="form-control" name="billing_file[]" id="customFile"  multiple accept="application/pdf">
                                 </div>
 
 
@@ -104,7 +104,7 @@
                                             data-bs-target="#staticBackdrop">
                                         Upload
                                     </button>
-                                    <a  class="btn btn-danger">Cancel</a>
+{{--                                    <a  class="btn btn-danger">Cancel</a>--}}
                                     </div>
                                 </div>
 

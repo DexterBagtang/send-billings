@@ -227,22 +227,55 @@
 
                         <!-- Modal -->
                         <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                            <div class="modal-dialog">
+                            <div class="modal-dialog modal-lg">
                                 <div class="modal-content">
                                     <div class="modal-header">
                                         <h5 class="modal-title" id="exampleModalLabel">Send Billing</h5>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
+                                        @if($notSent > 0 )
                                        <div> You are about to send the billings for the month of {{$month.'-'.$year}}</div>
-{{--                                        <br>--}}
-{{--                                        <div class="form-inline">--}}
-{{--                                            <label for="" class="form-label">BCC:</label>--}}
-{{--                                            <input type="text" class="form-control" placeholder="Add a cc email address">--}}
+
+                                        <br>
+{{--                                        <div class="row mb-3">--}}
+{{--                                            <label for="inputEmail3" class="col-sm-2 col-form-label">CC:</label>--}}
+{{--                                            <div class="col-sm-10">--}}
+{{--                                                <input type="text" class="form-control" id="inputEmail3" name="cc[]" placeholder="Add CC ">--}}
+{{--                                            </div>--}}
+
 {{--                                        </div>--}}
+
+{{--                                        <div>--}}
+{{--                                            <div class="row mb-3">--}}
+{{--                                                <label for="inputEmail3" class="col-sm-2 col-form-label"></label>--}}
+{{--                                                <div class="col-sm-10">--}}
+{{--                                                    <input type="email" class="form-control" id="inputEmail3" name="cc[]" placeholder="Add CC ">--}}
+{{--                                                </div>--}}
+
+{{--                                            </div>--}}
+{{--                                        </div>--}}
+{{--                                        <div class="row mb-3">--}}
+{{--                                            <label for="inputPassword3" class="col-sm-2 col-form-label">BCC:</label>--}}
+{{--                                            <div class="col-sm-10">--}}
+{{--                                                <input type="email" class="form-control" id="inputPassword3" name="bcc" placeholder="Add BCC">--}}
+{{--                                            </div>--}}
+{{--                                        </div>--}}
+                                        <div class="row mb-3">
+                                            <label for="inputPassword3" class="col-sm-2 col-form-label">Subject:</label>
+                                            <div class="col-sm-10">
+                                                <input type="text" class="form-control" id="inputPassword3" name="subject" placeholder="Enter Subject" required >
+                                            </div>
+                                        </div>
+                                        @else
+                                            <div> All the uploaded billings for the month of {{$month.'-'.$year}} are sent</div>
+                                        @endif
+
                                     </div>
                                     <div class="modal-footer">
+                                        @if($notSent > 0 )
                                         <input type="submit" class="btn btn-primary" value="Send Now">
+                                        @endif
                                         <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
                                     </div>
                                 </div>

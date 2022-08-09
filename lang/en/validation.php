@@ -137,6 +137,7 @@ return [
     'url' => 'The :attribute must be a valid URL.',
     'uuid' => 'The :attribute must be a valid UUID.',
 
+
     /*
     |--------------------------------------------------------------------------
     | Custom Validation Language Lines
@@ -152,6 +153,12 @@ return [
         'attribute-name' => [
             'rule-name' => 'custom-message',
         ],
+        'billing_file.*' => [
+            'mimes' => 'PDF LANG DAPAT KAPATID !',
+        ],
+        'billing_file' => [
+            'required' => 'Please upload a file !',
+        ]
     ],
 
     /*

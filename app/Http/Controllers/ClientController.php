@@ -2,13 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Imports\ClientImport;
 use App\Models\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
+use Maatwebsite\Excel\Facades\Excel;
+
+//use Maatwebsite\Excel\Excel;
 
 class ClientController extends Controller
 {
-    //---------------Clients----------------------------
+    //---------------Clients---------------------------------------------------------------------------------------------
     public function index(){
         $clients = DB::table('clients')
             ->orderBy('id','desc')
@@ -16,7 +21,7 @@ class ClientController extends Controller
         return view('clients.index')->with('clients',$clients);
     }
 
-    //--------------Add Client--------------------------
+    //--------------Add Client-------------------------------------    //--------------Add Client-------------------------------------    //--------------Add Client-------------------------------------
     public function addClient(){
         return view('clients.addClient');
     }
@@ -24,9 +29,14 @@ class ClientController extends Controller
     public function addedClient(Request $request){
         $this->validate($request,[
            'company'=>'required',
-            'email'=>'required',
+            'email'=>['required','email'],
             'account_number'=>'required',
             'contract_number'=>'required',
+        ],[
+            'company.required' => 'Company is empty !',
+            'email.required' => 'Email is empty !',
+            'email.email' => 'Please enter a valid email',
+
         ]);
 
         $client = new Client([
@@ -43,12 +53,15 @@ class ClientController extends Controller
 
     }
 
-
+//---------EDIT CLIENT------------------//---------EDIT CLIENT------------------//---------EDIT CLIENT------------------//---------EDIT CLIENT------------------//---------EDIT CLIENT------------------//---------EDIT CLIENT------------------//---------EDIT CLIENT-----------------
 
     public function editClient($id){
         $client = Client::find($id);
-        return view('clients.editClient',compact('client'));
-//        return view('clients.editClient')->with('client',$client);
+//        return response()->json([
+//            'data' => $client
+//        ]);
+//        return view('clients.editClient',compact('client'));
+        return view('clients.editClient')->with('client',$client);
     }
 
 
@@ -65,6 +78,30 @@ class ClientController extends Controller
 
         return redirect('clients')->with('success','Client edited successfully');
     }
+
+    public function importClient(Request $request){
+        $validator = Validator::make($request->all(), [
+            'csv'=>'required|max:5000',
+            ],[
+                'csv.required' => 'Upload a CSV file',
+            ]);
+        if ($validator->fails()){
+            return back()->withErrors($validator,'import')->withInput();
+        }
+        $extension = $request->file('csv')->getClientOriginalExtension();
+        if ($extension != "csv"){
+            return back()->with('importError','Please upload only a csv file type');
+        }
+//        dd($extension);
+        Excel::import(new ClientImport(),$request->file('csv'));
+//        (new ClientImport)->import('users.xlsx', null, \Maatwebsite\Excel\Excel::XLSX);
+
+
+
+
+        return redirect('clients')->with('success','Successfully added clients');
+    }
+
 
 
 }

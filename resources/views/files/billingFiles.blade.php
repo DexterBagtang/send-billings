@@ -41,6 +41,11 @@
             </div>
             <div class="card mb-4">
                 <div class="card-header">
+                    @if(session()->get('success'))
+                        <div class="alert alert-success">
+                            {{ session()->get('success') }}
+                        </div><br />
+                    @endif
 {{--                    Billings for the month of {{$month.'-'.$year}}--}}
 {{--                    <div class="float-end">--}}
 {{--                        Total Files = {{count($billings)}}--}}
@@ -49,7 +54,7 @@
                     <ul class="nav nav-tabs card-header-tabs" id="dashboardNav" role="tablist">
                         <li class="nav-item me-1">
                             <a class="nav-link active" id="overview-pill" href="#overview" data-bs-toggle="tab" role="tab" aria-controls="overview" aria-selected="true">
-                                Billings  <span class="badge bg-secondary">{{count($billings)}}</span>
+                                Billings  <span class="badge bg-danger">{{count($billings)}}</span>
                             </a>
                         </li>
                         @if(count($nullFiles) > 0)
@@ -58,6 +63,22 @@
                                 Unknown Billings <span class="badge bg-danger text-white">{{count($nullFiles)}}</span>
                             </a>
                         </li>
+                        @endif
+
+                        @if(count($duplicateFiles) > 0)
+                            <li class="nav-item">
+                                <a class="nav-link" id="duplicate-pill" href="#duplicate" data-bs-toggle="tab" role="tab" aria-controls="duplicate" aria-selected="false">
+                                    Duplicate Billings <span class="badge bg-danger text-white">{{count($duplicateFiles)}}</span>
+                                </a>
+                            </li>
+                        @endif
+
+                        @if(count($deletedFiles) > 0)
+                            <li class="nav-item">
+                                <a class="nav-link" id="deleted-pill" href="#deleted" data-bs-toggle="tab" role="tab" aria-controls="deleted" aria-selected="false">
+                                    Removed Billings <span class="badge bg-danger text-white">{{count($deletedFiles)}}</span>
+                                </a>
+                            </li>
                         @endif
                     </ul>
                 </div>
@@ -116,15 +137,17 @@
                                 {{--                    <table data-toggle="table">--}}
                                 <thead>
                                 <tr>
-                                    <th>Name</th>
+{{--                                    <th>Name</th>--}}
+                                    <th>Company</th>
                                     <th>Account#</th>
                                     <th>Contract#</th>
                                     <th>Email</th>
-                                    <th>Company</th>
+                                    <th>Uploader</th>
                                     {{--                            <th>Month and Year</th>--}}
                                     <th>File</th>
                                     <th>Date Uploaded</th>
-                                    <th>Actions</th>
+
+{{--                                    <th>Actions</th>--}}
                                 </tr>
                                 </thead>
                                 <tfoot>
@@ -142,24 +165,24 @@
                                 <tbody>
                                 @foreach($billings as $billing)
                                     <tr>
-                                        <td>{{$billing->name}}</td>
+                                        <td>{{$billing->company}}</td>
                                         <td>{{$billing->account_number}}</td>
                                         <td>{{$billing->contract_number}}</td>
                                         <td>{{$billing->email}}</td>
-                                        <td>{{$billing->company}}</td>
+                                        <td>{{$billing->uploader}}</td>
                                         {{--                                <td>{{$billing->month}}-{{$billing->year}}</td>--}}
                                         <td>
-                                            <a href="{{asset('billing_files/'.$billing->month.'-'.$billing->year.'/'.$billing->filename)}}" target="_blank">
+                                            <a href="{{asset('billing_files/'.$billing->month.'-'.$billing->year.'/'.$billing->storedFile)}}" target="_blank">
                                                 {{$billing->filename}}
                                             </a>
                                         </td>
                                         {{--                                <td>{{$billing->created_at}}</td>--}}
                                         <td>{{\Carbon\Carbon::parse($billing->created_at)->format('F d, Y - h:i A')}}</td>
 
-                                        <td>
-                                            <button class="btn btn-datatable btn-icon btn-transparent-dark me-2"><i data-feather="more-vertical"></i></button>
-                                            <button class="btn btn-datatable btn-icon btn-transparent-dark"><i data-feather="trash-2"></i></button>
-                                        </td>
+{{--                                        <td>--}}
+{{--                                            <button class="btn btn-datatable btn-icon btn-transparent-dark me-2"><i data-feather="more-vertical"></i></button>--}}
+{{--                                            <button class="btn btn-datatable btn-icon btn-transparent-dark"><i data-feather="trash-2"></i></button>--}}
+{{--                                        </td>--}}
                                     </tr>
                                 @endforeach
                                 </tbody>
@@ -191,27 +214,32 @@
                                     <table id="datatablesSimple2">
                                         <thead>
                                         <tr>
-                                            <th>Company</th>
-                                            <th>Account #</th>
-                                            <th>Contract #</th>
-                                            <th>Email</th>
+{{--                                            <th>Company</th>--}}
+{{--                                            <th>Account #</th>--}}
+{{--                                            <th>Contract #</th>--}}
+{{--                                            <th>Email</th>--}}
                                             <th>File</th>
+                                            <th>Action</th>
 
                                         </tr>
                                         </thead>
                                         <tbody>
                                         @foreach($nullFiles as $nullfile)
                                             <tr>
+<!--                                                <td>Unknown</td>
                                                 <td>Unknown</td>
                                                 <td>Unknown</td>
-                                                <td>Unknown</td>
-                                                <td>Unknown</td>
+                                                <td>Unknown</td>-->
                                                 <td>
-                                                    <a class="btn btn-outline-dark" href="{{asset('billing_files/'.$nullfile->month.'-'.$nullfile->year.'/'.$nullfile->filename)}}">
+                                                    <a class="btn btn-outline-dark" href="{{asset('billing_files/'.$nullfile->month.'-'.$nullfile->year.'/'.$nullfile->storedFile)}}" target="_blank">
                                                         {{--                                        <i data-feather="file"></i>{{$file->filename}}--}}
-                                                        <div class="nav-link-icon"><i data-feather="file"></i> </div>
+                                                        <div class="nav-link-icon"><i data-feather="file"></i>
                                                         {{$nullfile->filename}}
+                                                        </div>
                                                     </a>
+                                                </td>
+                                                <td>
+                                                    <a href="" class="btn btn-success">View</a>
                                                 </td>
                                             </tr>
                                         @endforeach
@@ -222,6 +250,108 @@
                             </div>
                         </div>
 {{--                        @endif--}}
+
+                        {{--                        DUPLICATE BILLINGS--}}
+
+                        <div class="tab-pane fade" id="duplicate" role="tabpanel" aria-labelledby="duplicate-pill">
+                            <div class="row">
+                                <!-- Sticky Navigation-->
+                                <div class="col-lg-4">
+                                    <div class="nav-sticky">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <ul class="nav flex-column fw-bold">
+                                                    <li class="nav-item text-uppercase text-danger">Duplicate Billings</li>
+                                                    <li class="nav-item">- File has been uploaded multiple times</li>
+                                                    {{--                                                    <li class="nav-item">- File must have been misspelled</li>--}}
+                                                    {{--                                                    <li class="nav-item">- Double check the filename</li>--}}
+                                                    {{--                                                    <li class="nav-item">- Update the clients if there are changes</li>--}}
+                                                    {{--                                                    <li class="nav-item">- Uploading may take a while</li>--}}
+                                                    {{--                                                    <li class="nav-item">- instruction 4</li>--}}
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-8">
+                                    <table id="datatablesSimple">
+                                        <thead>
+                                        <tr>
+                                            <th>Filename</th>
+                                            <th>Duplicate</th>
+                                            <th>Action</th>
+
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        @foreach($duplicateFiles as $duplicate)
+                                            <tr>
+                                                <td>{{$duplicate->filename}}</td>
+                                                <td>{{$duplicate->count}}</td>
+                                                <td>
+                                                    <a href="{{url("viewDuplicate/$duplicate->filename/$month/$year")}}" class="btn btn-success">View</a>
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+{{--                        REMOVED BILLINGS--}}
+
+                        <div class="tab-pane fade" id="deleted" role="tabpanel" aria-labelledby="deleted-pill">
+                            <div class="row">
+                                <!-- Sticky Navigation-->
+{{--                                <div class="col-lg-4">--}}
+{{--                                    <div class="nav-sticky">--}}
+{{--                                        <div class="card">--}}
+{{--                                            <div class="card-body">--}}
+{{--                                                <ul class="nav flex-column fw-bold">--}}
+{{--                                                    <li class="nav-item text-uppercase text-danger">Removed Billings</li>--}}
+{{--                                                    <li class="nav-item">- File has been uploaded multiple times</li>--}}
+{{--                                                    --}}{{--                                                    <li class="nav-item">- File must have been misspelled</li>--}}
+{{--                                                    --}}{{--                                                    <li class="nav-item">- Double check the filename</li>--}}
+{{--                                                    --}}{{--                                                    <li class="nav-item">- Update the clients if there are changes</li>--}}
+{{--                                                    --}}{{--                                                    <li class="nav-item">- Uploading may take a while</li>--}}
+{{--                                                    --}}{{--                                                    <li class="nav-item">- instruction 4</li>--}}
+{{--                                                </ul>--}}
+{{--                                            </div>--}}
+{{--                                        </div>--}}
+{{--                                    </div>--}}
+{{--                                </div>--}}
+                                <div class="col-lg-12">
+                                    <table id="datatablesSimple4">
+                                        <thead>
+                                        <tr>
+                                            <th>File</th>
+                                            <th>Date Uploaded</th>
+                                            <th>Uploaded By</th>
+                                            <th>Date Removed</th>
+                                            <th>Removed By</th>
+                                            <th>Action</th>
+
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        @foreach($deletedFiles as $deleted)
+                                            <tr>
+                                                <td>{{$deleted->filename}}</td>
+                                                <td>{{\Carbon\Carbon::parse($deleted->created_at)->format('d-M-Y h:i')}}</td>
+                                                <td>{{$deleted->uploader}}</td>
+                                                <td>{{\Carbon\Carbon::parse($deleted->deleted_at)->format('d-M-Y h:i')}}</td>
+                                                <td>{{$deleted->deletedBy}}</td>
+                                                <td>
+                                                    <a href="{{url("restoreFile/$deleted->id")}}" class="btn btn-warning btn-sm">Restore</a>
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
 
 
                     </div>
@@ -248,6 +378,8 @@
 
 
 @section('script')
+<!--    <script>alert('WARNING!')</script>
+    <script>alert('You are being hacked!')</script>-->
 {{--    <script src="https://unpkg.com/bootstrap-table@1.20.2/dist/bootstrap-table.min.js"></script>--}}
     <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
     <script src="{{asset('js/datatables/datatables-simple-demo.js')}}"></script>

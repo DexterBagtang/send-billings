@@ -11,15 +11,19 @@ class SendMail extends Mailable
 {
     use Queueable, SerializesModels;
     public $file;
+    public $subject;
+
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($file)
+    public function __construct($file,$subject)
     {
         $this->file = $file;
+        $this->subject = $subject;
+
     }
 
     /**
@@ -30,7 +34,7 @@ class SendMail extends Mailable
     public function build()
     {
         return $this->view('emails.billingFormat')
-            ->subject("PhilCom Billing")
+            ->subject($this->subject)
             ->attach($this->file);
     }
 }

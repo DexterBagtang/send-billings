@@ -21,9 +21,16 @@
         <div class="container-xl px-4 mt-4">
             <div class="card mb-4">
                 <div class="card-header">
+                    @if(session()->get('success'))
+                        <div class="alert alert-success">
+                            {{ session()->get('success') }}
+                        </div><br />
+                    @endif
                     <!-- Dashboard card navigation-->
                     <ul class="nav nav-tabs card-header-tabs" id="dashboardNav" role="tablist">
-                        <li class="nav-item me-1"><a class="nav-link active" id="overview-pill" href="#overview" data-bs-toggle="tab" role="tab" aria-controls="overview" aria-selected="true">Billings</a></li>
+                        <li class="nav-item me-1"><a class="nav-link active" id="overview-pill" href="#overview" data-bs-toggle="tab" role="tab" aria-controls="overview" aria-selected="true">
+                                Billings <span class="badge bg-primary text-white">{{count($files)}}</a>
+                        </li>
                         @if(count($nullFiles) > 0)
                         <li class="nav-item"><a class="nav-link" id="activities-pill" href="#activities" data-bs-toggle="tab" role="tab" aria-controls="activities" aria-selected="false">
                                 Unknown Billings <span class="badge bg-danger text-white">{{count($nullFiles)}}</span></a>
@@ -55,8 +62,9 @@
                                             <td>{{$file->contract_number}}</td>
                                             <td>{{$file->email}}</td>
                                             <td>
-                                                <a class="btn btn-outline-dark" href="{{asset('billing_files/'.$file->month.'-'.$file->year.'/'.$file->filename)}}">
-                                                    {{--                                        <i data-feather="file"></i>{{$file->filename}}--}}
+{{--                                                <a class="btn btn-outline-dark" href="{{asset('billing_files/'.$file->month.'-'.$file->year.'/'.$file->filename)}}">--}}
+                                                <a class="btn btn-outline-dark" href="{{asset('billing_files/'.$file->month.'-'.$file->year.'/'.basename($file->filename))}}">
+                                                {{--                                        <i data-feather="file"></i>{{$file->filename}}--}}
                                                     <div class="nav-link-icon"><i data-feather="file"></i> </div>
                                                     {{$file->filename}}
                                                 </a>
@@ -77,6 +85,7 @@
                                     <th>Contract #</th>
                                     <th>Email</th>
                                     <th>File</th>
+                                    <th>Status</th>
 
                                 </tr>
                                 </thead>
@@ -88,11 +97,23 @@
                                         <td>Unknown</td>
                                         <td>Unknown</td>
                                         <td>
-                                            <a class="btn btn-outline-dark" href="{{asset('billing_files/'.$nullfile->month.'-'.$nullfile->year.'/'.$nullfile->filename)}}">
+                                            <a class="btn btn-outline-dark" href="{{asset('billing_files/'.$nullfile->month.'-'.$nullfile->year.'/'.$nullfile->storedFile)}}">
                                                 {{--                                        <i data-feather="file"></i>{{$file->filename}}--}}
                                                 <div class="nav-link-icon"><i data-feather="file"></i> </div>
                                                 {{$nullfile->filename}}
                                             </a>
+                                        </td>
+                                        <td>
+                                            @if($nullfile->deleted_at !== null)
+                                                <div>deleted at <span>{{Carbon\Carbon::parse($nullfile->deleted_at)->format('d-M-Y')}}</span></div>
+
+                                                <a href="{{url("restoreFile/$nullfile->id")}}">
+                                                    restore
+                                                </a>
+
+                                            @else
+                                            active
+                                            @endif
                                         </td>
                                     </tr>
                                 @endforeach

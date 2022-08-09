@@ -20,11 +20,11 @@ use Illuminate\Support\Facades\View;
 |
 */
 Route::middleware('auth')->group(function () {
-//    Route::get('/', function () {
-////
-////        return view('index');
-//        return view('index2');
-//    });
+    Route::get('test', function () {
+//
+//        return view('index');
+        return view('index');
+    });
     //-----------------Dashboard-----------------------------------//
     Route::get('/',([DashboardController::class,'dashboard']));
 
@@ -34,6 +34,10 @@ Route::middleware('auth')->group(function () {
     Route::post('addedClient',([ClientController::class,'addedClient']));
     Route::get('editClient/{id}',([ClientController::class,'editClient']));
     Route::post('editedClient',([ClientController::class,'editedClient']));
+    Route::get('edit_client/{id}',([ClientController::class,'edit_client']));
+    Route::post('importClient',([ClientController::class,'importClient']));
+
+    //------------------------UPload--------------------------------------//
 
     Route::get('uploadFile',([UploadController::class,'upload']));
     Route::post('uploadedFile',([UploadController::class,'uploaded']));
@@ -41,14 +45,24 @@ Route::middleware('auth')->group(function () {
     Route::get('uploadedFiles',([UploadController::class,'uploadedFiles']));
     Route::get('viewUploadedFiles/{id}',([UploadController::class,'viewUploadedFiles']));
 
+    Route::get('uploadDemoFiles',([UploadController::class,'uploadDemoFiles']));
+    Route::post('uploadDemoFilesPost',([UploadController::class,'uploadDemoFilesPost']));
+
+
+
     //------------------------Billing Files ------------------------------------//
     Route::get('billingFiles',([FileController::class,'billingFiles']));
     Route::post('billingFiles',([FileController::class,'billingFilesPost']));
+    Route::get('viewDuplicate/{filename}/{month}/{year}',([FileController::class,'viewDuplicate']));
+    Route::get('removeDuplicate/{id}',([FileController::class,'removeDuplicate']));
+    Route::post('removeDuplicatePost/{id}',([FileController::class,'removeDuplicatePost']));
+    Route::get('restoreFile/{id}',([FileController::class,'restoreFile']));
     //-----------------------Send Billing Files --------------------------------//
     Route::get('sendBillingFiles',([EmailController::class,'sendBillingFiles']));
     Route::post('sendBillingFilesPost',([EmailController::class,'sendBillingFilesPost']));
     Route::post('sendBillingNow',([EmailController::class,'sendBillingNow']));
     Route::get('sendBillingSent',([EmailController::class,'sendBillingSent']));
+    Route::post('sendBillingSentPost',([EmailController::class,'sendBillingSentPost']));
     Route::get('sendBillingSending',([EmailController::class,'sendBillingSending']));
     Route::get('sendBillingFailed',([EmailController::class,'sendBillingFailed']));
 
