@@ -63,7 +63,7 @@
                                             <td>{{$file->email}}</td>
                                             <td>
 {{--                                                <a class="btn btn-outline-dark" href="{{asset('billing_files/'.$file->month.'-'.$file->year.'/'.$file->filename)}}">--}}
-                                                <a class="btn btn-outline-dark" href="{{asset('billing_files/'.$file->month.'-'.$file->year.'/'.basename($file->filename))}}">
+                                                <a class="btn btn-outline-dark" href="{{asset('billing_files/'.$file->month.'-'.$file->year.'/'.basename($file->storedFile))}}" target="_blank">
                                                 {{--                                        <i data-feather="file"></i>{{$file->filename}}--}}
                                                     <div class="nav-link-icon"><i data-feather="file"></i> </div>
                                                     {{$file->filename}}

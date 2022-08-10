@@ -37,6 +37,7 @@ Route::middleware('auth')->group(function () {
     Route::get('edit_client/{id}',([ClientController::class,'edit_client']));
     Route::post('importClient',([ClientController::class,'importClient']));
 
+
     //------------------------UPload--------------------------------------//
 
     Route::get('uploadFile',([UploadController::class,'upload']));
@@ -47,6 +48,8 @@ Route::middleware('auth')->group(function () {
 
     Route::get('uploadDemoFiles',([UploadController::class,'uploadDemoFiles']));
     Route::post('uploadDemoFilesPost',([UploadController::class,'uploadDemoFilesPost']));
+
+    Route::get('generateClientsPdf',([UploadController::class,'generatePDF']));
 
 
 
@@ -74,3 +77,5 @@ Route::get('/dashboard', function () {
 })->middleware(['auth'])->name('dashboard');
 
 require __DIR__.'/auth.php';
+
+

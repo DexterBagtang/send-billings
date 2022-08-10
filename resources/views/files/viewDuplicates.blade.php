@@ -1,8 +1,9 @@
 @extends('layout.app')
 
 @section('link')
-    {{--    <link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.20.2/dist/bootstrap-table.min.css">--}}
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/5.0.7/sweetalert2.min.css" rel="stylesheet">
+{{--    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">--}}
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/sweetalert2@9.17.2/dist/sweetalert2.min.css">
+
 @endsection
 
 @section('content')
@@ -27,9 +28,22 @@
             <div class="card mb-4">
                 <div class="card-header">
                     @if(session()->get('success'))
-                        <div class="alert alert-success">
-                            {{ session()->get('success') }}
-                        </div><br />
+{{--                        <div class="alert alert-success">--}}
+{{--                            {{ session()->get('success') }}--}}
+{{--                        </div><br />--}}
+                        <!-- Toast container -->
+                        <div style="position: absolute; bottom: 1rem; right: 1rem;">
+                            <!-- Toast -->
+                            <div class="toast" id="toastBasic" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="3000">
+                                <div class="toast-header">
+                                    <i data-feather="bell"></i>
+                                    <strong class="mr-auto">Toast with Autohide</strong>
+                                    <small class="text-muted ml-2">just now</small>
+                                    <button class="ml-2 mb-1 btn-close" type="button" data-bs-dismiss="toast" aria-label="Close">                                                                </button>
+                                </div>
+                                <div class="toast-body">This is an example toast alert, it will dismiss automatically, or you can dismiss it manually.</div>
+                            </div>
+                        </div>
                     @endif
                     {{--                    Billings for the month of {{$month.'-'.$year}}--}}
                     {{--                    <div class="float-end">--}}
@@ -77,7 +91,10 @@
                                         <td>
                                             <form method="POST" action="{{url('removeDuplicatePost/'.$duplicate->id)}}">
                                                 @csrf
-                                                <a href="#" onclick="event.preventDefault();this.closest('form').submit();" class="btn btn-danger">Remove</a>
+{{--                                                <a href="#" onclick="event.preventDefault();this.closest('form').submit();" class="btn btn-danger ">Remove</a>--}}
+                                                <input name="_method" type="hidden" value="POST">
+                                                <button type="submit" class="btn btn-xs btn-danger btn-flat btn-sm show-alert-delete-box" data-toggle="tooltip"  title='Delete'>Delete</button>
+
                                             </form>
                                         </td>
                                     </tr>
@@ -118,30 +135,64 @@
     {{--    <script src="https://unpkg.com/bootstrap-table@1.20.2/dist/bootstrap-table.min.js"></script>--}}
     <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
     <script src="{{asset('js/datatables/datatables-simple-demo.js')}}"></script>
+    <script src="{{asset('js/toasts.js')}}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
+{{--    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>--}}
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9.17.2/dist/sweetalert2.min.js"></script>
 
-    <script type="text/javascript">
-        $('.show-alert-delete-box').click(function(event){
-            var form =  $(this).closest("form");
-            var name = $(this).data("name");
-            event.preventDefault();
-            swal({
-                title: "Are you sure you want to delete this record?",
-                text: "If you delete this, it will be gone forever.",
-                icon: "warning",
-                type: "warning",
-                buttons: ["Cancel","Yes!"],
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes, delete it!'
-            }).then((willDelete) => {
-                if (willDelete) {
-                    form.submit();
-                }
-            });
+
+    <script>
+        @if(Session::has('message'))
+            toastr.options =
+            {
+                "closeButton" : true,
+                "progressBar" : true
+            }
+        toastr.success("{{ session('message') }}");
+        @endif
+
+            @if(Session::has('error'))
+            toastr.options =
+            {
+                "closeButton" : true,
+                "progressBar" : true
+            }
+        toastr.error("{{ session('error') }}");
+        @endif
+
+            @if(Session::has('info'))
+            toastr.options =
+            {
+                "closeButton" : true,
+                "progressBar" : true
+            }
+        toastr.info("{{ session('info') }}");
+        @endif
+
+            @if(Session::has('warning'))
+            toastr.options =
+            {
+                "closeButton" : true,
+                "progressBar" : true
+            }
+        toastr.warning("{{ session('warning') }}");
+        @endif
+    </script>
+
+    <script>
+        $(function(){
+            @if(Session::has('success'))
+            Swal.fire({
+                icon: 'info',
+                title: 'Removed!',
+                text: '{{ Session::get("success") }}',
+                footer: 'You can restore this under "Removed Billings"'
+            })
+            @endif
         });
     </script>
+
+
 
 
 @endsection

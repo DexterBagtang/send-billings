@@ -2,6 +2,7 @@
 
 @section('link')
 {{--    <link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.20.2/dist/bootstrap-table.min.css">--}}
+
 @endsection
 
 @section('content')
@@ -133,7 +134,7 @@
                                 </div>
                             </form>
                             <hr>
-                            <table id="datatablesSimple1">
+                            <table id="datatablesSimple">
                                 {{--                    <table data-toggle="table">--}}
                                 <thead>
                                 <tr>
@@ -189,7 +190,7 @@
                             </table>
                         </div>
 
-{{--                        @if(!isset($nullFiles))--}}
+                        {{-------------------------------------------Unknown Billings-----------------------------------------------------}}
                         <div class="tab-pane fade" id="activities" role="tabpanel" aria-labelledby="activities-pill">
                             <div class="row">
                                 <!-- Sticky Navigation-->
@@ -211,7 +212,7 @@
                                     </div>
                                 </div>
                                 <div class="col-lg-8">
-                                    <table id="datatablesSimple2">
+                                    <table id="datatablesSimple1">
                                         <thead>
                                         <tr>
 {{--                                            <th>Company</th>--}}
@@ -219,6 +220,8 @@
 {{--                                            <th>Contract #</th>--}}
 {{--                                            <th>Email</th>--}}
                                             <th>File</th>
+                                            <th>Uploaded By</th>
+                                            <th>Date Uploaded</th>
                                             <th>Action</th>
 
                                         </tr>
@@ -226,10 +229,6 @@
                                         <tbody>
                                         @foreach($nullFiles as $nullfile)
                                             <tr>
-<!--                                                <td>Unknown</td>
-                                                <td>Unknown</td>
-                                                <td>Unknown</td>
-                                                <td>Unknown</td>-->
                                                 <td>
                                                     <a class="btn btn-outline-dark" href="{{asset('billing_files/'.$nullfile->month.'-'.$nullfile->year.'/'.$nullfile->storedFile)}}" target="_blank">
                                                         {{--                                        <i data-feather="file"></i>{{$file->filename}}--}}
@@ -238,6 +237,8 @@
                                                         </div>
                                                     </a>
                                                 </td>
+                                                <td>{{$nullfile->uploader}}</td>
+                                                <td>{{$nullfile->created_at}}</td>
                                                 <td>
                                                     <a href="" class="btn btn-success">View</a>
                                                 </td>
@@ -251,7 +252,7 @@
                         </div>
 {{--                        @endif--}}
 
-                        {{--                        DUPLICATE BILLINGS--}}
+                        {{--------------------------------DUPLICATE BILLINGS--------------------------------------}}
 
                         <div class="tab-pane fade" id="duplicate" role="tabpanel" aria-labelledby="duplicate-pill">
                             <div class="row">
@@ -274,7 +275,7 @@
                                     </div>
                                 </div>
                                 <div class="col-lg-8">
-                                    <table id="datatablesSimple">
+                                    <table id="datatablesSimple2">
                                         <thead>
                                         <tr>
                                             <th>Filename</th>
@@ -299,7 +300,7 @@
                             </div>
                         </div>
 
-{{--                        REMOVED BILLINGS--}}
+{{---------------------------------------------REMOVED BILLINGS---------------------------------------------------------------}}
 
                         <div class="tab-pane fade" id="deleted" role="tabpanel" aria-labelledby="deleted-pill">
                             <div class="row">
@@ -322,7 +323,7 @@
 {{--                                    </div>--}}
 {{--                                </div>--}}
                                 <div class="col-lg-12">
-                                    <table id="datatablesSimple4">
+                                    <table id="datatablesSimple3">
                                         <thead>
                                         <tr>
                                             <th>File</th>
@@ -378,8 +379,8 @@
 
 
 @section('script')
-<!--    <script>alert('WARNING!')</script>
-    <script>alert('You are being hacked!')</script>-->
+{{--    <script>alert('WARNING!')</script>--}}
+{{--    <script>alert('You are being hacked!')</script>--}}
 {{--    <script src="https://unpkg.com/bootstrap-table@1.20.2/dist/bootstrap-table.min.js"></script>--}}
     <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
     <script src="{{asset('js/datatables/datatables-simple-demo.js')}}"></script>

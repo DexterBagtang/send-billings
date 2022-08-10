@@ -113,15 +113,16 @@
                     <table id="datatablesSimple2">
                         <thead>
                         <tr>
-                            <th>Name</th>
                             {{--                            <th>Account#</th>--}}
                             {{--                            <th>Contract#</th>--}}
-                            <th>Email</th>
+
                             <th>Company</th>
+                            <th>Email</th>
                             {{--                            <th>Month and Year</th>--}}
                             <th>File</th>
-                            <th>Date Uploaded</th>
                             <th>Email Status</th>
+                            <th>Emailed By</th>
+                            <th>Date Emailed</th>
 {{--                            <th>Actions</th>--}}
                         </tr>
                         </thead>
@@ -140,20 +141,21 @@
                         <tbody>
                         @foreach($billings as $billing)
                             <tr>
-                                <td>{{$billing->name}}</td>
+                                <td>{{$billing->company}}</td>
                                 {{--                                <td>{{$billing->account_number}}</td>--}}
                                 {{--                                <td>{{$billing->contract_number}}</td>--}}
                                 <td>{{$billing->email}}</td>
-                                <td>{{$billing->company}}</td>
                                 {{--                                <td>{{$billing->month}}-{{$billing->year}}</td>--}}
                                 <td>
-                                    <a href="{{asset('billing_files/'.$billing->month.'-'.$billing->year.'/'.$billing->filename)}}" target="_blank">
+                                    <a href="{{asset('billing_files/'.$billing->month.'-'.$billing->year.'/'.$billing->storedFile)}}" target="_blank">
                                         {{$billing->filename}}
                                     </a>
                                 </td>
-                                <td>{{$billing->created_at}}</td>
                                 <td>{{$billing->emailStatus}}</td>
-{{--                                <td>--}}
+                                <td>{{$billing->emailedBy}}</td>
+                                <td>{{$billing->emailDate}}</td>
+
+                                {{--                                <td>--}}
 {{--                                    <button class="btn btn-datatable btn-icon btn-transparent-dark me-2"><i data-feather="more-vertical"></i></button>--}}
 {{--                                    <button class="btn btn-datatable btn-icon btn-transparent-dark"><i data-feather="trash-2"></i></button>--}}
 {{--                                </td>--}}

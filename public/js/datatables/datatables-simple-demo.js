@@ -32,7 +32,7 @@ window.addEventListener('DOMContentLoaded', event => {
             fixedColumns: true,
             sortable:true,
             paging:true,
-            perPage:3,
+            perPage:10,
             firstLast:true,
 
             ajax:"data.json"
@@ -50,7 +50,7 @@ window.addEventListener('DOMContentLoaded', event => {
             fixedColumns: true,
             sortable:true,
             paging:true,
-            perPage:5,
+            perPage:10,
             firstLast:true,
         });
     }

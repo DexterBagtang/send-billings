@@ -185,7 +185,7 @@
                                                 <td>{{$billing->company}}</td>
                                                 {{--                                <td>{{$billing->month}}-{{$billing->year}}</td>--}}
                                                 <td>
-                                                    <a href="{{asset('billing_files/'.$billing->month.'-'.$billing->year.'/'.$billing->filename)}}" target="_blank">
+                                                    <a href="{{asset('billing_files/'.$billing->month.'-'.$billing->year.'/'.$billing->storedFile)}}" target="_blank">
                                                         {{$billing->filename}}
                                                     </a>
                                                 </td>

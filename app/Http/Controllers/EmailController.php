@@ -271,7 +271,7 @@ class EmailController extends Controller
             ->where('emailStatus','=','sent')
             ->join('clients','files.clients_id','=','clients.id')
             ->select('clients.*','files.filename','files.month','files.year',
-                'files.emailStatus','files.created_at','files.emailDate','files.emailedBy')
+                'files.emailStatus','files.created_at','files.emailDate','files.emailedBy','files.storedFile')
 //            ->distinct()
             ->orderBy('files.emailDate','desc')
             ->get();
@@ -294,7 +294,7 @@ class EmailController extends Controller
             ->where('year','=',$year)
             ->where('emailStatus','=','sent')
             ->join('clients','files.clients_id','=','clients.id')
-            ->select('clients.*','files.filename','files.month','files.year','files.emailStatus','files.created_at','files.emailDate')
+            ->select('clients.*','files.filename','files.month','files.year','files.emailStatus','files.created_at','files.emailDate','files.storedFile')
 //            ->distinct()
             ->orderBy('files.emailDate','desc')
             ->get();
@@ -343,7 +343,9 @@ class EmailController extends Controller
             ->where('year','=',$year)
             ->where('emailStatus','=','sending error')
             ->join('clients','files.clients_id','=','clients.id')
-            ->select('clients.*','files.filename','files.month','files.year','files.emailStatus','files.created_at')
+            ->select('files.*','clients.company','clients.email')
+//            ->select('clients.*','files.filename','files.month','files.year','files.emailStatus','files.created_at',)
+
             ->get();
         $countFailed = count($billingFailed);
 

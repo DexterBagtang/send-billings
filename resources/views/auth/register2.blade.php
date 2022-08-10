@@ -19,9 +19,11 @@
             <div class="container-xl px-4">
                 <div class="row justify-content-center">
                     <div class="col-lg-5">
-                        <div class="mt-5 ps-5 justify-content-center">
-                            <img src="https://www.philcom.com/images/logo/logo-redfont1.png" alt=""
-                                 style="width: 100%; max-width:350px; min-width: 150px">
+                        <div class="text-center">
+                            <div class="mt-5 pe-2 justify-content-center">
+                                <img src="https://www.philcom.com/images/logo/logo-redfont1.png" alt=""
+                                     style="width: 100%; max-width:350px; min-width: 150px">
+                            </div>
                         </div>
 
                         <!-- Basic login form-->

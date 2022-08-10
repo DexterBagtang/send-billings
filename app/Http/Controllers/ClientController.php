@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Maatwebsite\Excel\Facades\Excel;
+use mysql_xdevapi\Exception;
 
 //use Maatwebsite\Excel\Excel;
 
@@ -92,8 +93,17 @@ class ClientController extends Controller
         if ($extension != "csv"){
             return back()->with('importError','Please upload only a csv file type');
         }
+
+        try {
+            Excel::import(new ClientImport(),$request->file('csv'));
+
+        }catch (\Exception $e){
+            $error =  $e->getMessage();
+            return redirect('addClient')->with('importError','Invalid CSV file!');
+        }
+//        Excel::import(new ClientImport(),$request->file('csv'));
+
 //        dd($extension);
-        Excel::import(new ClientImport(),$request->file('csv'));
 //        (new ClientImport)->import('users.xlsx', null, \Maatwebsite\Excel\Excel::XLSX);
 
 

@@ -5,11 +5,13 @@ namespace App\Http\Controllers;
 use App\Models\Client;
 use App\Models\File;
 use App\Models\Upload;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\QueryException;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class UploadController extends Controller
@@ -215,6 +217,36 @@ class UploadController extends Controller
         }
         dd("NICE ONE");
 
+
+    }
+
+    public function generatePDF(){
+        $month = now()->format('m');
+        $year = now()->format('Y');
+        $clients = DB::table('clients')->get();
+//        dd($clients);
+
+        foreach($clients as $client){
+            $data = [
+                'company' => $client->company,
+                'email' => $client->email,
+                'account' => $client->account_number,
+                'contract' => $client->contract_number,
+            ];
+//            return view('pdf.myPDF',$data);
+            //            dd($data);
+            $accNo = $client->account_number;
+            $conNo = $client->contract_number;
+            $filename = $accNo.$conNo.$year.$month;
+
+            $pdf = PDF::loadView('pdf.myPDF',$data)->setPaper('letter','landscape');
+            $pdf->save(storage_path("app/pdf/$filename.pdf"));
+
+            $get = Storage::disk('local')->get("pdf/$filename.pdf");
+//            dd($get);
+           Storage::disk('c-drive')->put("Users\Dexter.Bagtang\Documents\generated-pdf/$filename.pdf",$get,'public');
+        }
+        return redirect('uploadFile')->with('success','clients pdf generated');
 
     }
 
