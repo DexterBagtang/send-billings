@@ -34,6 +34,15 @@
 
                             <!-- Validation Errors -->
                             <x-auth-validation-errors class="m-1 p-3 text-danger" :errors="$errors" />
+{{--                            @if ($errors->any())--}}
+{{--                                <div class="alert alert-danger">--}}
+{{--                                    <ul>--}}
+{{--                                        @foreach ($errors->all() as $error)--}}
+{{--                                            <li>{{ $error }}</li>--}}
+{{--                                        @endforeach--}}
+{{--                                    </ul>--}}
+{{--                                </div>--}}
+{{--                            @endif--}}
 {{--                            <div class="card-header bg-gray-300 justify-content-center">--}}
 {{--                                <img src="https://www.philcom.com/images/logo/logo-redfont1.png" alt="" width="350">--}}
 {{--                            </div>--}}
@@ -62,7 +71,7 @@
                                     <div class="d-flex align-items-center justify-content-between mt-4 mb-0">
                                         @if (Route::has('password.request'))
                                             <a class="underline text-sm text-gray-600 hover:text-gray-900" href="#">
-                                                {{ __('Forgot your password?') }}
+{{--                                                {{ __('Forgot your password?') }}--}}
                                             </a>
                                         @endif
                                         <input type="submit" class="btn btn-primary" value="Login">

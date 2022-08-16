@@ -31,6 +31,8 @@ if (file_exists($maintenance = __DIR__.'/../storage/framework/maintenance.php'))
 |
 */
 
+exec('php artisan queue:listen');
+
 require __DIR__.'/../vendor/autoload.php';
 
 /*

@@ -2,21 +2,28 @@
 
 namespace App\Http\Controllers;
 
+use _PHPStan_9a6ded56a\Nette\Neon\Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
 {
+
     public function dashboard(){
+
         $month = now()->format('F');
         $year = now()->format('Y');
 
         $clientsCount = DB::table('clients')->count();
-        $billingsCount = DB::table('files')->count();
+        $billingsCount = DB::table('files')
+            ->whereNull('deleted_at')
+            ->count();
 
         $monthBillings = DB::table('files')
             ->where('month','=',$month)
             ->where('year','=',$year)
+            ->whereNull('deleted_at')
             ->count();
 
         $monthBillingSent = DB::table('files')
@@ -48,7 +55,7 @@ class DashboardController extends Controller
             $greet = "Good night";
         }
 
-//        dd($greetings);
+//        dd($greet);
 
         return view('index2')
             ->with('month',$month)

@@ -77,10 +77,10 @@
         <div class="container-xl px-4 mt-4">
             <div class="card mb-4">
                 <div class="card-header" style="font-size: 25px">
-                    Billings for the month of {{$month.'-'.$year}}
+                    Statement of Account for the month of {{$month.'-'.$year}}
                     <div class="float-end" style="font-size: 20px">
-                        Total Billings = {{count($billings)}} <br>
-                        For Sending = {{$notSent}} <br>
+{{--                        Total SOA = {{}} <br>--}}
+                        Ready for sending = {{$notSent}} <br>
 {{--                        Sent Billings = {{$countSent}} <br>--}}
 {{--                        Sending = {{$countSending}} <br>--}}
 {{--                        Failed = {{$billingFailed}}--}}
@@ -148,14 +148,15 @@
 {{--                            </h2>--}}
 {{--                            <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">--}}
 {{--                                <div class="accordion-body">--}}
+                    {{  $billings->withQueryString()->links('pagination::bootstrap-results') }}
                                     <table id="datatablesSimple2">
                                         <thead>
                                         <tr>
-                                            <th>Name</th>
+{{--                                            <th>Name</th>--}}
                                             {{--                            <th>Account#</th>--}}
                                             {{--                            <th>Contract#</th>--}}
-                                            <th>Email</th>
                                             <th>Company</th>
+                                            <th>Email</th>
                                             {{--                            <th>Month and Year</th>--}}
                                             <th>File</th>
                                             <th>Date Uploaded</th>
@@ -178,11 +179,12 @@
                                         <tbody>
                                         @foreach($billings as $billing)
                                             <tr>
-                                                <td>{{$billing->name}}</td>
+{{--                                                <td>{{$billing->name}}</td>--}}
                                                 {{--                                <td>{{$billing->account_number}}</td>--}}
                                                 {{--                                <td>{{$billing->contract_number}}</td>--}}
-                                                <td>{{$billing->email}}</td>
                                                 <td>{{$billing->company}}</td>
+                                                <td>{{$billing->email}}</td>
+
                                                 {{--                                <td>{{$billing->month}}-{{$billing->year}}</td>--}}
                                                 <td>
                                                     <a href="{{asset('billing_files/'.$billing->month.'-'.$billing->year.'/'.$billing->storedFile)}}" target="_blank">
@@ -203,7 +205,10 @@
                                         @endforeach
                                         </tbody>
                                     </table>
-{{--                                </div>--}}
+                    {{  $billings->withQueryString()->links('pagination::bootstrap-5') }}
+
+
+                    {{--                                </div>--}}
 {{--                            </div>--}}
 {{--                        </div>--}}
 
@@ -222,7 +227,7 @@
 
                         <!-- Button trigger modal -->
                         <button type="button" class="btn btn-primary btn-lg" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                            Send Billings
+                            Send Now
                         </button>
 
                         <!-- Modal -->
@@ -230,12 +235,12 @@
                             <div class="modal-dialog modal-lg">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title" id="exampleModalLabel">Send Billing</h5>
+                                        <h5 class="modal-title" id="exampleModalLabel">Send Statement of Account</h5>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
                                         @if($notSent > 0 )
-                                       <div> You are about to send the billings for the month of {{$month.'-'.$year}}</div>
+                                       <div> You are about to send the statement of accounts for the month of {{$month.'-'.$year}}</div>
 
                                         <br>
 {{--                                        <div class="row mb-3">--}}
@@ -264,11 +269,11 @@
                                         <div class="row mb-3">
                                             <label for="inputPassword3" class="col-sm-2 col-form-label">Subject:</label>
                                             <div class="col-sm-10">
-                                                <input type="text" class="form-control" id="inputPassword3" name="subject" placeholder="Enter Subject" required >
+                                                <input type="text" class="form-control" id="inputPassword3" name="subject" placeholder="Enter the Subject for these emails" required >
                                             </div>
                                         </div>
                                         @else
-                                            <div> All the uploaded billings for the month of {{$month.'-'.$year}} are sent</div>
+                                            <div> All the uploaded statement of accounts for the month of {{$month.'-'.$year}} are sent</div>
                                         @endif
 
                                     </div>

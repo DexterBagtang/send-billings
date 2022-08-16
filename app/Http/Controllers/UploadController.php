@@ -28,7 +28,7 @@ class UploadController extends Controller
             $this->validate($request, [
                 'month' => 'required',
                 'year' => 'required',
-                'billing_file' => 'required|max:10|unique:files,filename',
+                'billing_file' => 'required|max:500|unique:files,filename',
                 'billing_file.' => 'mimes:pdf|max:5000|unique:files',
 //                'billing_file.*' => 'mimes:pdf|max:5000',
 
@@ -120,7 +120,7 @@ class UploadController extends Controller
 
 
 
-        return redirect('/uploadedFiles')->with('success',"Successfully uploaded $count files for the month of $month-$year");
+        return redirect('/uploadFile')->with('success',"Successfully uploaded $count files for the month of $month-$year");
 
         // ========================= Create demo files for testing =======================================//
 

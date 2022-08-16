@@ -36,6 +36,10 @@ Route::middleware('auth')->group(function () {
     Route::post('editedClient',([ClientController::class,'editedClient']));
     Route::get('edit_client/{id}',([ClientController::class,'edit_client']));
     Route::post('importClient',([ClientController::class,'importClient']));
+    Route::get('duplicateClient',([ClientController::class,'duplicateClient']));
+    Route::get('searchClient',([ClientController::class,'searchClient']));
+    Route::get('searchDuplicateClient',([ClientController::class,'searchDuplicateClient']));
+
 
 
     //------------------------UPload--------------------------------------//
@@ -56,10 +60,20 @@ Route::middleware('auth')->group(function () {
     //------------------------Billing Files ------------------------------------//
     Route::get('billingFiles',([FileController::class,'billingFiles']));
     Route::post('billingFiles',([FileController::class,'billingFilesPost']));
+    Route::get('billingSearch',([FileController::class,'billingSearch']));
+    //---------------------billing Unknown --------------------------------------
+    Route::get('billingUnknown',([FileController::class,'billingUnknown']));
+    Route::get('unknownSearch',([FileController::class,'unknownSearch']));
+    //---------------------billing Duplicate --------------------------------
+    Route::get('billingDuplicate',([FileController::class,'billingDuplicate']));
     Route::get('viewDuplicate/{filename}/{month}/{year}',([FileController::class,'viewDuplicate']));
+    Route::get('duplicateSearch',([FileController::class,'duplicateSearch']));
     Route::get('removeDuplicate/{id}',([FileController::class,'removeDuplicate']));
     Route::post('removeDuplicatePost/{id}',([FileController::class,'removeDuplicatePost']));
+    //-------------------------billing removed  ----------------------------------
+    Route::get('billingRemoved',([FileController::class,'billingRemoved']));
     Route::get('restoreFile/{id}',([FileController::class,'restoreFile']));
+    Route::get('removedSearch',([FileController::class,'removedSearch']));
     //-----------------------Send Billing Files --------------------------------//
     Route::get('sendBillingFiles',([EmailController::class,'sendBillingFiles']));
     Route::post('sendBillingFilesPost',([EmailController::class,'sendBillingFilesPost']));
@@ -68,6 +82,8 @@ Route::middleware('auth')->group(function () {
     Route::post('sendBillingSentPost',([EmailController::class,'sendBillingSentPost']));
     Route::get('sendBillingSending',([EmailController::class,'sendBillingSending']));
     Route::get('sendBillingFailed',([EmailController::class,'sendBillingFailed']));
+
+    Route::get('resendBilling',([EmailController::class,'resendBilling']));
 
 
 });

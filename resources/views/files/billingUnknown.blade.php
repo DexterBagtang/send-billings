@@ -1,0 +1,150 @@
+@extends('layout.app')
+
+@section('link')
+    {{--    <link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.20.2/dist/bootstrap-table.min.css">--}}
+
+@endsection
+
+@section('content')
+    <main>
+        <div class="container-xl px-4 mt-4">
+            <!-- Custom page header alternative example-->
+            <div class="d-flex justify-content-between align-items-sm-center flex-column flex-sm-row mb-4">
+                <div class="me-4 mb-3 mb-sm-0">
+                    <h1 class="mb-0">Unknown Statement of Accounts for the month of {{$month.'-'.$year}}</h1>
+                    <div class="small">
+                        {{--                        <span class="fw-500 text-primary">{{\Carbon\Carbon::now()->format('l')}}</span>--}}
+                        {{--                        &middot; {{\Carbon\Carbon::now()->format('F d, Y')}}--}}
+                        {{--                        &middot; <span id="hours">00</span>:<span id="minutes">00</span> <span>{{\Carbon\Carbon::now()->format('A')}}</span>--}}
+                    </div>
+                </div>
+                <!-- Date range picker example-->
+                {{--                <div class="input-group input-group-joined border-0 shadow" style="width: 16.5rem">--}}
+                {{--                    <span class="input-group-text"><i data-feather="calendar"></i></span>--}}
+                {{--                    <input class="form-control ps-0 pointer" id="litepickerRangePlugin" placeholder="Select date range..." />--}}
+                {{--                </div>--}}
+            </div>
+            <div class="card mb-4">
+                <div class="card-header">
+                    @if(session()->get('success'))
+                        <div class="alert alert-success">
+                            {{ session()->get('success') }}
+                        </div><br />
+                    @endif
+
+                    @if ($errors->any())
+                        <div class="alert alert-danger">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
+                    {{--                    Billings for the month of {{$month.'-'.$year}}--}}
+                    {{--                    <div class="float-end">--}}
+                    {{--                        Total Files = {{count($billings)}}--}}
+                    {{--                    </div>--}}
+                    <!-- Dashboard card navigation-->
+                        @include('layout.billingnav')
+                </div>
+                {{-------------------------------------------Unknown Billings-----------------------------------------------------}}
+                <div class="card-body">
+
+                    <div class="row">
+                        <!-- Sticky Navigation-->
+                        <div class="col-lg-4">
+                            <div class="nav-sticky">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <ul class="nav flex-column fw-bold">
+                                            <li class="nav-item text-uppercase text-danger">Unknown Statement of Account</li>
+                                            <li class="nav-item">- File didn't match any of the clients in the database</li>
+                                            <li class="nav-item">- File must have been misspelled</li>
+                                            <li class="nav-item">- Double check the filename</li>
+                                            <li class="nav-item">- Update the clients if there are changes</li>
+                                            {{--                                                    <li class="nav-item">- Uploading may take a while</li>--}}
+                                            {{--                                                    <li class="nav-item">- instruction 4</li>--}}
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-8">
+                            <div>
+                                {{ $nullFiles->withQueryString()->links('pagination::bootstrap-results') }}
+                                <form action="{{url('unknownSearch')}}" method="GET" class="float-end">
+                                    <input type="search" class="form-control" name="search" value="{{$search}}"  placeholder="Search">
+                                    <input type="hidden" name="month" value="{{$month}}">
+                                    <input type="hidden" name="year" value="{{$year}}">
+                                    <input type="submit" class="d-none">
+                                </form>
+                            </div>
+                            <table id="datatablesSimple3">
+                                <thead>
+                                <tr>
+                                    {{--                                            <th>Company</th>--}}
+                                    {{--                                            <th>Account #</th>--}}
+                                    {{--                                            <th>Contract #</th>--}}
+                                    {{--                                            <th>Email</th>--}}
+                                    <th>File</th>
+                                    <th>Uploaded By</th>
+                                    <th>Date Uploaded</th>
+                                    <th>Action</th>
+
+                                </tr>
+                                </thead>
+                                <tbody>
+                                @foreach($nullFiles as $nullfile)
+                                    <tr>
+                                        <td>
+                                            <a class="btn btn-outline-dark btn-sm" href="{{asset('billing_files/'.$nullfile->month.'-'.$nullfile->year.'/'.$nullfile->storedFile)}}" target="_blank">
+                                                {{--                                        <i data-feather="file"></i>{{$file->filename}}--}}
+                                                <div class="nav-link-icon"><i data-feather="file"></i>
+                                                    {{$nullfile->filename}}
+                                                </div>
+                                            </a>
+                                        </td>
+                                        <td>{{$nullfile->uploader}}</td>
+                                        <td>{{$nullfile->created_at}}</td>
+                                        <td>
+                                            <a href="" class="btn btn-success btn-sm">View</a>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                                </tbody>
+                            </table>
+                            {{  $nullFiles->withQueryString()->links('pagination::bootstrap-5') }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {{--            <div class="card card-icon mb-4">--}}
+        {{--                <div class="row g-0">--}}
+        {{--                    <div class="col-auto card-icon-aside bg-primary"><i class="me-1 text-white-50" data-feather="alert-triangle"></i></div>--}}
+        {{--                    <div class="col">--}}
+        {{--                        <div class="card-body py-5">--}}
+        {{--                            <h5 class="card-title">Third-Party Documentation Available</h5>--}}
+        {{--                            <p class="card-text">Simple DataTables is a third party plugin that is used to generate the demo table above. For more information about how to use Simple DataTables with your project, please visit the official documentation.</p>--}}
+        {{--                            <a class="btn btn-primary btn-sm" href="https://github.com/fiduswriter/Simple-DataTables" target="_blank">--}}
+        {{--                                <i class="me-1" data-feather="external-link"></i>--}}
+        {{--                                Visit Simple DataTables Docs--}}
+        {{--                            </a>--}}
+        {{--                        </div>--}}
+        {{--                    </div>--}}
+        {{--                </div>--}}
+        {{--            </div>--}}
+        </div>
+        </div>
+    </main>
+@endsection
+
+
+@section('script')
+    {{--    <script>alert('WARNING!')</script>--}}
+    {{--    <script>alert('You are being hacked!')</script>--}}
+    {{--    <script src="https://unpkg.com/bootstrap-table@1.20.2/dist/bootstrap-table.min.js"></script>--}}
+    <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
+    <script src="{{asset('js/datatables/datatables-simple-demo.js')}}"></script>
+@endsection

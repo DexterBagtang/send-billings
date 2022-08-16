@@ -40,10 +40,10 @@
         <div class="container-xl px-4 mt-4">
             <div class="card mb-4">
                 <div class="card-header" style="font-size: 25px">
-                    Sent billings for the month of {{$month.'-'.$year}}
+                    Sent Statement of Accounts for the month of {{$month.'-'.$year}}
                     <div class="float-end">
 {{--                        Total Billings = {{count($billings)}} <br>--}}
-                        Sent Billings = {{$countSent}} <br>
+                        Sent = {{$countSent}} <br>
 {{--                        Sending = {{$countSending}} <br>--}}
 {{--                        Not Sent = {{$notSent}}--}}
 

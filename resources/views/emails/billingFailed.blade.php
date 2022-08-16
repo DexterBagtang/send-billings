@@ -39,11 +39,14 @@
         <!-- Main page content-->
         <div class="container-xl px-4 mt-4">
             <div class="card mb-4">
+{{--                <a href="{{url('resendBilling')}}" class="btn btn-danger"> Resend All</a>--}}
+
                 <div class="card-header" style="font-size: 25px">
-                    Failed billings for the month of {{$month.'-'.$year}}
+                    Sending Failed for the month of {{$month.'-'.$year}}
+
                     <div class="float-end">
                         {{--                        Total Billings = {{count($billings)}} <br>--}}
-                        Failed Billings = {{$countFailed}} <br>
+                        Failed = {{$countFailed}} <br>
                         {{--                        Sending = {{$countSending}} <br>--}}
                         {{--                        Not Sent = {{$notSent}}--}}
 
@@ -123,6 +126,7 @@
                             <th>Email Status</th>
                             <th>Emailed By</th>
                             <th>Date Emailed</th>
+                            <th>Action</th>
 {{--                            <th>Actions</th>--}}
                         </tr>
                         </thead>
@@ -154,6 +158,7 @@
                                 <td>{{$billing->emailStatus}}</td>
                                 <td>{{$billing->emailedBy}}</td>
                                 <td>{{$billing->emailDate}}</td>
+                                <td><a href="" class="btn btn-danger btn-sm">Resend</a></td>
 
                                 {{--                                <td>--}}
 {{--                                    <button class="btn btn-datatable btn-icon btn-transparent-dark me-2"><i data-feather="more-vertical"></i></button>--}}

@@ -9,7 +9,7 @@
                         <div class="col-auto mb-3">
                             <h1 class="page-header-title">
 {{--                                <div class="page-header-icon"><i data-feather="upload"></i></div>--}}
-                                Upload File
+                                Upload Generated Statement of Account
                             </h1>
                         </div>
                         <div class="col-12 col-xl-auto mb-3"></div>
@@ -27,9 +27,9 @@
                             <div class="card-body">
                                 <ul class="nav flex-column fw-bold">
                                     <li class="nav-item text-uppercase text-danger">Please note !</li>
-                                    <li class="nav-item">- Files must be in pdf file</li>
+                                    <li class="nav-item">- <strong class="alert-black">Statement of Account must be in pdf file</strong></li>
                                     <li class="nav-item">- Multiple files can be uploaded</li>
-                                    <li class="nav-item">- Maximum files per upload is 500</li>
+                                    <li class="nav-item">- <strong class="alert-black">Maximum files per upload is 500</strong></li>
                                     <li class="nav-item">- Please wait until files are uploaded</li>
                                     <li class="nav-item">- Uploading may take a while</li>
                                     <li class="nav-item">- instruction 4</li>

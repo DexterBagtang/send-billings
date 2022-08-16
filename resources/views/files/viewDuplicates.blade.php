@@ -12,7 +12,7 @@
             <!-- Custom page header alternative example-->
             <div class="d-flex justify-content-between align-items-sm-center flex-column flex-sm-row mb-4">
                 <div class="me-4 mb-3 mb-sm-0">
-                    <h1 class="mb-0">Billings for the month of {{$month.'-'.$year}}</h1>
+                    <h1 class="mb-0">Statement of Account for the month of {{$month.'-'.$year}}</h1>
                     <div class="small">
                         {{--                        <span class="fw-500 text-primary">{{\Carbon\Carbon::now()->format('l')}}</span>--}}
                         {{--                        &middot; {{\Carbon\Carbon::now()->format('F d, Y')}}--}}
@@ -53,7 +53,7 @@
                     <ul class="nav nav-tabs card-header-tabs" id="dashboardNav" role="tablist">
                         <li class="nav-item me-1">
                             <a class="nav-link active" id="overview-pill" href="#overview" data-bs-toggle="tab" role="tab" aria-controls="overview" aria-selected="true">
-                                Duplicate Billings
+                                Duplicate SOA
                             </a>
                         </li>
 

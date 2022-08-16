@@ -47,9 +47,9 @@
                         <div class="card-body d-flex justify-content-center flex-column">
                             <div class="d-flex align-items-center justify-content-between">
                                 <div class="me-3">
-                                    <i class="feather-xl text-primary mb-3" data-feather="user"></i>
+                                    <i class="feather-xl text-primary mb-3" data-feather="users"></i>
                                     <h5>Clients</h5>
-                                    <div class="text-muted small">There are <span class="text-danger">{{$clientsCount}}</span> active clients</div>
+                                    <div class="text-muted small">There are <span class="text-danger">{{number_format($clientsCount,0,',')}}</span> active clients</div>
                                 </div>
                                 <img src="{{asset('assets/img/illustrations/clients2.jpg')}}" alt="..." style="width: 8rem" />
                             </div>
@@ -63,8 +63,8 @@
                             <div class="d-flex align-items-center justify-content-between">
                                 <div class="me-3">
                                     <i class="feather-xl text-secondary mb-3" data-feather="file"></i>
-                                    <h5>Billings</h5>
-                                    <div class="text-muted small">You have a total of <span class="text-danger">{{$billingsCount}}</span> billings</div>
+                                    <h5>Statement of Accounts</h5>
+                                    <div class="text-muted small">You have a total of <span class="text-danger">{{$billingsCount}}</span> SOA</div>
                                 </div>
                                 <img src="assets/img/illustrations/windows.svg" alt="..." style="width: 8rem" />
                             </div>
@@ -78,8 +78,8 @@
                             <div class="d-flex align-items-center justify-content-between">
                                 <div class="me-3">
                                     <i class="feather-xl text-green mb-3" data-feather="upload"></i>
-                                    <h5>Upload Billings</h5>
-                                    <div class="text-muted small">Upload generated pdf now</div>
+                                    <h5>Upload Invoices</h5>
+                                    <div class="text-muted small">Upload Statement of Account</div>
                                 </div>
                                 <img src="assets/img/illustrations/upload.jpg" alt="..." style="width: 8rem" />
                             </div>
@@ -95,14 +95,14 @@
                         <div class="card-body">
                             <div class="d-flex justify-content-between align-items-center">
                                 <div class="me-3">
-                                    <div class="text-white-75 small">{{$month}} Total Billings</div>
+                                    <div class="text-white-75 small">{{$month}} Total SOA</div>
                                     <div class="text-lg fw-bold">{{$monthBillings}}</div>
                                 </div>
                                 <i class="feather-xl text-white-50" data-feather="file-text"></i>
                             </div>
                         </div>
                         <div class="card-footer d-flex align-items-center justify-content-between small">
-                            <a class="text-white stretched-link" href="{{url('billingFiles')}}">View Billings</a>
+                            <a class="text-white stretched-link" href="{{url('billingFiles')}}">View August Statement of Account</a>
                             <div class="text-white"><i class="fas fa-angle-right"></i></div>
                         </div>
                     </div>
@@ -112,14 +112,14 @@
                         <div class="card-body">
                             <div class="d-flex justify-content-between align-items-center">
                                 <div class="me-3">
-                                    <div class="text-white-75 small">Sent Billings</div>
+                                    <div class="text-white-75 small">Sent</div>
                                     <div class="text-lg fw-bold">{{$sent}}</div>
                                 </div>
                                 <i class="feather-xl text-white-50" data-feather="check-square"></i>
                             </div>
                         </div>
                         <div class="card-footer d-flex align-items-center justify-content-between small">
-                            <a class="text-white stretched-link" href="{{url('sendBillingSent')}}">View Sent Billings</a>
+                            <a class="text-white stretched-link" href="{{url('sendBillingSent')}}">View Sent Statement of Account</a>
                             <div class="text-white"><i class="fas fa-angle-right"></i></div>
                         </div>
                     </div>
@@ -144,7 +144,7 @@
                             </div>
                         </div>
                         <div class="card-footer d-flex align-items-center justify-content-between small">
-                            <a class="text-white stretched-link" href="{{url('sendBillingSending')}}">View Sending Billings</a>
+                            <a class="text-white stretched-link" href="{{url('sendBillingSending')}}">View Details</a>
                             <div class="text-white"><i class="fas fa-angle-right"></i></div>
                         </div>
                     </div>
@@ -162,7 +162,7 @@
                             </div>
                         </div>
                         <div class="card-footer d-flex align-items-center justify-content-between small">
-                            <a class="text-white stretched-link" href="{{url('sendBillingFailed')}}">View Failed Billings</a>
+                            <a class="text-white stretched-link" href="{{url('sendBillingFailed')}}">View Details</a>
                             <div class="text-white"><i class="fas fa-angle-right"></i></div>
                         </div>
                     </div>

@@ -28,30 +28,34 @@ window.addEventListener('DOMContentLoaded', event => {
     if (datatablesSimple2) {
         new simpleDatatables.DataTable(datatablesSimple2,{
             searchable:true,
-            fixedHeight: false,
+            fixedHeight: true,
             fixedColumns: true,
             sortable:true,
-            paging:true,
-            perPage:10,
-            firstLast:true,
+            paging:false,
+            // perPage:10,
+            // firstLast:true,
+            pagination:false,
+            info:false,
 
             ajax:"data.json"
         });
         setInterval( function () {
             datatablesSimple2.ajax.reload();
-        }, 30000 );
+        }, 3000 );
     }
 
     const datatablesSimple3 = document.getElementById('datatablesSimple3');
     if (datatablesSimple3) {
         new simpleDatatables.DataTable(datatablesSimple3,{
-            searchable:true,
-            fixedHeight: false,
+            searchable:false,
+            fixedHeight: true,
             fixedColumns: true,
             sortable:true,
-            paging:true,
-            perPage:10,
-            firstLast:true,
+            paging:false,
+            // perPage:10,
+            // firstLast:true,
+            pagination:false,
+            info:false,
         });
     }
 

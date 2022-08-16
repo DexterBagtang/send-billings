@@ -7,98 +7,26 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
 </head>
-<body>
-<div class="card">
-    <div class="card-header bg-black"></div>
-    <div class="card-body">
+<body >
+<pre style="font-family:Calibri,sans-serif; font-size: 11pt">
+Hi Ma’am/Sir;
 
-        <div class="container">
-            <div class="row">
-                <div class="col-xl-12">
-                    <i class="far fa-building text-danger fa-6x float-start"></i>
-                </div>
-            </div>
+Good day!
+
+Hope this message finds you well!
+
+Kindly see attached softcopy of your billing for the month of <b>{{strtoupper($month)}} {{$year}}</b>.
 
 
-            <div class="row">
-                <div class="col-xl-12">
+You may pay your bills on any BDO Bank nationwide using bills payment facility. Please see payment instruction for your reference.
 
-                    <ul class="list-unstyled float-end">
-                        <li style="font-size: 30px; color: red;">Company</li>
-                        <li>123, Elm Street</li>
-                        <li>123-456-789</li>
-                        <li>mail@mail.com</li>
-                    </ul>
-                </div>
-            </div>
+For those client that made payment last month or prior and was not posted, kindly send your proof of payment to <a href="mailto:Famela.sunio@philcom.com" style="font-style: italic">Famela.sunio@philcom.com</a> .
 
-            <div class="row text-center">
-                <h3 class="text-uppercase text-center mt-3" style="font-size: 40px;">Invoice</h3>
-                <p>123456789</p>
-            </div>
+Please settle your dues on time to avoid penalties and temporary interruption of your circuit.
 
-            <div class="row mx-3">
-                <table class="table">
-                    <thead>
-                    <tr>
-                        <th scope="col">Description</th>
-                        <th scope="col">Amount</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <td>Samsung TV</td>
-                        <td><i class="fas fa-dollar-sign"></i> 500,00</td>
-                    </tr>
-                    <tr>
-                        <td>JBL Speaker</td>
-                        <td><i class="fas fa-dollar-sign"></i> 300,00</td>
-                    </tr>
-                    <tr>
-                        <td>Macbook Air</td>
-                        <td><i class="fas fa-dollar-sign"></i> 1000,00</td>
-                    </tr>
-                    <tr>
-                        <td>Iphone 11 PRO</td>
-                        <td><i class="fas fa-dollar-sign"></i> 5000,00</td>
-                    </tr>
-                    </tbody>
-                </table>
+It is very well appreciated if you could acknowledge this email and if you have any concern or clarifications you may contact our mobile number <b>0917-315-8033</b>, please don’t hesitate to notify us.
 
-            </div>
-            <div class="row">
-                <div class="col-xl-8">
-                    <ul class="list-unstyled float-end me-0">
-                        <li><span class="me-3 float-start">Total Amount:</span><i class="fas fa-dollar-sign"></i> 6850,00
-                        </li>
-                        <li> <span class="me-5">Discount:</span><i class="fas fa-dollar-sign"></i> 500,00</li>
-                        <li><span class="float-start" style="margin-right: 35px;">Shippment: </span><i
-                                class="fas fa-dollar-sign"></i> 500,00</li>
-                    </ul>
-                </div>
-            </div>
-            <hr>
-            <div class="row">
-                <div class="col-xl-8" style="margin-left:60px">
-                    <p class="float-end"
-                       style="font-size: 30px; color: red; font-weight: 400;font-family: Arial, Helvetica, sans-serif;">
-                        Total:
-                        <span><i class="fas fa-dollar-sign"></i> 6350,00</span></p>
-                </div>
-
-            </div>
-
-            <div class="row mt-2 mb-5">
-                <p class="fw-bold">Date: <span class="text-muted">23 June 20221</span></p>
-                <p class="fw-bold mt-3">Signature:</p>
-            </div>
-
-        </div>
-
-
-
-    </div>
-    <div class="card-footer bg-black"></div>
-</div>
+Thank you and have a nice day!
+</pre>
 </body>
 </html>

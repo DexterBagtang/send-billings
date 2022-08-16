@@ -40,10 +40,10 @@
         <div class="container-xl px-4 mt-4">
             <div class="card mb-4">
                 <div class="card-header" style="font-size: 25px">
-                    Sending billings for the month of {{$month.'-'.$year}}
+                    Sending Statement of Accounts for the month of {{$month.'-'.$year}}
                     <div class="float-end">
                         {{--                        Total Billings = {{count($billings)}} <br>--}}
-                        Sending Billings = {{$countSent}} <br>
+                        Sending = {{$countSent}} <br>
                         {{--                        Sending = {{$countSending}} <br>--}}
                         {{--                        Not Sent = {{$notSent}}--}}
 
@@ -113,7 +113,7 @@
                     <table id="datatablesSimple2">
                         <thead>
                         <tr>
-                            <th>Name</th>
+{{--                            <th>Name</th>--}}
                             {{--                            <th>Account#</th>--}}
                             {{--                            <th>Contract#</th>--}}
                             <th>Email</th>
@@ -140,14 +140,14 @@
                         <tbody>
                         @foreach($billings as $billing)
                             <tr>
-                                <td>{{$billing->name}}</td>
+{{--                                <td>{{$billing->name}}</td>--}}
                                 {{--                                <td>{{$billing->account_number}}</td>--}}
                                 {{--                                <td>{{$billing->contract_number}}</td>--}}
                                 <td>{{$billing->email}}</td>
                                 <td>{{$billing->company}}</td>
                                 {{--                                <td>{{$billing->month}}-{{$billing->year}}</td>--}}
                                 <td>
-                                    <a href="{{asset('billing_files/'.$billing->month.'-'.$billing->year.'/'.$billing->filename)}}" target="_blank">
+                                    <a href="{{asset('billing_files/'.$billing->month.'-'.$billing->year.'/'.$billing->storedFile)}}" target="_blank">
                                         {{$billing->filename}}
                                     </a>
                                 </td>

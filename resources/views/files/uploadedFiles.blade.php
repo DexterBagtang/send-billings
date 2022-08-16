@@ -9,7 +9,7 @@
                         <div class="col-auto mb-3">
                             <h1 class="page-header-title">
                                 {{--                                <div class="page-header-icon"><i data-feather="file"></i></div>--}}
-                                Uploaded Files
+                                Uploaded Statement of Account
                             </h1>
                         </div>
                         <div class="col-12 col-xl-auto mb-3"></div>
@@ -35,6 +35,11 @@
                             {{ session()->get('success') }}
                         </div><br>
                     @endif
+                        @if(session()->get('emailError'))
+                            <div class="alert alert-danger">
+                                {{ session()->get('emailError') }}
+                            </div><br />
+                        @endif
                 </div>
                 <div class="card-body">
                     <table id="datatablesSimple">

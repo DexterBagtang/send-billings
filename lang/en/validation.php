@@ -152,12 +152,12 @@ return [
     'custom' => [
         'attribute-name' => [
             'rule-name' => 'custom-message',
-        ],
-        'billing_file.*' => [
-            'mimes' => 'PDF LANG DAPAT KAPATID !',
-        ],
-        'billing_file' => [
-            'required' => 'Please upload a file !',
+//        ],
+//        'billing_file.*' => [
+//            'mimes' => 'PDF LANG DAPAT KAPATID !',
+//        ],
+//        'billing_file' => [
+//            'required' => 'Please upload a file !',
         ]
     ],
 

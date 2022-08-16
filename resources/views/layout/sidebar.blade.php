@@ -1,4 +1,6 @@
+
 <div id="layoutSidenav">
+{{--    <meta http-equiv="refresh" content="30">--}}
     <div id="layoutSidenav_nav">
         <nav class="sidenav shadow-right sidenav-light">
             <div class="sidenav-menu">
@@ -257,26 +259,26 @@
                     <div class="sidenav-menu-heading">File</div>
                     <!-- Sidenav Link (Tables)-->
                     <a class="nav-link {{(request()->is('clients')) ? 'active' : ''}}" href="{{url('clients')}}">
-                        <div class="nav-link-icon {{(request()->is('clients')) ? 'text-info' : ''}}"><i data-feather="filter"></i></div>
+                        <div class="nav-link-icon {{(request()->is('clients')) ? 'text-info' : ''}}"><i data-feather="users"></i></div>
                         Clients
                     </a>
 
                     <!-- Sidenav Link (Upload File)-->
                     <a class="nav-link {{(request()->is('uploadFile')) ? 'active' : ''}}" href="{{url('uploadFile')}}">
                         <div class="nav-link-icon {{(request()->is('uploadFile')) ? 'text-dark' : ''}}"><i data-feather="upload"></i></div>
-                        Upload Generated PDF
+                        Upload Generated SOA
                     </a>
 
                     <!-- Sidenav Link (Files) -->
                     <a class="nav-link {{(request()->is('uploadedFiles')) ? 'active' : ''}}" href="{{url('uploadedFiles')}}">
                         <div class="nav-link-icon {{(request()->is('uploadedFiles')) ? 'text-warning' : ''}}"><i data-feather="folder"></i></div>
-                        Uploaded Files
+                        Uploaded Invoices
                     </a>
 
                     <!-- Sidenav Link (Billing Files) -->
                     <a class="nav-link {{(request()->is('billingFiles')) ? 'active' : ''}}" href="{{url('billingFiles')}}">
                         <div class="nav-link-icon {{(request()->is('billingFiles')) ? 'text-secondary' : ''}}"><i data-feather="file-text"></i></div>
-                        Billing Files
+                        Statement of Accounts
                     </a>
 
                     <div class="sidenav-menu-heading">Email</div>
@@ -284,7 +286,7 @@
                     <!-- Sidenav Link (Send Billings) -->
                     <a class="nav-link {{(request()->is('sendBillingFiles')) ? 'active' : ''}}" href="{{url('sendBillingFiles')}}">
                         <div class="nav-link-icon text-primary"><i data-feather="send"></i></div>
-                        Send Billing
+                        Send Statement of Account
                     </a>
 
                     <!-- Sidenav Link (Sent Billings) -->
@@ -297,7 +299,12 @@
                     <!-- Sidenav Link (Sending Billings) -->
                     <a class="nav-link {{(request()->is('sendBillingSending')) ? 'active' : ''}}" href="{{url('sendBillingSending')}}">
                         <div class="nav-link-icon text-warning"><i data-feather="trending-up"></i></div>
-                        Sending
+                        <div>Sending</div>
+                        @if(count($sendings) > 0 )
+                        <div class="sidenav-collapse-arrow">
+                            <span class="spinner-border spinner-border-sm text-xs text-danger" role="status"></span>
+                        </div>
+                        @endif
                     </a>
 
                     <!-- Sidenav Link (Failed) -->

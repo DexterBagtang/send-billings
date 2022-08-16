@@ -9,7 +9,7 @@
                         <div class="col-auto mb-3">
                             <h1 class="page-header-title">
                                 {{--                                <div class="page-header-icon"><i data-feather="file"></i></div>--}}
-                                Uploaded Files
+                                Uploaded Statement of Account
                             </h1>
                         </div>
                         <div class="col-12 col-xl-auto mb-3"></div>
@@ -29,11 +29,11 @@
                     <!-- Dashboard card navigation-->
                     <ul class="nav nav-tabs card-header-tabs" id="dashboardNav" role="tablist">
                         <li class="nav-item me-1"><a class="nav-link active" id="overview-pill" href="#overview" data-bs-toggle="tab" role="tab" aria-controls="overview" aria-selected="true">
-                                Billings <span class="badge bg-primary text-white">{{count($files)}}</a>
+                                Statement of Accounts <span class="badge bg-primary text-white">{{count($files)}}</a>
                         </li>
                         @if(count($nullFiles) > 0)
                         <li class="nav-item"><a class="nav-link" id="activities-pill" href="#activities" data-bs-toggle="tab" role="tab" aria-controls="activities" aria-selected="false">
-                                Unknown Billings <span class="badge bg-danger text-white">{{count($nullFiles)}}</span></a>
+                                Unknown SOA <span class="badge bg-danger text-white">{{count($nullFiles)}}</span></a>
                         </li>
                         @endif
                     </ul>
