@@ -51,7 +51,7 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    <form  id="billingForm" method="POST" action="{{url('sendBillingSentPost')}}" enctype="multipart/form-data">
+                    <form  id="billingForm" method="GET" action="{{url('sendBillingSentPost')}}" enctype="multipart/form-data">
                         @csrf
                         <div class="row">
                             <div class="col-md-5">
@@ -100,6 +100,16 @@
                     </form>
 
                     <hr>
+                    <div class="">
+                        {{ $billings->withQueryString()->links('pagination::bootstrap-results') }}
+                        <form action="{{url('searchSent')}}" method="GET" class="float-end">
+                            <input type="search" class="form-control" name="search" value="{{$search}}" placeholder="Search">
+                            <input type="hidden" name="month" value="{{$month}}">
+                            <input type="hidden" name="year" value="{{$year}}">
+                            <input type="submit" class="d-none">
+                        </form>
+                    </div>
+
 
 {{--                    <div class="accordion accordion-flush" id="accordionFlushExample">--}}
 {{--                        <div class="accordion-item">--}}
@@ -110,20 +120,21 @@
 {{--                            </h2>--}}
 {{--                            <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">--}}
 {{--                                <div class="accordion-body">--}}
-                                    <table id="datatablesSimple">
-                                        <thead>
+
+                    <table id="datatablesSimple2">
+                        <thead>
                                         <tr>
-                                            <th>Name</th>
+                                            <th>Company</th>
                                             {{--                            <th>Account#</th>--}}
                                             {{--                            <th>Contract#</th>--}}
                                             <th>Email</th>
-                                            <th>Company</th>
                                             {{--                            <th>Month and Year</th>--}}
                                             <th>File</th>
                                             <th>Date Uploaded</th>
-                                            <th>Email Status</th>
                                             <th>Emailed By</th>
-{{--                                            <th>Actions</th>--}}
+                                            <th>Email Status</th>
+
+                                            {{--                                            <th>Actions</th>--}}
                                         </tr>
                                         </thead>
                                         {{--                        <tfoot>--}}
@@ -141,11 +152,11 @@
                                         <tbody>
                                         @foreach($billings as $billing)
                                             <tr>
-                                                <td>{{$billing->name}}</td>
+                                                <td>{{$billing->company}}</td>
+
                                                 {{--                                <td>{{$billing->account_number}}</td>--}}
                                                 {{--                                <td>{{$billing->contract_number}}</td>--}}
-                                                <td>{{$billing->email}}</td>
-                                                <td>{{$billing->company}}</td>
+                                                <td>{{Str::limit($billing->email,40)}}</td>
                                                 {{--                                <td>{{$billing->month}}-{{$billing->year}}</td>--}}
                                                 <td>
                                                     <a href="{{asset('billing_files/'.$billing->month.'-'.$billing->year.'/'.$billing->storedFile)}}" target="_blank">
@@ -153,8 +164,8 @@
                                                     </a>
                                                 </td>
                                                 <td>{{$billing->created_at}}</td>
-                                                <td>{{$billing->emailStatus}} <span>{{\Carbon\Carbon::parse($billing->emailDate)->diffForHumans()}}</span></td>
                                                 <td>{{$billing->emailedBy}}</td>
+                                                <td>{{$billing->emailStatus}} <span>{{\Carbon\Carbon::parse($billing->emailDate)->diffForHumans()}}</span></td>
 {{--                                                <td>--}}
 {{--                                                    <button class="btn btn-datatable btn-icon btn-transparent-dark me-2"><i data-feather="more-vertical"></i></button>--}}
 {{--                                                    <button class="btn btn-datatable btn-icon btn-transparent-dark"><i data-feather="trash-2"></i></button>--}}
@@ -163,7 +174,9 @@
                                         @endforeach
                                         </tbody>
                                     </table>
-{{--                                </div>--}}
+                    {{ $billings->withQueryString()->links('pagination::bootstrap-5') }}
+
+                    {{--                                </div>--}}
 {{--                            </div>--}}
 {{--                        </div>--}}
 

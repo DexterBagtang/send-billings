@@ -1,7 +1,7 @@
 <!-- Dashboard card navigation-->
 <ul class="nav nav-tabs card-header-tabs">
     <li class="nav-item">
-        <a class="nav-link {{(request()->is('billingFiles')) ? 'active' : ""}}" aria-current="page" href="{{url('billingFiles')}}">
+        <a class="nav-link {{(request()->is('billingFiles','billingSearch')) ? 'active' : ""}}" aria-current="page" href="{{url('billingFiles')}}">
             Statement of Accounts
 {{--            <span class="badge bg-danger">{{$soaCount}}</span>--}}
         </a>
@@ -19,7 +19,7 @@
 
     @if($duplicateCount > 0)
     <li class="nav-item position-relative">
-        <a class="nav-link {{(request()->is('billingDuplicate')) ? 'active' : ""}}" aria-current="page" href="{{url('billingDuplicate')}}">
+        <a class="nav-link {{(request()->is('billingDuplicate','duplicateSearch')) ? 'active' : ""}}" aria-current="page" href="{{url('billingDuplicate')}}">
             Duplicate <span class="position-absolute top-0 start-100 translate-middle p-2 bg-danger border border-light rounded-circle">
                                             <span class="visually-hidden">New alerts</span>
                                             </span>
@@ -29,7 +29,7 @@
 
     @if($removedCount > 0)
     <li class="nav-item position-relative">
-        <a class="nav-link {{(request()->is('billingRemoved')) ? 'active' : ""}}" aria-current="page" href="{{url('billingRemoved')}}">
+        <a class="nav-link {{(request()->is('billingRemoved','removedSearch')) ? 'active' : ""}}" aria-current="page" href="{{url('billingRemoved')}}">
             Removed <span class="position-absolute top-0 start-100 translate-middle p-2 bg-danger border border-light rounded-circle">
                                             <span class="visually-hidden">New alerts</span>
                                             </span>

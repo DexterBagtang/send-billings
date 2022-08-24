@@ -63,13 +63,15 @@
                                     <label for="inputEmail4" class="form-label">Company</label>
                                     <input type="text" name="company" class="form-control" value="{{$client->company}}" id="inputEmail4">
                                 </div>
-                                <div class="col-md-6">
-                                    <label for="inputPassword4" class="form-label">Email</label>
-                                    <input type="email" class="form-control" name="email" value="{{$client->email}}" id="inputPassword4">
-                                </div>
-                                <div class="col-md-6">
-                                    <label for="inputPassword4" class="form-label">Contact</label>
-                                    <input type="text" class="form-control" name="contact" value="{{$client->contact}}" id="inputPassword4">
+{{--                                <div class="col-md-12">--}}
+{{--                                    <label for="inputPassword4" class="form-label">Email</label>--}}
+{{--                                    <input type="text" class="form-control" name="email" value="{{$client->email}}" id="inputPassword4">--}}
+{{--                                </div>--}}
+                                <div class="col-md-12">
+                                    <label for="inputPassword4" class="form-label">Email <span class="text-danger text-sm fw-bold">(with multiple emails, just add comma(,) in between emails with no spaces)</span></label>
+                                    @foreach($emails as $email)
+                                    <input type="text" class="form-control m-1" name="email[]" value="{{$email}}" id="inputPassword4">
+                                    @endforeach
                                 </div>
 
                                 <div class="col-6">

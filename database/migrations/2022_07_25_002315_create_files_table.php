@@ -24,6 +24,7 @@ return new class extends Migration
             $table->string('emailStatus');
             $table->dateTime('emailDate')->nullable();
             $table->string('emailedBy')->nullable();
+            $table->longText('subject')->nullable();
             $table->softDeletes();
             $table->string('deletedBy')->nullable();
             $table->timestamps();

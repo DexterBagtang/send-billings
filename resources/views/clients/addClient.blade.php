@@ -50,15 +50,10 @@
                                     <label for="inputEmail4" class="form-label">Company</label>
                                     <input type="text" name="company" class="form-control" value="{{old('company')}}" id="inputEmail4">
                                 </div>
-                                <div class="col-md-6">
-                                    <label for="inputPassword4" class="form-label">Email</label>
-                                    <input type="email" class="form-control" name="email" value="{{old('email')}}" id="inputPassword4">
+                                <div class="col-md-12">
+                                    <label for="inputPassword4" class="form-label">Email <span class="text-danger text-sm fw-bold">(with multiple emails, just add comma(,) in between emails with no spaces)</span></label>
+                                    <input type="text" class="form-control" name="email" value="{{old('email')}}" id="inputPassword4">
                                 </div>
-                                <div class="col-md-6">
-                                    <label for="inputPassword4" class="form-label">Contact</label>
-                                    <input type="text" class="form-control" name="contact" value="{{old('contact')}}" id="inputPassword4">
-                                </div>
-
                                 <div class="col-6">
                                     <label for="inputAddress" class="form-label">Account Number</label>
                                     <input type="text" name="account_number" value="{{old('account_number')}}" class="form-control" id="inputAddress" >

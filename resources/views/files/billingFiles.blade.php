@@ -146,7 +146,7 @@
                                         <td>{{$billing->company}}</td>
                                         <td>{{$billing->account_number}}</td>
                                         <td>{{$billing->contract_number}}</td>
-                                        <td>{{$billing->email}}</td>
+                                        <td>{{Str::limit($billing->email,40)}}</td>
                                         <td>{{$billing->uploader}}</td>
                                         {{--                                <td>{{$billing->month}}-{{$billing->year}}</td>--}}
                                         <td>

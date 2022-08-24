@@ -90,7 +90,7 @@
                                     <th>File</th>
                                     <th>Uploaded By</th>
                                     <th>Date Uploaded</th>
-                                    <th>Action</th>
+{{--                                    <th>Action</th>--}}
 
                                 </tr>
                                 </thead>
@@ -107,9 +107,9 @@
                                         </td>
                                         <td>{{$nullfile->uploader}}</td>
                                         <td>{{$nullfile->created_at}}</td>
-                                        <td>
-                                            <a href="" class="btn btn-success btn-sm">View</a>
-                                        </td>
+{{--                                        <td>--}}
+{{--                                            <a href="" class="btn btn-success btn-sm">View</a>--}}
+{{--                                        </td>--}}
                                     </tr>
                                 @endforeach
                                 </tbody>

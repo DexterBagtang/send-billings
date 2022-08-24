@@ -5,12 +5,17 @@ namespace App\Http\Controllers;
 use App\Imports\ClientImport;
 use App\Models\Client;
 use App\Models\User;
+use ErrorException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 use Maatwebsite\Excel\Facades\Excel;
 use mysql_xdevapi\Exception;
 use mysql_xdevapi\Table;
+use PHPStan\Parser\CleaningParser;
+use Spatie\LaravelIgnition\FlareMiddleware\AddQueries;
 
 //use Maatwebsite\Excel\Excel;
 
@@ -23,16 +28,22 @@ class ClientController extends Controller
 ////            ->paginate(50);
 //            ->get();
         $clients = DB::table('clients')->orderByDesc('id')->paginate(10);
+
         $duplicate = DB::table('clients')
             ->groupBy('contract_number')
             ->select('contract_number',DB::raw('count(*) as count'))
             ->having('count','>','1')
             ->get();
         $search = null;
+
+        $url = request()->fullUrl();
+        Session::put('data_url',$url);
+
+
 //        $clients = DB::table('clients')->simplePaginate();
 
 //        dd($clients);
-        return view('clients.index')->with('clients',$clients)->with('duplicate',$duplicate)->with('search',$search);
+        return view('clients.index')->with('clients',$clients)->with('duplicate',$duplicate)->with('search',$search)->with('url',$url);
     }
 
     //--------------Add Client-------------------------------------    //--------------Add Client-------------------------------------    //--------------Add Client-------------------------------------
@@ -41,16 +52,21 @@ class ClientController extends Controller
     }
 
     public function addedClient(Request $request){
+//        $emails = explode(',',$request->email);
+//        $request->emails = $emails;
+
+//        dd($request->email,$emails);
+
         $this->validate($request,[
            'company'=>'required',
-            'email'=>'required|email',
+            'email'=>'required',
             'account_number'=>'required',
             'contract_number'=>'required',
         ],[
             'company.required' => 'Company is empty !',
             'email.required' => 'Email is empty !',
             'email.email' => 'Please enter a valid email',
-            'account_number.required' => 'Account Number is empty',
+            'account_number.required' => 'Account Number is required',
             'contract_number.required' => 'Contract Number is required'
         ]);
 
@@ -59,7 +75,7 @@ class ClientController extends Controller
             'email' => $request->input('email'),
             'account_number' => $request->input('account_number'),
             'contract_number' => $request->input('contract_number'),
-            'contact' => $request->input('contact'),
+            'contact' => $request->input('email'),
             'company' => $request->input('company'),
         ]);
         $client->save();
@@ -72,25 +88,32 @@ class ClientController extends Controller
 
     public function editClient($id){
         $client = Client::find($id);
+        $emails = explode(',',$client->email);
+
 //        return response()->json([
 //            'data' => $client
 //        ]);
 //        return view('clients.editClient',compact('client'));
-        return view('clients.editClient')->with('client',$client);
+        return view('clients.editClient')->with('client',$client)->with('emails',$emails);
     }
 
 
 
     public function editedClient(Request $request){
+        $email = implode(',',$request->email);
+//        dd($request->email,$email);
         $client = Client::find($request->id);
         $client->company = $request->input('company');
-        $client->email = $request->input('email');
-        $client->contact = $request->input('contact');
+//        $client->email = $request->input('email');
+        $client->email = $email;
+        $client->contact = $request->input('company');
         $client->account_number = $request->input('account_number');
         $client->contract_number = $request->input('contract_number');
 
         $client->update();
-
+        if (Session('data_url')){
+            return redirect(Session('data_url'))->with('success','Client edited successfully');
+        }
 
         return redirect('clients')->with('success','Client edited successfully');
     }
@@ -127,21 +150,30 @@ class ClientController extends Controller
         return redirect('clients')->with('success','Successfully added clients');
     }
 
+
+
     public function duplicateClient(){
         $clients = DB::table('clients')
             ->groupBy('contract_number')
             ->select('contract_number',DB::raw('count(*) as count'))
             ->having('count','>','1')
             ->get();
+        if (count($clients) < 1){
+            return redirect('clients');
+        }
         foreach ($clients as $client){
             $data[] = $client->contract_number;
         }
+
 //
         $duplicates = DB::table('clients')
             ->whereIn('contract_number',$data)
             ->orderByDesc('contract_number')
             ->paginate(10);
         $search = null;
+
+        $url = request()->fullUrl();
+        Session::put('data_url',$url);
 
 //        dd($clients,$data,/*$duplicates*/);
         return view('clients.duplicateClient')->with('duplicates',$duplicates)->with('search',$search);
@@ -171,6 +203,8 @@ class ClientController extends Controller
                 ->whereNull('contract_number',null)
                 ->paginate();
         }
+        $url = request()->fullUrl();
+        Session::put('data_url',$url);
 
 //        dd($clients,$data,/*$duplicates*/);
         return view('clients.duplicateClient')->with('duplicates',$duplicates)->with('search',$search);
@@ -192,10 +226,49 @@ class ClientController extends Controller
             ->select('contract_number',DB::raw('count(*) as count'))
             ->having('count','>','1')
             ->get();
+        $url = request()->fullUrl();
+        Session::put('data_url',$url);
 
 //        dd($clients);
         return view('clients.index')->with('clients',$clients)->with('duplicate',$duplicate)->with('search',$search);
 
+    }
+
+    public function removeClient($id){
+        $client = DB::table('clients')->where('id',$id)->first();
+        return view('clients.removeClient')->with('client',$client);
+    }
+
+    public function removedClient(Request $request){
+        $client = Client::find($request->id);
+        $client->disabled_at = now();
+        $client->delete();
+        if (Session('data_url')){
+            return redirect(Session('data_url'))->with('success',"You have removed $client->company with contract number of $client->contract_number");
+        }
+        return redirect('clients')->with('success',"You have removed $client->company with contract number of $client->contract_number");
+    }
+
+    public function removeClientDuplicate($id){
+        $client = DB::table('clients')->where('id',$id)->first();
+        return view('clients.removeClientDuplicate')->with('client',$client);
+    }
+
+    public function removedClientDuplicate(Request $request){
+//        dd(Session('data_url'));
+        $client = Client::find($request->id);
+        $client->disabled_at = now();
+        $client->delete();
+        return redirect('duplicateClient')->with('success',"You have removed $client->company with contract number of $client->contract_number");
+
+//        return back()->with('success',"You have removed $client->company with contract number of $client->contract_number");
+    }
+
+    public function viewClient($id){
+        $client = DB::table('clients')->where('id',$id)->first();
+        $emails = explode(",",$client->email);
+//        dd($email);
+        return view('clients.viewClient')->with('client',$client)->with('emails',$emails);
     }
 
 

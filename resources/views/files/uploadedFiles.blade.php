@@ -47,7 +47,7 @@
                         <tr>
 {{--                            <th>Files</th>--}}
                             <th>Uploader</th>
-                            <th>Number of Files</th>
+                            <th>Number of SoA uploaded</th>
                             <th>Date Uploaded</th>
                             <th>Month</th>
                             <th>Year</th>
@@ -84,7 +84,7 @@
                                 <td>{{$upload->year}}</td>
 {{--                                <td><div class="badge bg-primary text-white rounded-pill">Active</div></td>--}}
                                 <td>
-                                    <a href="{{url('viewUploadedFiles/'.$upload->id)}}" class="btn btn-outline-dark" title="View">
+                                    <a href="{{url('viewUploadedFiles/'.$upload->id)}}" class="btn btn-outline-dark btn-sm" title="View">
                                         View<i data-feather="arrow-right"></i>
                                     </a>
 {{--                                    <a class="btn btn-datatable btn-icon btn-transparent-dark"><i data-feather="trash-2"></i></a>--}}

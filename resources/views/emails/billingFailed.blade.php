@@ -113,6 +113,13 @@
                     {{--                            </h2>--}}
                     {{--                            <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">--}}
                     {{--                                <div class="accordion-body">--}}
+                    <div class="">
+                        {{ $billings->withQueryString()->links('pagination::bootstrap-results') }}
+                        <form action="{{url('searchFailed')}}" method="GET" class="float-end">
+                            <input type="search" class="form-control" name="search" value="{{$search}}" placeholder="Search">
+                            <input type="submit" class="d-none">
+                        </form>
+                    </div>
                     <table id="datatablesSimple2">
                         <thead>
                         <tr>
@@ -148,7 +155,7 @@
                                 <td>{{$billing->company}}</td>
                                 {{--                                <td>{{$billing->account_number}}</td>--}}
                                 {{--                                <td>{{$billing->contract_number}}</td>--}}
-                                <td>{{$billing->email}}</td>
+                                <td>{{Str::limit($billing->email,40)}}</td>
                                 {{--                                <td>{{$billing->month}}-{{$billing->year}}</td>--}}
                                 <td>
                                     <a href="{{asset('billing_files/'.$billing->month.'-'.$billing->year.'/'.$billing->storedFile)}}" target="_blank">
@@ -158,7 +165,38 @@
                                 <td>{{$billing->emailStatus}}</td>
                                 <td>{{$billing->emailedBy}}</td>
                                 <td>{{$billing->emailDate}}</td>
-                                <td><a href="" class="btn btn-danger btn-sm">Resend</a></td>
+                                @if(count($sendings) > 0)
+                                    <td>
+                                        <!-- Button trigger modal -->
+                                        <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                                            Resend
+                                        </button>
+
+                                        <!-- Modal -->
+                                        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="staticBackdropLabel">Note !</h5>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        Statements of Account are still sending, You can resend it after all the SoA are sent.
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                @else
+                                    @if($billing->emailStatus == "sending error")
+                                    <td><a href="{{url("resendBilling/$billing->id")}}" class="btn btn-danger btn-sm">Resend</a></td>
+                                    @else
+                                        <td></td>
+                                    @endif
+                                @endif
 
                                 {{--                                <td>--}}
 {{--                                    <button class="btn btn-datatable btn-icon btn-transparent-dark me-2"><i data-feather="more-vertical"></i></button>--}}
@@ -168,13 +206,13 @@
                         @endforeach
                         </tbody>
                     </table>
+                    {{ $billings->withQueryString()->links('pagination::bootstrap-5') }}
                     {{--                                </div>--}}
                     {{--                            </div>--}}
                     {{--                        </div>--}}
 
                     {{--                    </div>--}}
 
-                    <hr>
 
 
                     {{--                    <form action="{{url('sendBillingNow')}}" method="POST" enctype="multipart/form-data">--}}

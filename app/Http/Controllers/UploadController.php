@@ -31,17 +31,15 @@ class UploadController extends Controller
                 'billing_file' => 'required|max:500|unique:files,filename',
                 'billing_file.' => 'mimes:pdf|max:5000|unique:files',
 //                'billing_file.*' => 'mimes:pdf|max:5000',
-
             ],
                 [
                     'billing_file.max' => "You've reached the limit! ",
+                    'billing_file.required' => 'SoA file required'
                 ]);
-
 
             $month = $request->input('month');
             $year = $request->input('year');
             $count = count($request->billing_file);
-
 
 //        $upload = new Upload();
 //        $upload->files_id = null;

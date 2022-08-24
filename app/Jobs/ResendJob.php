@@ -3,6 +3,7 @@
 namespace App\Jobs;
 
 use App\Mail\ResendMail;
+use App\Models\File;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -17,17 +18,26 @@ class ResendJob implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     protected $email;
+    protected $subject;
     protected $file;
+    protected $data;
+    protected $billId;
+
+
+
 
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct($email,$file)
+    public function __construct($email,$file,$subject,$data,$billId)
     {
         $this->email = $email;
+        $this->subject = $subject;
         $this->file = $file;
+        $this->data = $data;
+        $this->billId = $billId;
     }
 
     /**
@@ -37,17 +47,24 @@ class ResendJob implements ShouldQueue
      */
     public function handle()
     {
-//        Redis::throttle('resend')->block(0)->allow(2)->every(5)->then(function (){
-//            info("lock obtained");
+        $file = File::query()
+            ->where('id','=',$this->billId)
+            ->first();
+        $file->emailStatus = "sending error";
+        $file->emailDate = now();
+        $file->update();
 
+        Mail::to($this->email)
+            ->send(new ResendMail($this->file,$this->subject,$this->data));
 
-            Mail::to('Dexter.Bagtang@philcom.com')
-                ->send(new ResendMail($this->file));
-        sleep(1);
+        $file = File::query()
+            ->where('id','=',$this->billId)
+            ->first();
+        $file->emailStatus = "sent";
+        $file->emailDate = now();
+        $file->update();
 
+        sleep(30);
 
-//        },function (){
-//            return $this->release(5);
-//        });
     }
 }

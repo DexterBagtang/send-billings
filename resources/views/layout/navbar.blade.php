@@ -5,8 +5,15 @@
     <!-- * * Tip * * You can use text or an image for your navbar brand.-->
     <!-- * * * * * * When using an image, we recommend the SVG format.-->
     <!-- * * * * * * Dimensions: Maximum height: 32px, maximum width: 240px-->
-    <a class="navbar-brand pe-3 ps-4 ps-lg-1 text-center text-black" style="font-size: 20px" href="{{url('/')}}"> Phil <span class=" text-black bg-yellow p-1 border-round" style="border-radius: 5px">Com</span>
-{{--        <h2 class="text-white" style="font-size: 30px; font-family:'Berlin Sans FB',serif">Phil <p>Com</p> </h2>--}}
+{{--    <a class="navbar-brand pe-3 ps-4 ps-lg-1 text-center text-black" style="font-size: 20px" href="{{url('/')}}"> Phil <span class=" text-black bg-yellow p-1 border-round" style="border-radius: 5px">Com</span>--}}
+{{--    <a class="navbar-brand pe-3 ps-4 ps-lg-1 text-center text-black " style="font-size: 20px; font-family: 'Segoe UI Black',serif" href="{{url('/')}}">--}}
+{{--        <span class="fw-100">PhilCom SoA</span>--}}
+{{--    <a class="navbar-brand ms-2 pe-3 ps-4 ps-lg-2 display-6" href="{{url('/')}}">PhilCom SoA <i data-feather="mail"></i> </a>--}}
+    <a href="{{url('/')}}" class="ms-2">
+        <img src="{{asset('logo3.png')}}" alt="" width="155">
+    </a>
+
+        {{--        <h2 class="text-white" style="font-size: 30px; font-family:'Berlin Sans FB',serif">Phil <p>Com</p> </h2>--}}
 {{--        <div class="small" style="font-size: small; font-weight: lighter">Billing System</div>--}}
     </a>
 {{--    <a  href="{{'/'}}">--}}
@@ -159,10 +166,12 @@
         </li>-->
         <!-- User Dropdown-->
         <li class="nav-item dropdown no-caret dropdown-user me-3 me-lg-4">
-            <a class="btn btn-icon btn-transparent-dark dropdown-toggle" id="navbarDropdownUserImage" href="javascript:void(0);" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img class="img-fluid" src="{{asset('assets/img/illustrations/profiles/profile-1.png')}}" /></a>
+            <a class="btn btn-icon btn-transparent-dark dropdown-toggle" id="navbarDropdownUserImage" href="javascript:void(0);" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <img class="img-fluid" src="{{asset('assets/img/johnny.webp')}}" />
+            </a>
             <div class="dropdown-menu dropdown-menu-end border-0 shadow animated--fade-in-up" aria-labelledby="navbarDropdownUserImage">
                 <h6 class="dropdown-header d-flex align-items-center">
-                    <img class="dropdown-user-img" src="{{asset('assets/img/illustrations/profiles/profile-1.png')}}" alt="#">
+                    <img class="dropdown-user-img" src="{{asset('assets/img/johnny.webp')}}" alt="#">
                     <div class="dropdown-user-details">
                         <div class="dropdown-user-details-name">{{\Illuminate\Support\Facades\Auth::user()->name}}</div>
                         <div class="dropdown-user-details-email">{{\Illuminate\Support\Facades\Auth::user()->email}}</div>

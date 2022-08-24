@@ -110,6 +110,13 @@
                     {{--                            </h2>--}}
                     {{--                            <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">--}}
                     {{--                                <div class="accordion-body">--}}
+                    <div class="">
+                        {{ $billings->withQueryString()->links('pagination::bootstrap-results') }}
+                        <form action="{{url('searchSending')}}" method="GET" class="float-end">
+                            <input type="search" class="form-control" name="search" value="{{$search}}" placeholder="Search">
+                            <input type="submit" class="d-none">
+                        </form>
+                    </div>
                     <table id="datatablesSimple2">
                         <thead>
                         <tr>
@@ -122,7 +129,7 @@
                             <th>File</th>
                             <th>Date Uploaded</th>
                             <th>Email Status</th>
-                            <th>Actions</th>
+{{--                            <th>Actions</th>--}}
                         </tr>
                         </thead>
                         {{--                        <tfoot>--}}
@@ -143,7 +150,7 @@
 {{--                                <td>{{$billing->name}}</td>--}}
                                 {{--                                <td>{{$billing->account_number}}</td>--}}
                                 {{--                                <td>{{$billing->contract_number}}</td>--}}
-                                <td>{{$billing->email}}</td>
+                                <td>{{Str::limit($billing->email,40)}}</td>
                                 <td>{{$billing->company}}</td>
                                 {{--                                <td>{{$billing->month}}-{{$billing->year}}</td>--}}
                                 <td>
@@ -153,14 +160,16 @@
                                 </td>
                                 <td>{{$billing->created_at}}</td>
                                 <td>{{$billing->emailStatus}}</td>
-                                <td>
-                                    <button class="btn btn-datatable btn-icon btn-transparent-dark me-2"><i data-feather="more-vertical"></i></button>
-                                    <button class="btn btn-datatable btn-icon btn-transparent-dark"><i data-feather="trash-2"></i></button>
-                                </td>
+{{--                                <td>--}}
+{{--                                    <button class="btn btn-datatable btn-icon btn-transparent-dark me-2"><i data-feather="more-vertical"></i></button>--}}
+{{--                                    <button class="btn btn-datatable btn-icon btn-transparent-dark"><i data-feather="trash-2"></i></button>--}}
+{{--                                </td>--}}
                             </tr>
                         @endforeach
                         </tbody>
                     </table>
+                    {{ $billings->withQueryString()->links('pagination::bootstrap-5') }}
+
                     {{--                                </div>--}}
                     {{--                            </div>--}}
                     {{--                        </div>--}}

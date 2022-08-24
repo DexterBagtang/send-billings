@@ -3,11 +3,7 @@
         <x-slot name="logo">
             <a href="/">
                 <x-application-logo class="w-20 h-20 fill-current text-gray-500" />
-{{--                <div class="text-center mt-1">--}}
-{{--                    Billing System--}}
-{{--                </div>--}}
             </a>
-
         </x-slot>
 
         <!-- Session Status -->
@@ -23,7 +19,7 @@
             <div>
                 <x-label for="email" :value="__('Email')" />
 
-                <x-input id="email" class="block mt-1 w-full" type="email" name="email" required autofocus />
+                <x-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus />
             </div>
 
             <!-- Password -->
@@ -33,7 +29,7 @@
                 <x-input id="password" class="block mt-1 w-full"
                                 type="password"
                                 name="password"
-                                required />
+                                required autocomplete="current-password" />
             </div>
 
             <!-- Remember Me -->

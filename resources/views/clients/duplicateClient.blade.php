@@ -16,8 +16,24 @@
                 <a href="{{url('addClient')}}" class="btn btn-primary position-relative">Add Client</a>
 
             </div>
-            <div class="card mb-4">
+            <div class="card">
+                <div class="float-end">
+                    @if(session()->get('success'))
+                        {{--                            <div class="alert alert-success">--}}
+                        {{--                                {{ session()->get('success') }}--}}
+                        {{--                                <a class="btn-close" type="" data-bs-dismiss="alert" aria-label="Close"></a>--}}
+
+                        {{--                            </div><br />--}}
+                        <div class="alert alert-success alert-dismissible fade show float-end m-3" role="alert">
+                            {{--                                <h5 class="alert-heading"></h5>--}}
+                            {{--                                <hr>--}}
+                            {{ session()->get('success') }}
+                            <a class="btn-close" type="" data-bs-dismiss="alert" aria-label="Close"></a>
+                        </div>
+                    @endif
+                </div>
                 <div class="card-header">
+
                     <ul class="nav nav-tabs card-header-tabs">
                         <li class="nav-item">
                             <a class="nav-link {{(request()->is('clients')) ? 'active' : ""}}" aria-current="page" href="{{url('clients')}}">Clients</a>
@@ -34,21 +50,7 @@
 {{--                        </li>--}}
                     </ul>
 
-                    <div class="float-end">
-                        @if(session()->get('success'))
-                            {{--                            <div class="alert alert-success">--}}
-                            {{--                                {{ session()->get('success') }}--}}
-                            {{--                                <a class="btn-close" type="" data-bs-dismiss="alert" aria-label="Close"></a>--}}
 
-                            {{--                            </div><br />--}}
-                            <div class="alert alert-success alert-dismissible fade show float-end" role="alert">
-                                {{--                                <h5 class="alert-heading"></h5>--}}
-                                {{--                                <hr>--}}
-                                {{ session()->get('success') }}
-                                <a class="btn-close" type="" data-bs-dismiss="alert" aria-label="Close"></a>
-                            </div>
-                        @endif
-                    </div>
 
                 </div>
 
@@ -65,7 +67,7 @@
                             <th>Account#</th>
                             <th>Contract#</th>
                             <th>Email</th>
-                            <th>Contact</th>
+{{--                            <th>Contact</th>--}}
                             <th>Status</th>
                             <th>Actions</th>
                         </tr>
@@ -85,22 +87,34 @@
                         <tbody>
                         @foreach($duplicates as $duplicate)
                             <tr>
-                                <td>{{$duplicate->company}}</td>
+                                <td>{{Str::limit($duplicate->company,50)}}</td>
                                 <td>{{$duplicate->account_number}}</td>
                                 <td>{{$duplicate->contract_number}}</td>
-                                <td>{{$duplicate->email}}</td>
-                                <td>{{$duplicate->contact}}</td>
+                                <td>
+                                    {{Str::limit($duplicate->email,50)}}
+                                </td>
+{{--                                <td>{{$duplicate->contact}}</td>--}}
                                 <td><div class="badge bg-primary text-white rounded-pill">Active</div></td>
                                 <td>
                                     <a href="{{url("editClient/$duplicate->id")}}"
-                                       class="btn btn-datatable btn-icon btn-transparent-dark me-2" title="Edit">
+                                       class="btn btn-datatable btn-icon btn-outline-primary me-1" title="Edit">
                                         <i data-feather="edit-3"></i>
                                     </a>
 
-                                    <a href="#"
-                                       class="btn btn-datatable btn-icon btn-transparent-dark me-2" title="Remove">
+                                    <a href="{{url("viewClient/$duplicate->id")}}" id="exampleModal"
+                                       class="btn btn-datatable btn-icon btn-outline-success m-1" title="View">
+                                        <i data-feather="eye"></i>
+                                    </a>
+
+                                    <a href="{{url("removeClientDuplicate/$duplicate->id")}}" id="exampleModal"
+                                       class="btn btn-datatable btn-icon btn-outline-danger m-1" title="Remove">
                                         <i data-feather="user-minus"></i>
                                     </a>
+
+{{--                                    <a href="#"--}}
+{{--                                       class="btn btn-datatable btn-icon btn-transparent-dark me-2" title="Remove">--}}
+{{--                                        <i data-feather="user-minus"></i>--}}
+{{--                                    </a>--}}
                                 </td>
                             </tr>
                         @endforeach

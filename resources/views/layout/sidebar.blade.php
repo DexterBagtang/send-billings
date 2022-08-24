@@ -249,56 +249,62 @@
 {{--                        </nav>--}}
 {{--                    </div>--}}
                     <!-- Sidenav Heading (Addons)-->
-                    <div class="sidenav-menu-heading text-center text-black" style="font-size: 13px" onclick="window.location.href='{{url('/')}}'"><span class="text-danger">B</span>illing
-                         Sy<span style="color: goldenrod">zz</span>tem</div>
+{{--                    <div class="sidenav-menu-heading text-center text-black" style="font-size: 13px" onclick="window.location.href='{{url('/')}}'"><span class="text-danger">B</span>illing--}}
+{{--                         Sy<span style="color: goldenrod">zz</span>tem</div>--}}
+{{--                    <div class="sidenav-menu-heading text-center text-black" style="font-size: 13px" onclick="window.location.href='{{url('/')}}'">--}}
+{{--                        SoA Mailing System--}}
+{{--                    </div>--}}
                     <!-- Sidenav Link (Charts)-->
 {{--                    <a class="nav-link" href="charts.html">--}}
 {{--                        <div class="nav-link-icon"><i data-feather="bar-chart"></i></div>--}}
 {{--                        Charts--}}
 {{--                    </a>--}}
+{{--                    --}}
+
                     <div class="sidenav-menu-heading">File</div>
                     <!-- Sidenav Link (Tables)-->
-                    <a class="nav-link {{(request()->is('clients')) ? 'active' : ''}}" href="{{url('clients')}}">
-                        <div class="nav-link-icon {{(request()->is('clients')) ? 'text-info' : ''}}"><i data-feather="users"></i></div>
+                    <a class="nav-link {{(request()->is('clients','duplicateClient',"*Client*")) ? 'active bg-primary-soft' : ''}}" href="{{url('clients')}}">
+                        <div class="nav-link-icon text-info"><i data-feather="users"></i></div>
                         Clients
                     </a>
 
                     <!-- Sidenav Link (Upload File)-->
-                    <a class="nav-link {{(request()->is('uploadFile')) ? 'active' : ''}}" href="{{url('uploadFile')}}">
-                        <div class="nav-link-icon {{(request()->is('uploadFile')) ? 'text-dark' : ''}}"><i data-feather="upload"></i></div>
-                        Upload Generated SOA
+                    <a class="nav-link {{(request()->is('uploadFile')) ? 'active border bg-primary-soft' : ''}}" href="{{url('uploadFile')}}">
+                        <div class="nav-link-icon text-success"><i data-feather="upload"></i></div>
+                        Upload SoA
                     </a>
 
                     <!-- Sidenav Link (Files) -->
-                    <a class="nav-link {{(request()->is('uploadedFiles')) ? 'active' : ''}}" href="{{url('uploadedFiles')}}">
-                        <div class="nav-link-icon {{(request()->is('uploadedFiles')) ? 'text-warning' : ''}}"><i data-feather="folder"></i></div>
-                        Uploaded Invoices
+                    <a class="nav-link {{(request()->is("uploadedFiles","viewUploadedFiles*")) ? 'active bg-primary-soft' : ''}}" href="{{url('uploadedFiles')}}">
+                        <div class="nav-link-icon text-warning"><i data-feather="folder"></i></div>
+                        View Uploads
                     </a>
 
                     <!-- Sidenav Link (Billing Files) -->
-                    <a class="nav-link {{(request()->is('billingFiles')) ? 'active' : ''}}" href="{{url('billingFiles')}}">
-                        <div class="nav-link-icon {{(request()->is('billingFiles')) ? 'text-secondary' : ''}}"><i data-feather="file-text"></i></div>
-                        Statement of Accounts
+                    <a class="nav-link {{(request()->is('billingFiles','billingUnknown','billingDuplicate',"viewDuplicate*",
+                            "billingRemoved","billingSearch*",'unknownSearch','duplicateSearch','removedSearch')) ? 'active bg-primary-soft' : ''}}" href="{{url('billingFiles')}}">
+                        <div class="nav-link-icon text-secondary"><i data-feather="file-text"></i></div>
+                        Uploaded SoA
                     </a>
 
                     <div class="sidenav-menu-heading">Email</div>
 
                     <!-- Sidenav Link (Send Billings) -->
-                    <a class="nav-link {{(request()->is('sendBillingFiles')) ? 'active' : ''}}" href="{{url('sendBillingFiles')}}">
-                        <div class="nav-link-icon text-primary"><i data-feather="send"></i></div>
-                        Send Statement of Account
+                    <a class="nav-link {{(request()->is('sendBillingFiles','searchSend')) ? 'active border bg-primary-soft' : ''}}" href="{{url('sendBillingFiles')}}">
+                        <div class="nav-link-icon text-primary"><i data-feather="mail"></i></div>
+                        Send SoA
                     </a>
 
                     <!-- Sidenav Link (Sent Billings) -->
-                    <a class="nav-link {{(request()->is('sendBillingSent')) ? 'active' : ''}}" href="{{url('sendBillingSent')}}">
+                    <a class="nav-link {{(request()->is('sendBillingSent','sendBillingSentPost*','searchSent')) ? 'active border bg-primary-soft' : ''}}" href="{{url('sendBillingSent')}}">
                         <div class="nav-link-icon text-success"><i data-feather="check-circle"></i></div>
                         Sent
 {{--                        <span class="badge bg-danger text-white ms-2 text-xs">{{$finalcountsent}}</span>--}}
                     </a>
 
                     <!-- Sidenav Link (Sending Billings) -->
-                    <a class="nav-link {{(request()->is('sendBillingSending')) ? 'active' : ''}}" href="{{url('sendBillingSending')}}">
-                        <div class="nav-link-icon text-warning"><i data-feather="trending-up"></i></div>
+                    <a class="nav-link {{(request()->is('sendBillingSending','searchSending')) ? 'active border bg-primary-soft' : ''}}" href="{{url('sendBillingSending')}}">
+                        <div class="nav-link-icon text-warning"><i data-feather="send"></i></div>
                         <div>Sending</div>
                         @if(count($sendings) > 0 )
                         <div class="sidenav-collapse-arrow">
@@ -308,10 +314,20 @@
                     </a>
 
                     <!-- Sidenav Link (Failed) -->
-                    <a class="nav-link {{(request()->is('sendBillingFailed')) ? 'active' : ''}}" href="{{url('sendBillingFailed')}}">
+                    <a class="nav-link {{(request()->is('sendBillingFailed','searchFailed')) ? 'active border bg-primary-soft' : ''}}" href="{{url('sendBillingFailed')}}">
                         <div class="nav-link-icon text-danger"><i data-feather="alert-circle"></i></div>
                         Failed
                     </a>
+                    @if(\Illuminate\Support\Facades\Auth::user()->email == "soa.admin@philcom.com" )
+
+                    <div class="sidenav-menu-heading">Admin</div>
+
+                    <a class="nav-link {{(request()->is('users')) ? 'active border bg-primary-soft' : ''}}" href="{{url('users')}}">
+                        <div class="nav-link-icon text-dark"><i data-feather="user-check"></i></div>
+                        Users
+                    </a>
+                    @endif
+
 
                 </div>
             </div>

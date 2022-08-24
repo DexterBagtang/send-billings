@@ -60,7 +60,7 @@
                                             <td>{{$file->company}}</td>
                                             <td>{{$file->account_number}}</td>
                                             <td>{{$file->contract_number}}</td>
-                                            <td>{{$file->email}}</td>
+                                            <td>{{Str::limit($file->email,40)}}</td>
                                             <td>
 {{--                                                <a class="btn btn-outline-dark" href="{{asset('billing_files/'.$file->month.'-'.$file->year.'/'.$file->filename)}}">--}}
                                                 <a class="btn btn-outline-dark" href="{{asset('billing_files/'.$file->month.'-'.$file->year.'/'.basename($file->storedFile))}}" target="_blank">
@@ -77,7 +77,7 @@
                         </div>
 
                         <div class="tab-pane fade" id="activities" role="tabpanel" aria-labelledby="activities-pill">
-                            <table id="datatablesSimple2">
+                            <table id="datatablesSimple1">
                                 <thead>
                                 <tr>
                                     <th>Company</th>

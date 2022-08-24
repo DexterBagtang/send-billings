@@ -11,6 +11,9 @@ class ResendMail extends Mailable
 {
     use Queueable, SerializesModels;
     public $file;
+    public $subject;
+    public $data;
+
 
 
     /**
@@ -18,9 +21,12 @@ class ResendMail extends Mailable
      *
      * @return void
      */
-    public function __construct($file)
+    public function __construct($file,$subject,$data)
     {
         $this->file  = $file;
+        $this->subject = $subject;
+        $this->data = $data;
+
     }
 
     /**
@@ -30,7 +36,12 @@ class ResendMail extends Mailable
      */
     public function build()
     {
-        return $this->view('emails.resend')
-            ->attach($this->file);
+        $name = "Statement of Account";
+        return $this->view('emails.billingFormat', $this->data)
+            ->subject($this->subject)
+            ->attach($this->file,[
+                'as' => "$name.pdf",
+                'mime' => 'application/pdf',
+            ]);
     }
 }

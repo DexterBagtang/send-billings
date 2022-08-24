@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EmailController;
@@ -34,6 +35,11 @@ Route::middleware('auth')->group(function () {
     Route::post('addedClient',([ClientController::class,'addedClient']));
     Route::get('editClient/{id}',([ClientController::class,'editClient']));
     Route::post('editedClient',([ClientController::class,'editedClient']));
+    Route::get('viewClient/{id}',([ClientController::class,'viewClient']));
+    Route::get('removeClient/{id}',([ClientController::class,'removeClient']));
+    Route::post('removedClient',([ClientController::class,'removedClient']));
+    Route::get('removeClientDuplicate/{id}',([ClientController::class,'removeClientDuplicate']));
+    Route::post('removedClientDuplicate',([ClientController::class,'removedClientDuplicate']));
     Route::get('edit_client/{id}',([ClientController::class,'edit_client']));
     Route::post('importClient',([ClientController::class,'importClient']));
     Route::get('duplicateClient',([ClientController::class,'duplicateClient']));
@@ -74,23 +80,34 @@ Route::middleware('auth')->group(function () {
     Route::get('billingRemoved',([FileController::class,'billingRemoved']));
     Route::get('restoreFile/{id}',([FileController::class,'restoreFile']));
     Route::get('removedSearch',([FileController::class,'removedSearch']));
+
     //-----------------------Send Billing Files --------------------------------//
     Route::get('sendBillingFiles',([EmailController::class,'sendBillingFiles']));
     Route::post('sendBillingFilesPost',([EmailController::class,'sendBillingFilesPost']));
     Route::post('sendBillingNow',([EmailController::class,'sendBillingNow']));
     Route::get('sendBillingSent',([EmailController::class,'sendBillingSent']));
-    Route::post('sendBillingSentPost',([EmailController::class,'sendBillingSentPost']));
+    Route::get('sendBillingSentPost',([EmailController::class,'sendBillingSentPost']));
     Route::get('sendBillingSending',([EmailController::class,'sendBillingSending']));
     Route::get('sendBillingFailed',([EmailController::class,'sendBillingFailed']));
 
-    Route::get('resendBilling',([EmailController::class,'resendBilling']));
+    Route::get('resendBilling/{id}',([EmailController::class,'resendBilling']));
+
+    //---------------------Search SoA ---------------------------------------------//
+    Route::get('searchSend',([EmailController::class,'searchSend']));
+    Route::get('searchSent',([EmailController::class,'searchSent']));
+    Route::get('searchSending',([EmailController::class,'searchSending']));
+    Route::get('searchFailed',([EmailController::class,'searchFailed']));
+
+    //------------------Admin-------------------------------------------------------//
+    Route::get('users',([AdminController::class,'users']));
+    Route::get('search-users',([AdminController::class,'searchUsers']));
+
+
 
 
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth'])->name('dashboard');
+
 
 require __DIR__.'/auth.php';
 

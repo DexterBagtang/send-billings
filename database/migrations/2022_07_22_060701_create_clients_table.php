@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('contact');
             $table->string('email');
             $table->string('company');
+            $table->dateTime('disabled_at')->nullable();
             $table->timestamps();
         });
     }

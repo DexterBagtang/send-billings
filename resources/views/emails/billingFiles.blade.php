@@ -148,7 +148,14 @@
 {{--                            </h2>--}}
 {{--                            <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">--}}
 {{--                                <div class="accordion-body">--}}
-                    {{  $billings->withQueryString()->links('pagination::bootstrap-results') }}
+{{--                    {{  $billings->withQueryString()->links('pagination::bootstrap-results') }}--}}
+                    <div class="">
+                        {{ $billings->withQueryString()->links('pagination::bootstrap-results') }}
+                        <form action="{{url('searchSend')}}" method="GET" class="float-end">
+                            <input type="search" class="form-control" name="search" value="{{$search}}" placeholder="Search">
+                            <input type="submit" class="d-none">
+                        </form>
+                    </div>
                                     <table id="datatablesSimple2">
                                         <thead>
                                         <tr>
@@ -183,7 +190,7 @@
                                                 {{--                                <td>{{$billing->account_number}}</td>--}}
                                                 {{--                                <td>{{$billing->contract_number}}</td>--}}
                                                 <td>{{$billing->company}}</td>
-                                                <td>{{$billing->email}}</td>
+                                                <td>{{Str::limit($billing->email,40)}}</td>
 
                                                 {{--                                <td>{{$billing->month}}-{{$billing->year}}</td>--}}
                                                 <td>
@@ -230,6 +237,53 @@
                             Send Now
                         </button>
 
+                        @if($billingSending > 0)
+                        <!-- Modal -->
+                        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog ">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Send Statement of Account</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div> Uploaded Statements of Account are still sending</div>
+                                        <br>
+                                    </div>
+                                    <div class="modal-footer">
+{{--                                        <input type="submit" class="btn btn-primary" value="Send Now">--}}
+                                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        @elseif($notSent > 0)
+                            <!-- Modal -->
+                            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-lg">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">Send Statement of Account</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div> You are about to send the statement of accounts for the month of {{$month.'-'.$year}}</div>
+                                            <br>
+                                            <div class="row mb-3">
+                                                <label for="inputPassword3" class="col-sm-2 col-form-label">Subject:</label>
+                                                <div class="col-sm-10">
+                                                    <input type="text" class="form-control" id="inputPassword3" name="subject" placeholder="Enter the Subject for these emails" required >
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <input type="submit" class="btn btn-primary" value="Send Now">
+                                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        @endif
                         <!-- Modal -->
                         <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                             <div class="modal-dialog modal-lg">
@@ -239,53 +293,20 @@
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
-                                        @if($notSent > 0 )
-                                       <div> You are about to send the statement of accounts for the month of {{$month.'-'.$year}}</div>
-
+                                        <div> All the uploaded Statements of Account for the month of {{$month}} are sent</div>
                                         <br>
-{{--                                        <div class="row mb-3">--}}
-{{--                                            <label for="inputEmail3" class="col-sm-2 col-form-label">CC:</label>--}}
-{{--                                            <div class="col-sm-10">--}}
-{{--                                                <input type="text" class="form-control" id="inputEmail3" name="cc[]" placeholder="Add CC ">--}}
-{{--                                            </div>--}}
-
-{{--                                        </div>--}}
-
-{{--                                        <div>--}}
-{{--                                            <div class="row mb-3">--}}
-{{--                                                <label for="inputEmail3" class="col-sm-2 col-form-label"></label>--}}
-{{--                                                <div class="col-sm-10">--}}
-{{--                                                    <input type="email" class="form-control" id="inputEmail3" name="cc[]" placeholder="Add CC ">--}}
-{{--                                                </div>--}}
-
-{{--                                            </div>--}}
-{{--                                        </div>--}}
-{{--                                        <div class="row mb-3">--}}
-{{--                                            <label for="inputPassword3" class="col-sm-2 col-form-label">BCC:</label>--}}
-{{--                                            <div class="col-sm-10">--}}
-{{--                                                <input type="email" class="form-control" id="inputPassword3" name="bcc" placeholder="Add BCC">--}}
-{{--                                            </div>--}}
-{{--                                        </div>--}}
-                                        <div class="row mb-3">
-                                            <label for="inputPassword3" class="col-sm-2 col-form-label">Subject:</label>
-                                            <div class="col-sm-10">
-                                                <input type="text" class="form-control" id="inputPassword3" name="subject" placeholder="Enter the Subject for these emails" required >
-                                            </div>
-                                        </div>
-                                        @else
-                                            <div> All the uploaded statement of accounts for the month of {{$month.'-'.$year}} are sent</div>
-                                        @endif
-
                                     </div>
                                     <div class="modal-footer">
-                                        @if($notSent > 0 )
-                                        <input type="submit" class="btn btn-primary" value="Send Now">
-                                        @endif
+                                        {{--                                        <input type="submit" class="btn btn-primary" value="Send Now">--}}
                                         <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
                                     </div>
                                 </div>
                             </div>
                         </div>
+
+
+
+
                     </form>
                 </div>
             </div>

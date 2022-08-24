@@ -68,38 +68,44 @@
                             <th>Account#</th>
                             <th>Contract#</th>
                             <th>Email</th>
-                            <th>Contact</th>
+{{--                            <th>Contact</th>--}}
                             <th>Status</th>
                             <th>Actions</th>
+
                         </tr>
                         </thead>
-                        <tfoot>
-                        <tr>
-{{--                            <th>Name</th>--}}
-                            <th>Account</th>
-                            <th>Contract</th>
-                            <th>Email</th>
-                            <th>Company</th>
-                            <th>Contact</th>
-                            <th>Status</th>
-                            <th>Actions</th>
-                        </tr>
-                        </tfoot>
                         <tbody>
                         @foreach($clients as $client)
                         <tr>
-                            <td>{{$client->company}}</td>
+                            <td>{{Str::limit($client->company,50)}}</td>
                             <td>{{$client->account_number}}</td>
                             <td>{{$client->contract_number}}</td>
-                            <td>{{$client->email}}</td>
-                            <td>{{$client->contact}}</td>
-                            <td><div class="badge bg-primary text-white rounded-pill">Active</div></td>
+                            <td title="{{$client->email}}">{{Str::limit($client->email,50)}}</td>
+{{--                            <td>{{$client->email}}</td>--}}
+{{--                            <td>{{$client->contact}}</td>--}}
+                            <td>
+                                @if($client->disabled_at == null)
+                                    <div class="badge bg-primary text-white rounded-pill">Active</div>
+                                @else
+                                    <div class="badge bg-warning text-white rounded-pill">Disabled</div>
+                                @endif
+
+                            </td>
                             <td>
                                 <a href="{{url("editClient/$client->id")}}"
-                                   class="btn btn-datatable btn-icon btn-transparent-dark me-2" title="Edit">
+                                   class="btn btn-datatable btn-icon btn-outline-primary m-1" title="Edit">
                                     <i data-feather="edit-3"></i>
                                 </a>
 
+                                <a href="{{url("viewClient/$client->id")}}" id="exampleModal"
+                                   class="btn btn-datatable btn-icon btn-outline-success m-1" title="View">
+                                    <i data-feather="eye"></i>
+                                </a>
+
+                                <a href="{{url("removeClient/$client->id")}}" id="exampleModal"
+                                   class="btn btn-datatable btn-icon btn-outline-danger m-1" title="Remove">
+                                    <i data-feather="user-minus"></i>
+                                </a>
                             </td>
                         </tr>
                         @endforeach
