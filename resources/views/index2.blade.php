@@ -75,13 +75,14 @@
                 </div>
                 <div class="col-xl-4 mb-4">
                     <!-- Dashboard example card 2-->
-                    <a class="card lift h-100" href="{{url('billingFiles')}}">
+                    <a class="card lift h-100" href="{{url('uploadedFiles')}}">
                         <div class="card-body d-flex justify-content-center flex-column">
                             <div class="d-flex align-items-center justify-content-between">
                                 <div class="me-3">
                                     <i class="feather-xl text-secondary mb-3" data-feather="file"></i>
-                                    <h5>Uploaded SoA</h5>
-                                    <div class="text-muted small">You have a total of <span class="text-danger">{{$billingsCount}}</span> SOA</div>
+                                    <h5>View Uploaded SoA</h5>
+{{--                                    <div class="text-muted small">You have a total of <span class="text-danger">{{$billingsCount}}</span> SOA</div>--}}
+                                    <div class="text-muted small">View uploaded statements of account</div>
                                 </div>
                                 <img src="assets/img/illustrations/windows.svg" alt="..." style="width: 8rem" />
                             </div>
@@ -126,7 +127,7 @@
                             </div>
                         </div>
                         <div class="card-footer d-flex align-items-center justify-content-between small">
-                            <a class="text-white stretched-link" href="{{url('sendBillingSent')}}">View Sent Statement of Account</a>
+                            <a class="text-white stretched-link" href="{{url('sendBillingSent')}}">View Details</a>
                             <div class="text-white"><i class="fas fa-angle-right"></i></div>
                         </div>
                     </div>

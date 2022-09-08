@@ -18,8 +18,8 @@ class ClientFactory extends Factory
     {
         return [
             'name' => fake()->name(),
-            'account_number' => fake()/*->unique()*/->randomNumber(8,true),
-            'contract_number' => fake()/*->unique()*/->randomNumber(4,true),
+            'account_number' => fake()->unique()->randomNumber(8,true),
+            'contract_number' => fake()->unique()->randomNumber(4,true),
             'contact' => fake()->e164PhoneNumber(),
             'email' => fake()->companyEmail(),
             'company' => fake()->company(),

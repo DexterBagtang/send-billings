@@ -1,5 +1,9 @@
 @extends('layout.app')
 
+@section('link')
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet">
+@endsection
+
 @section('content')
     <main>
         <header class="page-header page-header-compact page-header-light border-bottom bg-white mb-4">
@@ -75,13 +79,18 @@
         </header>
         <!-- Main page content-->
         <div class="container-xl px-4 mt-4">
+            @if($search !== null)
+                <div class="text-black text-lg">Search results for: "{{$search}}"</div>
+            @endif
             <div class="card mb-4">
                 <div class="card-header" style="font-size: 25px">
                     Statement of Account for the month of {{$month.'-'.$year}}
                     <div class="float-end" style="font-size: 20px">
 {{--                        Total SOA = {{}} <br>--}}
-                        Ready for sending = {{$notSent}} <br>
-{{--                        Sent Billings = {{$countSent}} <br>--}}
+{{--                        Ready for sending = {{$notSent}} <br>--}}
+                        Ready for sending = {{ $billings->total() }} <br>
+
+                        {{--                        Sent Billings = {{$countSent}} <br>--}}
 {{--                        Sending = {{$countSending}} <br>--}}
 {{--                        Failed = {{$billingFailed}}--}}
 
@@ -260,7 +269,7 @@
                         @elseif($notSent > 0)
                             <!-- Modal -->
                             <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                <div class="modal-dialog modal-lg">
+                                <div class="modal-dialog modal-xl">
                                     <div class="modal-content">
                                         <div class="modal-header">
                                             <h5 class="modal-title" id="exampleModalLabel">Send Statement of Account</h5>
@@ -270,10 +279,56 @@
                                             <div> You are about to send the statement of accounts for the month of {{$month.'-'.$year}}</div>
                                             <br>
                                             <div class="row mb-3">
-                                                <label for="inputPassword3" class="col-sm-2 col-form-label">Subject:</label>
-                                                <div class="col-sm-10">
+                                                <label for="inputPassword3" class="col-sm-1 col-form-label">Subject:</label>
+                                                <div class="col-sm-11">
                                                     <input type="text" class="form-control" id="inputPassword3" name="subject" placeholder="Enter the Subject for these emails" required >
                                                 </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-sm-2 col-form-label">Message:</label>
+                                                <textarea class="summernote" name="message">
+{{--<pre style="font-family:Calibri,sans-serif; font-size: 11pt">--}}
+{{--Hi Ma’am/Sir;--}}
+
+{{--Good day!--}}
+
+{{--Hope this message finds you well!--}}
+
+{{--Kindly see attached softcopy of your billing for the month of <b>{{strtoupper($month)}} {{$year}}</b>.--}}
+
+
+{{--You may pay your bills on any BDO Bank nationwide using bills payment facility. Please see payment instruction for your reference.--}}
+
+{{--For those client that made payment last month or prior and was not posted, kindly send your proof of payment to <a href="mailto:Famela.sunio@philcom.com" style="font-style: italic">Famela.sunio@philcom.com</a> .--}}
+
+{{--Please settle your dues on time to avoid penalties and temporary interruption of your circuit.--}}
+
+{{--It is very well appreciated if you could acknowledge this email and if you have any concern or clarifications you may contact our mobile number <b>0917-315-8033</b>, please don’t hesitate to notify us.--}}
+
+{{--Thank you and have a nice day!--}}
+{{--</pre>--}}
+
+<div style="font-family:Calibri,sans-serif; font-size: 11pt">
+<p>Hi Ma’am/Sir;</p>
+
+<p>Good day!</p>
+
+<p>Hope this message finds you well!</p>
+
+<p>Kindly see attached soft-copy of your billing for the month of <b>{{strtoupper($month)}} {{$year}}</b>.</p>
+<br>
+<p>You may pay your bills on any BDO Bank nationwide using bills payment facility. Please see payment instruction for your reference.</p>
+
+<p>For those client that made payment last month or prior and was not posted, kindly send your proof of payment to <a href="mailto:Famela.sunio@philcom.com" style="font-style: italic">Famela.sunio@philcom.com</a> .</p>
+
+<p>Please settle your dues on time to avoid penalties and temporary interruption of your circuit.</p>
+
+<p>It is very well appreciated if you could acknowledge this email and if you have any concern or clarifications you may contact our mobile number <b>0917-315-8033</b>, please don’t hesitate to notify us.</p>
+
+<p>Thank you and have a nice day!</p><br>
+</div>
+
+                                                </textarea>
                                             </div>
                                         </div>
                                         <div class="modal-footer">
@@ -331,6 +386,25 @@
 
 
 @section('script')
+
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
     <script src="{{asset('js/datatables/datatables-simple-demo.js')}}"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('.summernote').summernote({
+                toolbar: [
+                    ['style', ['bold', 'italic', 'underline', 'clear']],
+                    // ['font', ['strikethrough', 'superscript', 'subscript']],
+                    // ['fontsize', ['fontsize']],
+                    ['color', ['color']],
+                    ['para', ['ul', 'ol', 'paragraph']],
+                    // ['height', ['height']]
+                ]
+            });
+        });
+    </script>
 @endsection

@@ -1,3 +1,5 @@
+@extends('layout.app')
+@section('content')
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -99,3 +101,4 @@
 <script src="js/scripts.js"></script>
 </body>
 </html>
+@endsection

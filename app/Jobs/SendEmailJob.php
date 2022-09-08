@@ -23,6 +23,8 @@ class SendEmailJob implements ShouldQueue
     protected $bcc;
     protected $subject;
     protected $data;
+//    protected $message;
+
 
 
 
@@ -40,6 +42,7 @@ class SendEmailJob implements ShouldQueue
         $this->bcc = $bcc;
         $this->subject = $subject;
         $this->data = $data;
+//        $this->message = $message;
 
 
     }
@@ -61,8 +64,8 @@ class SendEmailJob implements ShouldQueue
         $file->update();
 
 
-//        Mail::to('Dexter.Bagtang@philcom.com')
-        Mail::to($this->email)
+        Mail::to('Dexter.Bagtang@philcom.com')
+//        Mail::to($this->email)
             ->cc($this->cc)
             ->bcc($this->bcc)
             ->send(new SendMail($this->file,$this->subject.' '.$this->email,$this->data));
@@ -75,6 +78,6 @@ class SendEmailJob implements ShouldQueue
         $file->emailDate = now();
 //        $file->emailedBy = auth()->user()->name;
         $file->update();
-        sleep(1 );
+//        sleep(1 );
     }
 }

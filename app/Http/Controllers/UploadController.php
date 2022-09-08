@@ -24,11 +24,10 @@ class UploadController extends Controller
 
     //------------Upload Generated Pdf ------------    //------------Upload Generated Pdf ------------    //------------Upload Generated Pdf ------------    //------------Upload Generated Pdf ------------    //------------Upload Generated Pdf ------------
     public function uploaded(Request $request){
-
             $this->validate($request, [
                 'month' => 'required',
                 'year' => 'required',
-                'billing_file' => 'required|max:500|unique:files,filename',
+                'billing_file' => 'required|max:500',
                 'billing_file.' => 'mimes:pdf|max:5000|unique:files',
 //                'billing_file.*' => 'mimes:pdf|max:5000',
             ],
@@ -40,6 +39,11 @@ class UploadController extends Controller
             $month = $request->input('month');
             $year = $request->input('year');
             $count = count($request->billing_file);
+
+//        if ($count > 500){
+//            return back()->withErrors(['upload exceeds the limit !']);
+//        }
+
 
 //        $upload = new Upload();
 //        $upload->files_id = null;
@@ -118,7 +122,7 @@ class UploadController extends Controller
 
 
 
-        return redirect('/uploadFile')->with('success',"Successfully uploaded $count files for the month of $month-$year");
+        return redirect('/uploadedFiles')->with('success',"Successfully uploaded $count files for the month of $month-$year");
 
         // ========================= Create demo files for testing =======================================//
 

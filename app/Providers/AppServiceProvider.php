@@ -31,14 +31,18 @@ class AppServiceProvider extends ServiceProvider
         $month = now()->format('F');
         $year = now()->format('Y');
 
-        $billingSending = DB::table('files')
+        $billingSendings = DB::table('files')
             ->where('month','=',$month)
             ->where('year','=',$year)
             ->whereNull('deleted_at')
             ->where('emailStatus','=','sending')
             ->join('clients','files.clients_id','=','clients.id')
             ->select('files.*','clients.company','clients.email')
+//            ->take(4)
+            ->limit(4)
             ->get();
+        $billingSending = count($billingSendings);
+//            ->count();
         View::share('sendings',$billingSending);
 
         $billings = DB::table('files')
@@ -76,6 +80,15 @@ class AppServiceProvider extends ServiceProvider
             ->whereNotNull('deleted_at')
             ->count();
         View::share('removedCount',$deletedFiles);
+
+        $resend = DB::table('files')
+//            ->whereIn('files.id',$billingIds)
+            ->where('month','=',$month)
+            ->where('year','=',$year)
+            ->where('emailStatus','=','for resending')
+            ->select('id')
+            ->count();
+        View::share('resend',$resend);
 
 
     }

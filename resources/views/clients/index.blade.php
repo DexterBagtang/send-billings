@@ -15,6 +15,9 @@
                 </div>
                 <a href="{{url('addClient')}}" class="btn btn-primary">Add Client</a>
             </div>
+            @if($search !== null)
+            <div class="text-black text-lg">Search results for: "{{$search}}"</div>
+            @endif
             <div class="card">
                 <div class="float-end">
                     @if(session()->get('success'))
@@ -39,8 +42,15 @@
                         @if(count($duplicate)>0)
                         <li class="nav-item position-relative">
                             <a class="nav-link {{(request()->is('duplicateClient')) ? 'active' : ""}}" href="{{url('duplicateClient')}}">
-                                Duplicate <span class="position-absolute top-0 start-100 translate-middle p-2 bg-danger border border-light rounded-circle">
-                                            <span class="visually-hidden">New alerts</span>
+                                Duplicate <!--<span class="position-absolute top-0 start-100 translate-middle p-2 bg-danger border border-light rounded-circle">-->
+                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger badge-sm">
+                                    @if(count($duplicate) < 100)
+                                         <span class="text-danger">*</span>
+                                    @else
+                                        99+
+                                    @endif
+
+
                                             </span>
                             </a>
                         </li>
@@ -58,6 +68,8 @@
                             <input type="submit" class="d-none">
                         </form>
                     </div>
+
+
 
 
                     <table id="datatablesSimple3">

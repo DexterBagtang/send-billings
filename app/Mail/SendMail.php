@@ -13,6 +13,7 @@ class SendMail extends Mailable
     public $file;
     public $subject;
     public $data;
+//    public $message;
 
 
     /**
@@ -25,6 +26,7 @@ class SendMail extends Mailable
         $this->file = $file;
         $this->subject = $subject;
         $this->data = $data;
+//        $this->message = $message;
 
     }
 

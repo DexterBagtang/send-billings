@@ -24,7 +24,7 @@
 {{--                    </a>--}}
 {{--                    <!-- Sidenav Menu Heading (Core)-->--}}
 {{--                    <div class="sidenav-menu-heading">Core</div>--}}
-{{--                    <!-- Sidenav Accordion (Dashboard)-->--}}
+                    <!-- Sidenav Accordion (Dashboard)-->
 {{--                    <a class="nav-link collapsed" href="javascript:void(0);" data-bs-toggle="collapse" data-bs-target="#collapseDashboards" aria-expanded="false" aria-controls="collapseDashboards">--}}
 {{--                        <div class="nav-link-icon"><i data-feather="activity"></i></div>--}}
 {{--                        Dashboards--}}
@@ -305,8 +305,8 @@
                     <!-- Sidenav Link (Sending Billings) -->
                     <a class="nav-link {{(request()->is('sendBillingSending','searchSending')) ? 'active border bg-primary-soft' : ''}}" href="{{url('sendBillingSending')}}">
                         <div class="nav-link-icon text-warning"><i data-feather="send"></i></div>
-                        <div>Sending</div>
-                        @if(count($sendings) > 0 )
+                        <div>Sending </div>
+                        @if($sendings > 0 )
                         <div class="sidenav-collapse-arrow">
                             <span class="spinner-border spinner-border-sm text-xs text-danger" role="status"></span>
                         </div>
@@ -318,6 +318,16 @@
                         <div class="nav-link-icon text-danger"><i data-feather="alert-circle"></i></div>
                         Failed
                     </a>
+
+                    @if($resend > 0 )
+                    <a class="nav-link {{(request()->is('resendBillingFiles')) ? 'active border bg-primary-soft' : ''}}" href="{{url('resendBillingFiles')}}">
+                        <div class="nav-link-icon text-danger"><i data-feather="repeat"></i></div>
+                        Resend Failed SoA
+                    </a>
+                    @endif
+
+
+
                     @if(\Illuminate\Support\Facades\Auth::user()->email == "soa.admin@philcom.com" )
 
                     <div class="sidenav-menu-heading">Admin</div>

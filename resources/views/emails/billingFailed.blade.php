@@ -21,6 +21,17 @@
                                 <a class="btn-close" type="" data-bs-dismiss="alert" aria-label="Close"></a>
                             </div>
                         @endif
+                        @if(session()->get('resend'))
+                            {{--                                    <div class="alert alert-success">--}}
+                            {{--                                        {{ session()->get('success') }}--}}
+                            {{--                                    </div><br />--}}
+                            <div class="alert alert-success alert-dismissible fade show float-end" role="alert">
+                                <h5 class="alert-heading">Note !</h5>
+                                <hr>
+                                File is stored in "Resend Failed Soa" You may check it <a href="{{url('resendBillingFiles')}}"> here</a>
+{{--                                <a class="btn-close" type="" data-bs-dismiss="alert" aria-label="Close"></a>--}}
+                            </div>
+                        @endif
                         @if(session()->get('error'))
                             {{--                                    <div class="alert alert-success">--}}
                             {{--                                        {{ session()->get('success') }}--}}
@@ -32,12 +43,21 @@
                                 <a class="btn-close" type="" data-bs-dismiss="alert" aria-label="Close"></a>
                             </div>
                         @endif
+                        @if(session()->get('success'))
+                            <div class="alert alert-success">
+                                {{ session()->get('success') }}
+                            </div><br />
+                        @endif
+
                     </div>
                 </div>
             </div>
         </header>
         <!-- Main page content-->
         <div class="container-xl px-4 mt-4">
+            @if($search !== null)
+                <div class="text-black text-lg">Search results for: "{{$search}}"</div>
+            @endif
             <div class="card mb-4">
 {{--                <a href="{{url('resendBilling')}}" class="btn btn-danger"> Resend All</a>--}}
 
@@ -46,7 +66,7 @@
 
                     <div class="float-end">
                         {{--                        Total Billings = {{count($billings)}} <br>--}}
-                        Failed = {{$countFailed}} <br>
+                        Failed = {{ $billings->total() }} <br>
                         {{--                        Sending = {{$countSending}} <br>--}}
                         {{--                        Not Sent = {{$notSent}}--}}
 
@@ -155,7 +175,7 @@
                                 <td>{{$billing->company}}</td>
                                 {{--                                <td>{{$billing->account_number}}</td>--}}
                                 {{--                                <td>{{$billing->contract_number}}</td>--}}
-                                <td>{{Str::limit($billing->email,40)}}</td>
+                                <td>{{Str::limit($billing->email,30)}}</td>
                                 {{--                                <td>{{$billing->month}}-{{$billing->year}}</td>--}}
                                 <td>
                                     <a href="{{asset('billing_files/'.$billing->month.'-'.$billing->year.'/'.$billing->storedFile)}}" target="_blank">
@@ -165,11 +185,15 @@
                                 <td>{{$billing->emailStatus}}</td>
                                 <td>{{$billing->emailedBy}}</td>
                                 <td>{{$billing->emailDate}}</td>
-                                @if(count($sendings) > 0)
+                                @if($sendings > 0)
                                     <td>
+                                        <a href="{{url("editClient/$billing->clients_id")}}"
+                                           class="btn btn-datatable btn-icon btn-outline-primary m-1" title="Edit">
+                                            <i data-feather="edit-3"></i>
+                                        </a>
                                         <!-- Button trigger modal -->
-                                        <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-                                            Resend
+                                        <button type="button" class="btn btn-datatable btn-icon btn-outline-danger" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                                            <i data-feather="repeat"></i>
                                         </button>
 
                                         <!-- Modal -->
@@ -192,7 +216,17 @@
                                     </td>
                                 @else
                                     @if($billing->emailStatus == "sending error")
-                                    <td><a href="{{url("resendBilling/$billing->id")}}" class="btn btn-danger btn-sm">Resend</a></td>
+                                    <td>
+                                        <a href="{{url("editClient/$billing->clients_id")}}"
+                                           class="btn btn-datatable btn-icon btn-outline-primary m-1" title="Edit">
+                                            <i data-feather="edit-3"></i>
+                                        </a>
+
+                                        <a href="{{url("resendBilling/$billing->id")}}"
+                                           class="btn btn-datatable btn-icon btn-outline-danger m-1" title="Resend">
+                                            <i data-feather="repeat"></i>
+                                        </a>
+                                    </td>
                                     @else
                                         <td></td>
                                     @endif

@@ -46,6 +46,10 @@ return [
             'verify_peer' => false,
             'allow_self_signed' => true,
             'verify_peer_name' => false,
+            'ssl' => [
+                'verify_peer' => false,
+                'verify_peer_name' => false,
+            ]
         ],
 
         'ses' => [

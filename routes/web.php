@@ -30,7 +30,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/',([DashboardController::class,'dashboard']));
 
     //-----------------Clients-------------------------------------//
-    Route::get('clients',([ClientController::class,'index']));
+    Route::get('clients/',([ClientController::class,'index']));
     Route::get('addClient',([ClientController::class,'addClient']));
     Route::post('addedClient',([ClientController::class,'addedClient']));
     Route::get('editClient/{id}',([ClientController::class,'editClient']));
@@ -92,11 +92,17 @@ Route::middleware('auth')->group(function () {
 
     Route::get('resendBilling/{id}',([EmailController::class,'resendBilling']));
 
+    Route::get('resendBillingFiles',([EmailController::class,'resendBillingFiles']));
+    Route::post('resendBillingNow',([EmailController::class,'resendBillingNow']));
+
+
     //---------------------Search SoA ---------------------------------------------//
     Route::get('searchSend',([EmailController::class,'searchSend']));
     Route::get('searchSent',([EmailController::class,'searchSent']));
     Route::get('searchSending',([EmailController::class,'searchSending']));
     Route::get('searchFailed',([EmailController::class,'searchFailed']));
+    Route::get('searchResend',([EmailController::class,'searchResend']));
+
 
     //------------------Admin-------------------------------------------------------//
     Route::get('users',([AdminController::class,'users']));

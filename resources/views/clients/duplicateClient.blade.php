@@ -14,8 +14,10 @@
                     </div>
                 </div>
                 <a href="{{url('addClient')}}" class="btn btn-primary position-relative">Add Client</a>
-
             </div>
+            @if($search !== null)
+                <div class="text-black text-lg">Search results for: "{{$search}}"</div>
+            @endif
             <div class="card">
                 <div class="float-end">
                     @if(session()->get('success'))
@@ -39,10 +41,16 @@
                             <a class="nav-link {{(request()->is('clients')) ? 'active' : ""}}" aria-current="page" href="{{url('clients')}}">Clients</a>
                         </li>
                         <li class="nav-item position-relative">
-                            <a class="nav-link {{(request()->is('duplicateClient')) ? 'active' : ""}} position-relative" href="{{url('duplicateClient')}}">
-                                Duplicate <span class="position-absolute top-0 start-100 translate-middle p-2 bg-danger border border-light rounded-circle">
-    <span class="visually-hidden">New alerts</span>
-  </span>
+                            <a class="nav-link {{(request()->is('duplicateClient','searchDuplicateClient')) ? 'active' : ""}} position-relative" href="{{url('duplicateClient')}}">
+                                Duplicate <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+{{--                                    @if(count($duplicates) < 100)--}}
+                                        {{$duplicates->withQueryString()->total()}}
+{{--                                    @else--}}
+{{--                                        99+--}}
+{{--                                    @endif--}}
+
+                                            <span class="visually-hidden">New alerts</span>
+                                            </span>
                             </a>
                         </li>
 {{--                        <li class="nav-item">--}}

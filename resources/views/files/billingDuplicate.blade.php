@@ -40,6 +40,9 @@
                 {{--                    <input class="form-control ps-0 pointer" id="litepickerRangePlugin" placeholder="Select date range..." />--}}
                 {{--                </div>--}}
             </div>
+            @if($search !== null)
+                <div class="text-black text-lg">Search results for: "{{$search}}"</div>
+            @endif
             <div class="card mb-4">
                 <div class="card-header">
                     @if(session()->get('success'))

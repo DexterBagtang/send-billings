@@ -38,12 +38,15 @@
         </header>
         <!-- Main page content-->
         <div class="container-xl px-4 mt-4">
+            @if($search !== null)
+                <div class="text-black text-lg">Search results for: "{{$search}}"</div>
+            @endif
             <div class="card mb-4">
                 <div class="card-header" style="font-size: 25px">
                     Sending Statement of Accounts for the month of {{$month.'-'.$year}}
                     <div class="float-end">
                         {{--                        Total Billings = {{count($billings)}} <br>--}}
-                        Sending = {{$countSent}} <br>
+                        Sending = {{ $billings->total() }} <br>
                         {{--                        Sending = {{$countSending}} <br>--}}
                         {{--                        Not Sent = {{$notSent}}--}}
 
