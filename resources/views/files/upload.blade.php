@@ -2,7 +2,7 @@
 
 @section('content')
     <main>
-        <header class="page-header page-header-compact page-header-light border-bottom bg-white mb-4">
+        <header class="page-header page-header-compact page-header-light mb-4">
             <div class="container-xl px-4">
                 <div class="page-header-content">
                     <div class="row align-items-center justify-content-between pt-3">
@@ -29,7 +29,7 @@
                                     <li class="nav-item text-uppercase text-danger">Please note !</li>
                                     <li class="nav-item">- <strong class="alert-black">Statement of Account must be in pdf file</strong></li>
                                     <li class="nav-item">- Multiple files can be uploaded</li>
-                                    <li class="nav-item">- <strong class="alert-black">Maximum files per upload is 500</strong></li>
+                                    <li class="nav-item">- <strong class="alert-black">Maximum files per upload is 1500</strong></li>
                                     <li class="nav-item">- Please wait until files are uploaded</li>
                                     <li class="nav-item">- Uploading may take a while</li>
                                     <li class="nav-item">- instruction 4</li>

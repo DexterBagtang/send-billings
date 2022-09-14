@@ -6,17 +6,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="" />
     <meta name="author" content="" />
-    <title>Login - Invoice Mailing System</title>
+    <title>Login - PhilCom | SoA</title>
     <link href="css/styles.css" rel="stylesheet" />
     <link rel="icon" type="image/x-icon" href="assets/img/send.svg" />
     <script data-search-pseudo-elements defer src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.28.0/feather.min.js" crossorigin="anonymous"></script>
 </head>
-<body class="bg-gray-300">
+
+<body style="
+background:rgba(255, 255, 255, .2) url('bg/bg.png') no-repeat fixed center top;
+background-size:cover;
+background-blend-mode: overlay;">
+
 <div id="layoutAuthentication">
     <div id="layoutAuthentication_content">
         <main>
-            <div class="container-xl px-4">
+            <div class="container-xl px-4 ">
                 <div class="row justify-content-center">
                     <div class="col-lg-5">
                         <div class="text-center">
@@ -28,7 +33,7 @@
 
 
                         <!-- Basic login form-->
-                        <div class="card shadow-lg border-0 rounded-lg mt-5">
+                        <div class="card shadow-lg border-0 rounded-lg mt-5 bg-light" >
                             <!-- Session Status -->
                             <x-auth-session-status class="mb-4" :status="session('status')" />
 
@@ -91,12 +96,12 @@
         <footer class="footer-admin mt-auto footer-dark">
             <div class="container-xl px-4">
                 <div class="row">
-                    <div class="col-md-6 small">Copyright &copy; Your Website 2021</div>
-                    <div class="col-md-6 text-md-end small">
-                        <a href="#!">Privacy Policy</a>
-                        &middot;
-                        <a href="#!">Terms &amp; Conditions</a>
-                    </div>
+{{--                    <div class="col-md-6 small">Copyright &copy; Your Website 2021</div>--}}
+{{--                    <div class="col-md-6 text-md-end small">--}}
+{{--                        <a href="#!">Privacy Policy</a>--}}
+{{--                        &middot;--}}
+{{--                        <a href="#!">Terms &amp; Conditions</a>--}}
+{{--                    </div>--}}
                 </div>
             </div>
         </footer>

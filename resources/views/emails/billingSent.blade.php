@@ -6,7 +6,7 @@
 
 @section('content')
     <main>
-        <header class="page-header page-header-compact page-header-light border-bottom bg-white mb-4">
+        <header class="page-header page-header-compact page-header-light  mb-4">
             <div class="container-xl px-4">
                 <div class="page-header-content">
                     <div class="row align-items-center justify-content-between pt-3">
@@ -133,7 +133,7 @@
                                             <th>Email</th>
                                             {{--                            <th>Month and Year</th>--}}
                                             <th>File</th>
-                                            <th>Date Uploaded</th>
+                                            <th>Date Emailed</th>
                                             <th>Emailed By</th>
                                             <th>Email Status</th>
 
@@ -166,7 +166,7 @@
                                                         {{$billing->filename}}
                                                     </a>
                                                 </td>
-                                                <td>{{$billing->created_at}}</td>
+                                                <td>{{$billing->emailDate}}</td>
                                                 <td>{{$billing->emailedBy}}</td>
                                                 <td>{{$billing->emailStatus}} <span>{{\Carbon\Carbon::parse($billing->emailDate)->diffForHumans()}}</span></td>
 {{--                                                <td>--}}

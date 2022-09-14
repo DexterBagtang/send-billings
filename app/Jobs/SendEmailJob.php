@@ -68,7 +68,7 @@ class SendEmailJob implements ShouldQueue
 //        Mail::to($this->email)
             ->cc($this->cc)
             ->bcc($this->bcc)
-            ->send(new SendMail($this->file,$this->subject.' '.$this->email,$this->data));
+            ->send(new SendMail($this->file,$this->subject/*.' '.$this->email*/,$this->data));
 
         $file = File::query()
 //            ->where('email','=',$this->email)

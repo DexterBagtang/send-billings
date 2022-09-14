@@ -2,9 +2,10 @@
 <div id="layoutSidenav">
 {{--    <meta http-equiv="refresh" content="30">--}}
     <div id="layoutSidenav_nav">
-        <nav class="sidenav shadow-right sidenav-light">
+        <nav class="sidenav shadow-right-lg sidenav-light">
+
             <div class="sidenav-menu">
-                <div class="nav accordion" id="accordionSidenav">
+                <div class="nav accordion m-1" id="accordionSidenav">
 {{--                    <!-- Sidenav Menu Heading (Account)-->--}}
 {{--                    <!-- * * Note: * * Visible only on and above the sm breakpoint-->--}}
 {{--                    <div class="sidenav-menu-heading d-sm-none">Account</div>--}}
@@ -263,26 +264,26 @@
 
                     <div class="sidenav-menu-heading">File</div>
                     <!-- Sidenav Link (Tables)-->
-                    <a class="nav-link {{(request()->is('clients','duplicateClient',"*Client*")) ? 'active bg-primary-soft' : ''}}" href="{{url('clients')}}">
+                    <a class="nav-link  {{(request()->is('clients','duplicateClient',"*Client*")) ? 'active bg-primary-soft rounded-pill' : ''}}" href="{{url('clients')}}">
                         <div class="nav-link-icon text-info"><i data-feather="users"></i></div>
                         Clients
                     </a>
 
                     <!-- Sidenav Link (Upload File)-->
-                    <a class="nav-link {{(request()->is('uploadFile')) ? 'active border bg-primary-soft' : ''}}" href="{{url('uploadFile')}}">
+                    <a class="nav-link  {{(request()->is('uploadFile')) ? 'active border bg-primary-soft rounded-pill' : ''}}" href="{{url('uploadFile')}}">
                         <div class="nav-link-icon text-success"><i data-feather="upload"></i></div>
                         Upload SoA
                     </a>
 
                     <!-- Sidenav Link (Files) -->
-                    <a class="nav-link {{(request()->is("uploadedFiles","viewUploadedFiles*")) ? 'active bg-primary-soft' : ''}}" href="{{url('uploadedFiles')}}">
+                    <a class="nav-link {{(request()->is("uploadedFiles","viewUploadedFiles*")) ? 'active bg-primary-soft rounded-pill' : ''}}" href="{{url('uploadedFiles')}}">
                         <div class="nav-link-icon text-warning"><i data-feather="folder"></i></div>
                         View Uploads
                     </a>
 
                     <!-- Sidenav Link (Billing Files) -->
                     <a class="nav-link {{(request()->is('billingFiles','billingUnknown','billingDuplicate',"viewDuplicate*",
-                            "billingRemoved","billingSearch*",'unknownSearch','duplicateSearch','removedSearch')) ? 'active bg-primary-soft' : ''}}" href="{{url('billingFiles')}}">
+                            "billingRemoved","billingSearch*",'unknownSearch','duplicateSearch','removedSearch')) ? 'active bg-primary-soft rounded-pill' : ''}}" href="{{url('billingFiles')}}">
                         <div class="nav-link-icon text-secondary"><i data-feather="file-text"></i></div>
                         Uploaded SoA
                     </a>
@@ -290,20 +291,20 @@
                     <div class="sidenav-menu-heading">Email</div>
 
                     <!-- Sidenav Link (Send Billings) -->
-                    <a class="nav-link {{(request()->is('sendBillingFiles','searchSend')) ? 'active border bg-primary-soft' : ''}}" href="{{url('sendBillingFiles')}}">
+                    <a class="nav-link {{(request()->is('sendBillingFiles','searchSend')) ? 'active border bg-primary-soft rounded-pill' : ''}}" href="{{url('sendBillingFiles')}}">
                         <div class="nav-link-icon text-primary"><i data-feather="mail"></i></div>
                         Send SoA
                     </a>
 
                     <!-- Sidenav Link (Sent Billings) -->
-                    <a class="nav-link {{(request()->is('sendBillingSent','sendBillingSentPost*','searchSent')) ? 'active border bg-primary-soft' : ''}}" href="{{url('sendBillingSent')}}">
+                    <a class="nav-link {{(request()->is('sendBillingSent','sendBillingSentPost*','searchSent')) ? 'active border bg-primary-soft rounded-pill' : ''}}" href="{{url('sendBillingSent')}}">
                         <div class="nav-link-icon text-success"><i data-feather="check-circle"></i></div>
                         Sent
 {{--                        <span class="badge bg-danger text-white ms-2 text-xs">{{$finalcountsent}}</span>--}}
                     </a>
 
                     <!-- Sidenav Link (Sending Billings) -->
-                    <a class="nav-link {{(request()->is('sendBillingSending','searchSending')) ? 'active border bg-primary-soft' : ''}}" href="{{url('sendBillingSending')}}">
+                    <a class="nav-link {{(request()->is('sendBillingSending','searchSending')) ? 'active border bg-primary-soft rounded-pill' : ''}}" href="{{url('sendBillingSending')}}">
                         <div class="nav-link-icon text-warning"><i data-feather="send"></i></div>
                         <div>Sending </div>
                         @if($sendings > 0 )
@@ -314,13 +315,13 @@
                     </a>
 
                     <!-- Sidenav Link (Failed) -->
-                    <a class="nav-link {{(request()->is('sendBillingFailed','searchFailed')) ? 'active border bg-primary-soft' : ''}}" href="{{url('sendBillingFailed')}}">
+                    <a class="nav-link {{(request()->is('sendBillingFailed','searchFailed')) ? 'active border bg-primary-soft rounded-pill' : ''}}" href="{{url('sendBillingFailed')}}">
                         <div class="nav-link-icon text-danger"><i data-feather="alert-circle"></i></div>
                         Failed
                     </a>
 
                     @if($resend > 0 )
-                    <a class="nav-link {{(request()->is('resendBillingFiles')) ? 'active border bg-primary-soft' : ''}}" href="{{url('resendBillingFiles')}}">
+                    <a class="nav-link {{(request()->is('resendBillingFiles')) ? 'active border bg-primary-soft rounded-pill' : ''}}" href="{{url('resendBillingFiles')}}">
                         <div class="nav-link-icon text-danger"><i data-feather="repeat"></i></div>
                         Resend Failed SoA
                     </a>
@@ -332,7 +333,7 @@
 
                     <div class="sidenav-menu-heading">Admin</div>
 
-                    <a class="nav-link {{(request()->is('users')) ? 'active border bg-primary-soft' : ''}}" href="{{url('users')}}">
+                    <a class="nav-link {{(request()->is('users')) ? 'active border bg-primary-soft rounded-pill' : ''}}" href="{{url('users')}}">
                         <div class="nav-link-icon text-dark"><i data-feather="user-check"></i></div>
                         Users
                     </a>

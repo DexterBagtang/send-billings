@@ -31,8 +31,8 @@ class DeleteOldData extends Command
     public function handle()
     {
         $this->line('<fg=green;>Please wait...</>');
-        $output = DB::table('files')->where('created_at','<=', now()->subMonths(3))->get();
-//        $output = DB::table('files')/*->where('created_at','<=', now()->subMinutes(2))*/->get();
+//        $output = DB::table('files')->where('created_at','<=', now()->subMonths(3))->get();
+        $output = DB::table('files')/*->where('created_at','<=', now()->subMinutes(2))*/->get();
 //        dd($output);
 //        $output = DB::table('files')->get();
         $count = count($output);
@@ -52,7 +52,9 @@ class DeleteOldData extends Command
             }
             $this->line("<fg=green>$count old files deleted !</>");
         }
-        $output2 = DB::table('uploads')->where('created_at','<=' , now()->subMonths(3))->select('id')->get();
+//        $output2 = DB::table('uploads')->where('created_at','<=' , now()->subMonths(3))->select('id')->get();
+        $output2 = DB::table('uploads')->select('id')->get();
+
         $count1 = count($output2);
         if ($count1 < 1){
             $this->line('<fg=green;>No old uploads detected !</>');

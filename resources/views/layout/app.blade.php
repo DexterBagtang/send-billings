@@ -19,8 +19,8 @@
         font-size: 14px;
     }
 </style>
-<body class="nav-fixed">
-
+{{--<body class="nav-fixed" style="/*background-color:rgba(255, 255, 255, .9) ;*/background-image: url('bg/bg.png'); background-blend-mode: overlay; background-position: center; background-size: cover">--}}
+<body class="nav-fixed bg-gray-300">
 <!-- Navbar -->
 @include('layout.navbar')
 <!-- Navbar -->
@@ -28,6 +28,11 @@
 <!-- Sidebar -->
 @include('layout.sidebar')
 <!-- Sidebar end -->
+@if(session()->get('denied'))
+    <div class="alert alert-danger">
+        {{ session()->get('denied') }}
+    </div><br />
+@endif
 
 
         {{--Main Content--}}

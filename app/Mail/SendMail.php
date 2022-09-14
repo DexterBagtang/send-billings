@@ -39,6 +39,7 @@ class SendMail extends Mailable
     {
         $name = "Statement of Account";
         return $this->view('emails.billingFormat', $this->data)
+            ->from('no-reply@philcom.com','no-reply')
             ->subject($this->subject)
             ->attach($this->file,[
                 'as' => "$name.pdf",

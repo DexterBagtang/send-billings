@@ -6,6 +6,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EmailController;
 use App\Http\Controllers\FileController;
 use App\Http\Controllers\UploadController;
+use App\Http\Middleware\CheckAdmin;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\View;
@@ -105,13 +106,15 @@ Route::middleware('auth')->group(function () {
 
 
     //------------------Admin-------------------------------------------------------//
-    Route::get('users',([AdminController::class,'users']));
-    Route::get('search-users',([AdminController::class,'searchUsers']));
-
-
+    Route::middleware('checkAdmin')->group(function () {
+        Route::get('users',([AdminController::class,'users']));
+        Route::get('search-users',([AdminController::class,'searchUsers']));
+    });
 
 
 });
+
+
 
 
 

@@ -35,9 +35,11 @@ Route::middleware('guest')->group(function () {
 });
 
 Route::middleware('auth')->group(function () {
-    Route::get('register', [RegisteredUserController::class, 'create'])
-        ->name('register');
-    Route::post('register', [RegisteredUserController::class, 'store']);
+    Route::middleware('checkAdmin')->group(function () {
+        Route::get('register', [RegisteredUserController::class, 'create'])
+            ->name('register');
+        Route::post('register', [RegisteredUserController::class, 'store']);
+    });
 
     Route::get('reset-password/{token}', [NewPasswordController::class, 'create'])
         ->name('password.reset');
