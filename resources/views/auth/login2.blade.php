@@ -8,13 +8,14 @@
     <meta name="author" content="" />
     <title>Login - PhilCom | SoA</title>
     <link href="css/styles.css" rel="stylesheet" />
-    <link rel="icon" type="image/x-icon" href="assets/img/send.svg" />
+{{--    <link rel="icon" type="image/x-icon" href="assets/img/send.svg" />--}}
+    <link rel="icon" type="image/x-icon" href="{{asset('assets/img/email.png')}}" />
     <script data-search-pseudo-elements defer src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.28.0/feather.min.js" crossorigin="anonymous"></script>
 </head>
 
 <body style="
-background:rgba(255, 255, 255, .2) url('bg/bg.png') no-repeat fixed center top;
+background:rgba(255, 255, 255, 0) url('bg/bg.png') no-repeat fixed center top;
 background-size:cover;
 background-blend-mode: overlay;">
 

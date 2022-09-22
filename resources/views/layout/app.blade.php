@@ -9,10 +9,11 @@
     <title>PhilCom - Billing</title>
     <link href="https://cdn.jsdelivr.net/npm/litepicker/dist/css/litepicker.css" rel="stylesheet" />
     <link href="{{asset('css/styles.css')}}" rel="stylesheet" />
-    <link rel="icon" type="image/x-icon" href="{{asset('assets/img/send.svg')}}" />
+    <link rel="icon" type="image/x-icon" href="{{asset('assets/img/email.png')}}" />
     @yield('link')
     <script data-search-pseudo-elements defer src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.28.0/feather.min.js" crossorigin="anonymous"></script>
+
 </head>
 <style>
     html{
@@ -20,7 +21,7 @@
     }
 </style>
 {{--<body class="nav-fixed" style="/*background-color:rgba(255, 255, 255, .9) ;*/background-image: url('bg/bg.png'); background-blend-mode: overlay; background-position: center; background-size: cover">--}}
-<body class="nav-fixed bg-gray-300">
+<body class="nav-fixed ">
 <!-- Navbar -->
 @include('layout.navbar')
 <!-- Navbar -->

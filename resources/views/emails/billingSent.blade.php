@@ -166,7 +166,7 @@
                                                         {{$billing->filename}}
                                                     </a>
                                                 </td>
-                                                <td>{{$billing->emailDate}}</td>
+                                                <td>{{\Carbon\Carbon::parse($billing->emailDate)->format('d-M-Y h:i:s A')}}</td>
                                                 <td>{{$billing->emailedBy}}</td>
                                                 <td>{{$billing->emailStatus}} <span>{{\Carbon\Carbon::parse($billing->emailDate)->diffForHumans()}}</span></td>
 {{--                                                <td>--}}
