@@ -43,11 +43,11 @@
                         <li class="nav-item position-relative">
                             <a class="nav-link {{(request()->is('duplicateClient','searchDuplicateClient')) ? 'active' : ""}} position-relative" href="{{url('duplicateClient')}}">
                                 Duplicate <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-{{--                                    @if(count($duplicates) < 100)--}}
+                                    @if(count($duplicates) < 100)
                                         {{$duplicates->withQueryString()->total()}}
-{{--                                    @else--}}
-{{--                                        99+--}}
-{{--                                    @endif--}}
+                                    @else
+                                        99+
+                                    @endif
 
                                             <span class="visually-hidden">New alerts</span>
                                             </span>
@@ -76,7 +76,7 @@
                             <th>Contract#</th>
                             <th>Email</th>
 {{--                            <th>Contact</th>--}}
-                            <th>Status</th>
+{{--                            <th>Status</th>--}}
                             <th>Actions</th>
                         </tr>
                         </thead>
@@ -102,7 +102,7 @@
                                     {{Str::limit($duplicate->email,50)}}
                                 </td>
 {{--                                <td>{{$duplicate->contact}}</td>--}}
-                                <td><div class="badge bg-primary text-white rounded-pill">Active</div></td>
+{{--                                <td><div class="badge bg-primary text-white rounded-pill">Active</div></td>--}}
                                 <td>
                                     <a href="{{url("editClient/$duplicate->id")}}"
                                        class="btn btn-datatable btn-icon btn-outline-primary me-1" title="Edit">

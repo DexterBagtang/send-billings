@@ -237,9 +237,10 @@ class UploadController extends Controller
             ];
 //            return view('pdf.myPDF',$data);
             //            dd($data);
+            $companyName = str_replace(' ','',$client->company);
             $accNo = $client->account_number;
             $conNo = $client->contract_number;
-            $filename = $accNo.$conNo.$year.$month;
+            $filename = $accNo.$conNo.$year.$month.'_'.$companyName;
 
             $pdf = PDF::loadView('pdf.myPDF',$data)->setPaper('letter','landscape');
             $pdf->save(storage_path("app/pdf/$filename.pdf"));

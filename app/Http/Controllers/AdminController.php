@@ -9,6 +9,8 @@ class AdminController extends Controller
 {
     public function users(){
         $users = DB::table('users')->get();
+//        $users = DB::table('users')->select('users.*');
+//        dd($users);
         $search=null;
 //        dd($users);
         return view('admin.users')->with('users',$users)->with('search',$search);

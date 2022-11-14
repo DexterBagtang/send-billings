@@ -21,7 +21,7 @@ class ClientImport implements ToModel , WithHeadingRow
             'account_number' => $row['account_number'],
             'contract_number' => $row['contract_number'],
             'name' => $row['company'],
-            'contact' => $row['email'],
+            'contact' => null,
         ]);
     }
 }

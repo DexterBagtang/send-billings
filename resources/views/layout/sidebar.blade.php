@@ -316,7 +316,7 @@
 
                     <!-- Sidenav Link (Failed) -->
                     <a class="nav-link {{(request()->is('sendBillingFailed','searchFailed')) ? 'active border bg-primary-soft rounded-pill' : ''}}" href="{{url('sendBillingFailed')}}">
-                        <div class="nav-link-icon text-danger"><i data-feather="alert-circle"></i></div>
+                        <div class="nav-link-icon text-danger"><i data-feather="alert-triangle"></i></div>
                         Failed
                     </a>
 
@@ -326,6 +326,25 @@
                         Resend Failed SoA
                     </a>
                     @endif
+
+                    <div class="sidenav-menu-heading">Announcement</div>
+                    <a class="nav-link {{(request()->is('announcements','')) ? 'active border bg-primary-soft rounded-pill' : ''}}" href="{{url('announcements')}}">
+                        <div class="nav-link-icon text-cyan"><i data-feather="alert-circle"></i></div>
+                        Announcement
+                    </a>
+
+{{--                    <!-- Sidenav Accordion (Flows)-->--}}
+{{--                    <a class="nav-link collapsed" href="javascript:void(0);" data-bs-toggle="collapse" data-bs-target="#collapseFlows" aria-expanded="false" aria-controls="collapseFlows">--}}
+{{--                        <div class="nav-link-icon text-secondary"><i data-feather="alert-octagon"></i></div>--}}
+{{--                        Announcements--}}
+{{--                        <div class="sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>--}}
+{{--                    </a>--}}
+{{--                    <div class="collapse {{(request()->is('recipients','addRecipient')) ? 'show' : ''}}" id="collapseFlows" data-bs-parent="#accordionSidenav">--}}
+{{--                        <nav class="sidenav-menu-nested nav">--}}
+{{--                            <a class="nav-link" href="multi-tenant-select.html">Send Announcements</a>--}}
+{{--                            <a class="nav-link {{(request()->is('recipients','addRecipient')) ? 'active border bg-primary-soft rounded-pill' : ''}}" href="{{url('recipients')}}">Recipients</a>--}}
+{{--                        </nav>--}}
+{{--                    </div>--}}
 
 
 
@@ -338,8 +357,6 @@
                         Users
                     </a>
                     @endif
-
-
                 </div>
             </div>
             <!-- Sidenav Footer-->

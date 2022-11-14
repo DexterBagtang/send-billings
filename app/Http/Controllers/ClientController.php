@@ -21,7 +21,7 @@ class ClientController extends Controller
 //            ->orderBy('id','desc')
 ////            ->paginate(50);
 //            ->get();
-        $clients = DB::table('clients')->orderByDesc('id')->paginate(10);
+        $clients = DB::table('clients')->orderBy('company')->paginate(10);
 
         $duplicate = DB::table('clients')
             ->groupBy('contract_number')
@@ -54,15 +54,30 @@ class ClientController extends Controller
         $this->validate($request,[
            'company'=>'required',
             'email'=>'required',
-            'account_number'=>'required',
-            'contract_number'=>'required',
+            'account_number'=>'required|max:99999999',
+            'contract_number'=>'required|max:9999',
         ],[
             'company.required' => 'Company is empty !',
             'email.required' => 'Email is empty !',
             'email.email' => 'Please enter a valid email',
             'account_number.required' => 'Account Number is required',
-            'contract_number.required' => 'Contract Number is required'
+            'account_number.integer' => 'Invalid Account number',
+            'account_number.max' => 'Account Number must not be greater than 8 digits',
+            'account_number.min' => 'Account Number must be at least 8 digits',
+            'contract_number.required' => 'Contract Number is required',
+            'contract_number.integer' => 'Invalid Contract number',
+            'contract_number.max' => 'Contract Number must not be greater than 4 digits',
+            'contract_number.min' => 'Contract Number must be at least 4 digits'
+
         ]);
+        //========== Checks for possible duplicate ======================//
+        $checkDuplicate = DB::table('clients')->where('account_number',$request->account_number)
+            ->where('contract_number',$request->contract_number)
+            ->get();
+        if (count($checkDuplicate) > 0){
+            return back()->withErrors(["Client with an account number of $request->account_number and contract number of $request->contract_number already exist in the database !"]);
+        }
+        //==============================================================//
 
         $client = new Client([
             'name' => $request->input('company'),
@@ -131,7 +146,8 @@ class ClientController extends Controller
 
         }catch (\Exception $e){
             $error =  $e->getMessage();
-            return redirect('addClient')->with('importError','Invalid CSV file!');
+            return $error;
+//            return redirect('addClient')->with('importError','Invalid CSV file!');
         }
 //        Excel::import(new ClientImport(),$request->file('csv'));
 
@@ -148,22 +164,28 @@ class ClientController extends Controller
 
     public function duplicateClient(){
         $clients = DB::table('clients')
-            ->groupBy('contract_number')
-            ->select('contract_number',DB::raw('count(*) as count'))
+            ->groupBy('contract_number','account_number')
+            ->select('contract_number','account_number',DB::raw('count(*) as count'))
             ->having('count','>','1')
             ->get();
+//        dd($clients);
         if (count($clients) < 1){
             return redirect('clients');
         }
         foreach ($clients as $client){
-            $data[] = $client->contract_number;
+            $duplicates = DB::table('clients')->where('account_number','=',$client->account_number)->where('contract_number','=',$client->contract_number)->get('id');
+            foreach ($duplicates as $duplicate){
+                $ids[]=$duplicate->id;
+            }
         }
 
-//
         $duplicates = DB::table('clients')
-            ->whereIn('contract_number',$data)
-            ->orderByDesc('contract_number')
+            ->whereIn('id',$ids)
+            ->orderByDesc('account_number')
+            ->orderBy('contract_number')
             ->paginate(10);
+
+//        dd($duplicates  );
         $search = null;
 
         $url = request()->fullUrl();

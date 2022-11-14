@@ -5,6 +5,24 @@
 @endsection
 
 @section('content')
+    <style>
+        .custom-file-button input[type=file] {
+            margin-left: -2px !important;
+        }
+
+        .custom-file-button input[type=file]::-webkit-file-upload-button {
+            display: none;
+        }
+
+        .custom-file-button input[type=file]::file-selector-button {
+            display: none;
+        }
+
+        .custom-file-button:hover label {
+            background-color: #dde0e3;
+            cursor: pointer;
+        }
+    </style>
     <main>
         <header class="page-header page-header-compact page-header-light  mb-4">
             <div class="container-xl px-4">
@@ -284,29 +302,18 @@
                                                     <input type="text" class="form-control" id="inputPassword3" name="subject" placeholder="Enter the Subject for these emails" required >
                                                 </div>
                                             </div>
-                                            <div class="form-group">
+{{--                                            <div class="row mb-3">--}}
+{{--                                                <div class="col-sm-3">--}}
+{{--                                                    <div class="input-group custom-file-button">--}}
+{{--                                                        <label class="input-group-text" for="inputGroupFile"><i class="fas fa-paperclip"> </i> Attach</label>--}}
+{{--                                                        <input type="file" class="form-control" id="inputGroupFile">--}}
+{{--                                                    </div>--}}
+{{--                                                </div>--}}
+{{--                                            </div>--}}
+
+                                        <div class="form-group mb-3">
                                                 <label class="col-sm-2 col-form-label">Message:</label>
                                                 <textarea class="summernote" name="message">
-{{--<pre style="font-family:Calibri,sans-serif; font-size: 11pt">--}}
-{{--Hi Ma’am/Sir;--}}
-
-{{--Good day!--}}
-
-{{--Hope this message finds you well!--}}
-
-{{--Kindly see attached softcopy of your billing for the month of <b>{{strtoupper($month)}} {{$year}}</b>.--}}
-
-
-{{--You may pay your bills on any BDO Bank nationwide using bills payment facility. Please see payment instruction for your reference.--}}
-
-{{--For those client that made payment last month or prior and was not posted, kindly send your proof of payment to <a href="mailto:Famela.sunio@philcom.com" style="font-style: italic">Famela.sunio@philcom.com</a> .--}}
-
-{{--Please settle your dues on time to avoid penalties and temporary interruption of your circuit.--}}
-
-{{--It is very well appreciated if you could acknowledge this email and if you have any concern or clarifications you may contact our mobile number <b>0917-315-8033</b>, please don’t hesitate to notify us.--}}
-
-{{--Thank you and have a nice day!--}}
-{{--</pre>--}}
 
 <div style="font-family:Calibri,sans-serif; font-size: 11pt">
 <p>Hi Ma’am/Sir;</p>
@@ -329,6 +336,14 @@
 </div>
 
                                                 </textarea>
+                                            </div>
+                                            <div class="row mb-3">
+                                                <div class="col-sm-3">
+                                                    <div class="input-group custom-file-button">
+                                                        <label class="input-group-text" for="inputGroupFile"><i class="fas fa-paperclip"> </i> Attachment</label>
+                                                        <input type="file" class="form-control" id="inputGroupFile" name="attachment[]" multiple>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="modal-footer">

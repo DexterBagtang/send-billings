@@ -56,11 +56,11 @@
                                 </div>
                                 <div class="col-6">
                                     <label for="inputAddress" class="form-label">Account Number</label>
-                                    <input type="text" name="account_number" value="{{old('account_number')}}" class="form-control" id="inputAddress" >
+                                    <input type="number" name="account_number" value="{{old('account_number')}}" class="form-control" id="inputAddress" >
                                 </div>
                                 <div class="col-6">
                                     <label for="inputAddress2" class="form-label">Contract Number</label>
-                                    <input type="text" name="contract_number" value="{{old('contract_number')}}" class="form-control" id="inputAddress2">
+                                    <input type="number" name="contract_number" value="{{old('contract_number')}}" class="form-control" id="inputAddress2">
                                 </div>
 
                                 <div class="col-12">

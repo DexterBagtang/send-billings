@@ -219,10 +219,20 @@ class EmailController extends Controller
         $year = $request->input('year');
         $cc=$request->cc;
         $bcc=$request->bcc;
-        $subject=$request->subject;
+        $subjectInput=$request->subject;
         $content=$request->message;
 
-
+        if ($request->hasFile('attachment')){
+            foreach ($request->file('attachment')as $file){
+                //            $file = $request->file('attachment');
+                $name = $file->getClientOriginalName();
+                $file->move(public_path("attachments"), $name);
+                $names[]=$name;
+            }
+        }
+//        dd($names);
+        $attachment = $names;
+//============ Filters the files , selects the latest files in case of duplicate files ============//
         $billingsFilter = DB::table('files')
             ->where('month','=',$month)
             ->where('year','=',$year)
@@ -231,6 +241,8 @@ class EmailController extends Controller
             ->groupBy('files.filename')
             ->select('files.filename',DB::raw('max(files.id) as id'))
             ->get();
+
+
         foreach ($billingsFilter as $filter){
             $billingId = $filter->id;
             $billingIds[]=$billingId;
@@ -299,11 +311,15 @@ class EmailController extends Controller
                         'content' => $content,
                     ];
 
+
                     $email = $billing->email;
                     $id = $billing->id;
+                    $subject = "Account No - $billing->account_number Contract No - $billing->contract_number $billing->company".$subjectInput;
                     $file = public_path("billing_files/$month-$year/$billing->storedFile");
+//                    $attachment = public_path("attachments/$name");
+//                    $attachment = $names;
 
-                    $emailJob = (new SendEmailJob($email,$file,$id,$cc,$bcc,$subject,$data));
+                    $emailJob = (new SendEmailJob($email,$file,$id,$cc,$bcc,$subject,$data,$attachment));
                     dispatch($emailJob)->delay($delaySeconds)->onQueue('email');
 
 

@@ -1,10 +1,12 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EmailController;
 use App\Http\Controllers\FileController;
+use App\Http\Controllers\RecipientController;
 use App\Http\Controllers\UploadController;
 use App\Http\Middleware\CheckAdmin;
 use Illuminate\Support\Facades\DB;
@@ -24,8 +26,25 @@ use Illuminate\Support\Facades\View;
 Route::middleware('auth')->group(function () {
     Route::get('test', function () {
 //
+//        $billingSent = DB::table('files')
+//            ->where('month','=',$month)
+//            ->where('year','=',$year)
+//            ->where('emailStatus','=','sent')
+//            ->join('clients','files.clients_id','=','clients.id')
+//            ->select('clients.*','files.filename','files.month','files.year',
+//                'files.emailStatus','files.created_at','files.emailDate','files.emailedBy','files.storedFile')
+////            ->distinct()
+//            ->orderBy('files.emailDate','desc')
+//            ->paginate(20);
+
+        $sent = DB::table('files')->groupBy('month')->select('month',DB::raw("COUNT(*) as count"))->get();
+
+        $labels = $sent->keys();
+        $data = $sent->values();
+        dd($labels,$data);
+//        dd($sent);
 //        return view('index');
-        return view('index');
+        return view('index',compact('labels','data'));
     });
     //-----------------Dashboard-----------------------------------//
     Route::get('/',([DashboardController::class,'dashboard']));
@@ -105,11 +124,32 @@ Route::middleware('auth')->group(function () {
     Route::get('searchResend',([EmailController::class,'searchResend']));
 
 
+    //------------------Account Profile ---------------------------------------------//
+    Route::get('account',([DashboardController::class,'account']));
+    Route::post('uploadProfile',([DashboardController::class,'uploadProfile']));
+
+
     //------------------Admin-------------------------------------------------------//
     Route::middleware('checkAdmin')->group(function () {
         Route::get('users',([AdminController::class,'users']));
-        Route::get('search-users',([AdminController::class,'searchUsers']));
+        Route::post('search-users',([AdminController::class,'searchUsers']));
     });
+
+    //----------------Recipient-----------------------------------------------//
+
+    Route::get('recipients',([RecipientController::class,'recipients']));
+    Route::get('searchRecipient',([RecipientController::class,'searchRecipient']));
+    Route::get('addRecipient',([RecipientController::class,'addRecipient']));
+    Route::post('storeRecipient',([RecipientController::class,'storeRecipient']));
+    Route::get('editRecipient/{id}',([RecipientController::class,'editRecipient']));
+    Route::post('updateRecipient',([RecipientController::class,'updateRecipient']));
+    Route::get('removeRecipient/{id}',([RecipientController::class,'removeRecipient']));
+    //===========================    Announcement  =================================================//
+    Route::get('announcements',([AnnouncementController::class,'announcements']));
+    Route::post('sendAnnouncement',([AnnouncementController::class,'sendAnnouncement']));
+
+    //test delete using bootbox
+    Route::any('delete',([RecipientController::class,'destroy']));
 
 
 });

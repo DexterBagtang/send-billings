@@ -15,7 +15,7 @@
 </head>
 
 <body style="
-background:rgba(255, 255, 255, 0) url('bg/bg.png') no-repeat fixed center top;
+background:rgba(255, 255, 255, 0) url('bg/bg11.png') no-repeat fixed  center top;
 background-size:cover;
 background-blend-mode: overlay;">
 

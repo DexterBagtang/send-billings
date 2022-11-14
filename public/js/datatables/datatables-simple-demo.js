@@ -39,9 +39,9 @@ window.addEventListener('DOMContentLoaded', event => {
 
             ajax:"data.json"
         });
-        setInterval( function () {
-            datatablesSimple2.ajax.reload();
-        }, 3000 );
+        // setInterval( function () {
+        //     datatablesSimple2.ajax.reload();
+        // }, 3000 );
     }
 
     const datatablesSimple3 = document.getElementById('datatablesSimple3');

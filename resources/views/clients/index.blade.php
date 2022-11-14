@@ -1,6 +1,7 @@
 @extends('layout.app')
 
 @section('content')
+
     <main>
         <!-- Main page content-->
         <div class="container-fluid px-5 mt-4">
@@ -44,7 +45,7 @@
                             <a class="nav-link {{(request()->is('duplicateClient')) ? 'active' : ""}}" href="{{url('duplicateClient')}}">
                                 Duplicate <!--<span class="position-absolute top-0 start-100 translate-middle p-2 bg-danger border border-light rounded-circle">-->
                                 <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger badge-sm">
-                                    @if(count($duplicate) < 100)
+                                    @if(count($duplicate) > 100)
                                          <span class="text-danger">*</span>
                                     @else
                                         99+
@@ -81,7 +82,7 @@
                             <th>Contract#</th>
                             <th>Email</th>
 {{--                            <th>Contact</th>--}}
-                            <th>Status</th>
+{{--                            <th>Status</th>--}}
                             <th>Actions</th>
 
                         </tr>
@@ -95,14 +96,14 @@
                             <td title="{{$client->email}}">{{Str::limit($client->email,50)}}</td>
 {{--                            <td>{{$client->email}}</td>--}}
 {{--                            <td>{{$client->contact}}</td>--}}
-                            <td>
-                                @if($client->disabled_at == null)
-                                    <div class="badge bg-primary text-white rounded-pill">Active</div>
-                                @else
-                                    <div class="badge bg-warning text-white rounded-pill">Disabled</div>
-                                @endif
+{{--                            <td>--}}
+{{--                                @if($client->disabled_at == null)--}}
+{{--                                    <div class="badge bg-primary text-white rounded-pill">Active</div>--}}
+{{--                                @else--}}
+{{--                                    <div class="badge bg-warning text-white rounded-pill">Disabled</div>--}}
+{{--                                @endif--}}
 
-                            </td>
+{{--                            </td>--}}
                             <td>
                                 <a href="{{url("editClient/$client->id")}}"
                                    class="btn btn-datatable btn-icon btn-outline-primary m-1" title="Edit">

@@ -17,7 +17,7 @@
 </head>
 <style>
     html{
-        font-size: 14px;
+        font-size: 12px;
     }
 </style>
 {{--<body class="nav-fixed" style="/*background-color:rgba(255, 255, 255, .9) ;*/background-image: url('bg/bg.png'); background-blend-mode: overlay; background-position: center; background-size: cover">--}}

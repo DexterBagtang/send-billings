@@ -23,6 +23,8 @@ class SendEmailJob implements ShouldQueue
     protected $bcc;
     protected $subject;
     protected $data;
+    protected $attachment;
+
 //    protected $message;
 
 
@@ -33,7 +35,7 @@ class SendEmailJob implements ShouldQueue
      *
      * @return void
      */
-    public function __construct($email,$file,$id,$cc,$bcc,$subject,$data)
+    public function __construct($email,$file,$id,$cc,$bcc,$subject,$data,$attachment)
     {
         $this->email = $email;
         $this->file = $file;
@@ -42,6 +44,8 @@ class SendEmailJob implements ShouldQueue
         $this->bcc = $bcc;
         $this->subject = $subject;
         $this->data = $data;
+        $this->attachment = $attachment;
+
 //        $this->message = $message;
 
 
@@ -65,10 +69,13 @@ class SendEmailJob implements ShouldQueue
 
 
         Mail::to('Dexter.Bagtang@philcom.com')
-//        Mail::to($this->email)
-            ->cc($this->cc)
+//        Mail::to(['Dexter.Bagtang@philcom.com','Lloyd.Torres@philcom.com'])
+
+            //        Mail::to($this->email)
+//            ->cc($this->cc)
+//                ->cc('dexterbagtang@gmail.com')
             ->bcc($this->bcc)
-            ->send(new SendMail($this->file,$this->subject/*.' '.$this->email*/,$this->data));
+            ->send(new SendMail($this->file,$this->subject/*.' '.$this->email*/,$this->data,$this->attachment));
 
         $file = File::query()
 //            ->where('email','=',$this->email)

@@ -13,6 +13,7 @@ class SendMail extends Mailable
     public $file;
     public $subject;
     public $data;
+    public $attachment;
 //    public $message;
 
 
@@ -21,11 +22,12 @@ class SendMail extends Mailable
      *
      * @return void
      */
-    public function __construct($file,$subject,$data)
+    public function __construct($file,$subject,$data,$attachment)
     {
         $this->file = $file;
         $this->subject = $subject;
         $this->data = $data;
+        $this->attachment= $attachment;
 //        $this->message = $message;
 
     }
@@ -37,13 +39,28 @@ class SendMail extends Mailable
      */
     public function build()
     {
+//        $files[] = $this->file  ;
+        foreach ($this->attachment as $name){
+            $attachment = public_path("attachments/$name");
+            $files[] = $attachment;
+        }
+//        $files = [$this->file,$this->attachment];
         $name = "Statement of Account";
-        return $this->view('emails.billingFormat', $this->data)
-            ->from('no-reply@philcom.com','no-reply')
-            ->subject($this->subject)
-            ->attach($this->file,[
-                'as' => "$name.pdf",
-                'mime' => 'application/pdf',
-            ]);
+        $email = $this->view('emails.billingFormat', $this->data)->subject($this->subject);
+
+        $email->attach($this->file,[
+        'as' => "$name.pdf",
+        'mime' => 'application/pdf',
+        ]);
+        foreach ($files as $file){
+            $email->attach($file);
+        }
+        return $email;
+//            ->from('no-reply@philcom.com','no-reply')
+
+
+
+
+
     }
 }

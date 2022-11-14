@@ -177,6 +177,43 @@
                 </div>
             </div>
 
+
+            <!-- Main page content-->
+            <div class="container-xl px-4 mt-2">
+                <!-- Area chart example-->
+                <div class="card mb-4">
+                    <div class="card-header">Area Chart Example</div>
+                    <div class="card-body">
+                        <div class="chart-area"><canvas id="myAreaChart" width="100%" height="30"></canvas></div>
+                    </div>
+                    <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <!-- Bar chart example-->
+                        <div class="card mb-4">
+                            <div class="card-header">Bar Chart Example</div>
+                            <div class="card-body">
+                                <div class="chart-bar"><canvas id="myBarChart" width="100%" height="50"></canvas></div>
+                            </div>
+                            <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <!-- Pie chart example-->
+                        <div class="card mb-4">
+                            <div class="card-header">Pie Chart Example</div>
+                            <div class="card-body">
+                                <div class="chart-pie"><canvas id="myPieChart" width="100%" height="50"></canvas></div>
+                            </div>
+                            <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+
         </div>
     </main>
 

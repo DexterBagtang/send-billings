@@ -170,18 +170,26 @@
         <li class="nav-item dropdown no-caret dropdown-user me-3 me-lg-4">
             <a class="btn btn-icon btn-primary dropdown-toggle" id="navbarDropdownUserImage" href="javascript:void(0);" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 {{--                <img class="img-fluid" src="{{asset('assets/img/johnny.webp')}}" />--}}
-                <img class="img-fluid" src="{{asset('assets/img/illustrations/profiles/profile-2.png')}}" />
+                @if(\Illuminate\Support\Facades\Auth::user()->profile_picture == null)
+                    <img class="img-fluid" src="{{asset('assets/img/illustrations/profiles/profile-2.png')}}" />
+                @else
+                    <img class="img-fluid" src="{{asset('profile/'. \Illuminate\Support\Facades\Auth::user()->profile_picture)}}" />
+                @endif
             </a>
             <div class="dropdown-menu dropdown-menu-end border-0 shadow animated--fade-in-up" aria-labelledby="navbarDropdownUserImage">
                 <h6 class="dropdown-header d-flex align-items-center">
-                    <img class="dropdown-user-img" src="{{asset('assets/img/illustrations/profiles/profile-2.png')}}" alt="#">
+                    @if(\Illuminate\Support\Facades\Auth::user()->profile_picture == null)
+                        <img class="dropdown-user-img" src="{{asset('assets/img/illustrations/profiles/profile-2.png')}}" alt="#">
+                    @else
+                        <img class="dropdown-user-img" src="{{asset('profile/'. \Illuminate\Support\Facades\Auth::user()->profile_picture)}}" alt="#">
+                    @endif
                     <div class="dropdown-user-details">
                         <div class="dropdown-user-details-name">{{\Illuminate\Support\Facades\Auth::user()->name}}</div>
                         <div class="dropdown-user-details-email">{{\Illuminate\Support\Facades\Auth::user()->email}}</div>
                     </div>
                 </h6>
                 <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="#!">
+                <a class="dropdown-item" href="{{url('account')}}">
                     <div class="dropdown-item-icon"><i data-feather="settings"></i></div>
                     Account
                 </a>

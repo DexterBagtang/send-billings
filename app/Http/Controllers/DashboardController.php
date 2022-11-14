@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use _PHPStan_9a6ded56a\Nette\Neon\Exception;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
@@ -68,6 +70,34 @@ class DashboardController extends Controller
             ->with('billingsCount',$billingsCount)
             ->with('greet',$greet);
 
+    }
+
+    public function account(){
+        $user = DB::table('users')->where('id','=',Auth::user() -> id)->first();
+//        dd($user);
+
+        return view('account.account')->with('user',$user);
+    }
+
+    public function uploadProfile(Request $request)
+    {
+
+        $this->validate($request,[
+           'profile_picture' => 'required'
+        ]);
+
+        if ($request->hasFile('profile_picture')){
+            $profile_picture = $request->file('profile_picture');
+            $profile_name = $profile_picture->getClientOriginalName();
+            $profile_picture->move(public_path("profile"),$profile_name);
+
+            $user = User::find(Auth::user() -> id);
+            $user->profile_picture = $profile_name;
+            $user->update();
+        }
+
+
+        return back()->with('success','Profile picture uploaded');
     }
 
 }

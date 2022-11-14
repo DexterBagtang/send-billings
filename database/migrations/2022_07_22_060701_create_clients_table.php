@@ -16,10 +16,10 @@ return new class extends Migration
         Schema::create('clients', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->integer('account_number');
-            $table->integer('contract_number');
-            $table->string('contact');
-            $table->string('email');
+            $table->string('account_number');
+            $table->string('contract_number');
+            $table->string('contact')->nullable();
+            $table->longText('email');
             $table->string('company');
             $table->dateTime('disabled_at')->nullable();
             $table->timestamps();
