@@ -135,21 +135,16 @@ Route::middleware('auth')->group(function () {
         Route::post('search-users',([AdminController::class,'searchUsers']));
     });
 
-    //----------------Recipient-----------------------------------------------//
 
-    Route::get('recipients',([RecipientController::class,'recipients']));
-    Route::get('searchRecipient',([RecipientController::class,'searchRecipient']));
-    Route::get('addRecipient',([RecipientController::class,'addRecipient']));
-    Route::post('storeRecipient',([RecipientController::class,'storeRecipient']));
-    Route::get('editRecipient/{id}',([RecipientController::class,'editRecipient']));
-    Route::post('updateRecipient',([RecipientController::class,'updateRecipient']));
-    Route::get('removeRecipient/{id}',([RecipientController::class,'removeRecipient']));
     //===========================    Announcement  =================================================//
     Route::get('announcements',([AnnouncementController::class,'announcements']));
     Route::post('sendAnnouncement',([AnnouncementController::class,'sendAnnouncement']));
+    Route::get('sentAnnouncement',([AnnouncementController::class,'sentAnnouncement']));
+    Route::get('searchAnnouncement',([AnnouncementController::class,'searchAnnouncement']));
+    Route::get('readAnnouncement/{id}',([AnnouncementController::class,'readAnnouncement']));
+    Route::get('sendingAnnouncement',([AnnouncementController::class,'sendingAnnouncement']));
 
-    //test delete using bootbox
-    Route::any('delete',([RecipientController::class,'destroy']));
+
 
 
 });

@@ -39,22 +39,21 @@ class SendMail extends Mailable
      */
     public function build()
     {
-//        $files[] = $this->file  ;
-        foreach ($this->attachment as $name){
-            $attachment = public_path("attachments/$name");
-            $files[] = $attachment;
-        }
-//        $files = [$this->file,$this->attachment];
         $name = "Statement of Account";
         $email = $this->view('emails.billingFormat', $this->data)->subject($this->subject);
-
+//        $files[] = $this->file  ;
+        if ($this->attachment != [null]){
+            foreach ($this->attachment as $name){
+                $attachment = public_path("attachments/$name");
+                $email->attach($attachment);
+            }
+        }
+//        $files = [$this->file,$this->attachment];
         $email->attach($this->file,[
         'as' => "$name.pdf",
         'mime' => 'application/pdf',
         ]);
-        foreach ($files as $file){
-            $email->attach($file);
-        }
+
         return $email;
 //            ->from('no-reply@philcom.com','no-reply')
 

@@ -229,6 +229,8 @@ class EmailController extends Controller
                 $file->move(public_path("attachments"), $name);
                 $names[]=$name;
             }
+        }else{
+            $names[] = null;
         }
 //        dd($names);
         $attachment = $names;

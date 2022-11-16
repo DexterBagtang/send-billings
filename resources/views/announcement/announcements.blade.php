@@ -38,14 +38,25 @@
 {{--        </header>--}}
         <!-- Main page content-->
         <div class="container-fluid px-4 mt-4">
-            <!-- Account page navigation-->
-            <nav class="nav nav-borders">
-                <a class="nav-link active ms-0" href="account-profile.html">Profile</a>
-                <a class="nav-link" href="account-billing.html">Billing</a>
-                <a class="nav-link" href="account-security.html">Security</a>
-                <a class="nav-link" href="account-notifications.html">Notifications</a>
-            </nav>
-            <hr class="mt-0 mb-4" />
+            @if(session()->get('success'))
+                <div class="alert alert-success">
+                    {{ session()->get('success') }}
+                </div><br />
+            @endif
+
+
+            @if ($errors->any())
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+
+                @include('layout.announcementnav')
+
             <div class="row">
 {{--                <div class="col-xl-2">--}}
 {{--                    <!-- Profile picture card-->--}}
@@ -85,7 +96,7 @@
                                 </div>
                                 <div class="input-group">
                                     <span class="input-group-text">Subject:</span>
-                                    <input type="text" class="form-control" name="subject" aria-label="With textarea">
+                                    <input type="text" class="form-control" name="subject" aria-label="With textarea" required>
                                 </div>
                                 {{--                                            <div class="row mb-3">--}}
                                 {{--                                                <div class="col-sm-3">--}}
@@ -98,10 +109,8 @@
 
                                 <div class="form-group mb-3">
                                     <label class="col-sm-2 col-form-label">Message:</label>
-                                    <textarea class="summernote" name="message">
-                                        <div style="font-family:Calibri,sans-serif; font-size: 11pt">
+                                    <textarea class="summernote" name="message" required>
 
-                                        </div>
                                     </textarea>
                                 </div>
                                 <div class="row mb-3">

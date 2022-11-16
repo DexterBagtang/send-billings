@@ -13,12 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('recipients', function (Blueprint $table) {
+        Schema::create('compositions', function (Blueprint $table) {
             $table->id();
-            $table->string('recipient_name');
-            $table->string('recipient_email');
-            $table->string('created_by');
-            $table->string('status')->nullable();
+            $table->string('subject');
+            $table->longText('content');
+            $table->string('attachment')->nullable();
+            $table->string('stored_attachment')->nullable();
+            $table->string('composed_by');
             $table->timestamps();
         });
     }
@@ -30,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('recipients');
+        Schema::dropIfExists('compositions');
     }
 };

@@ -163,7 +163,7 @@
                                                 {{--                                <td>{{$billing->month}}-{{$billing->year}}</td>--}}
                                                 <td>
                                                     <a href="{{asset('billing_files/'.$billing->month.'-'.$billing->year.'/'.$billing->storedFile)}}" target="_blank">
-                                                        {{$billing->filename}}
+                                                        {{Str::limit($billing->filename,40)}}
                                                     </a>
                                                 </td>
                                                 <td>{{\Carbon\Carbon::parse($billing->emailDate)->format('d-M-Y h:i:s A')}}</td>

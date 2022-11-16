@@ -51,6 +51,28 @@ return [
                 'verify_peer_name' => false,
             ]
         ],
+        'smtp2' => [
+            'transport' => 'smtp',
+            'host' => env('MAIL_HOST2', 'smtp.mailgun.org'),
+            'port' => env('MAIL_PORT2', 587),
+            'encryption' => env('MAIL_ENCRYPTION2', 'tls'),
+            'username' => env('MAIL_USERNAME2'),
+            'password' => env('MAIL_PASSWORD2'),
+            'from' => [
+                'address' => env('MAIL_FROM_ADDRESS2', 'hello@example.com'),
+                'name' => env('MAIL_FROM_NAME', 'Example'),
+            ],
+            'timeout' => null,
+            'local_domain' => env('MAIL_EHLO_DOMAIN'),
+            'verify_peer' => false,
+            'allow_self_signed' => true,
+            'verify_peer_name' => false,
+            'ssl' => [
+                'verify_peer' => false,
+                'verify_peer_name' => false,
+            ]
+        ],
+
 
         'ses' => [
             'transport' => 'ses',

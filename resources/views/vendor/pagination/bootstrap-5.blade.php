@@ -1,7 +1,7 @@
 @if ($paginator->hasPages())
     <nav class="d-flex justify-items-center justify-content-between">
         <div class="d-flex justify-content-between flex-fill d-sm-none">
-            <ul class="pagination">
+            <ul class="pagination pagination-sm">
                 {{-- Previous Page Link --}}
                 @if ($paginator->onFirstPage())
                     <li class="page-item disabled" aria-disabled="true">
@@ -40,15 +40,15 @@
             </div>
 
             <div>
-                <ul class="pagination">
+                <ul class="pagination pagination-sm">
                     {{-- Previous Page Link --}}
                     @if ($paginator->onFirstPage())
                         <li class="page-item disabled" aria-disabled="true" aria-label="@lang('pagination.previous')">
 {{--                            <span class="page-link" aria-hidden="true">&lsaquo;</span>--}}
-                            <span class="page-link" aria-hidden="true">&lsaquo;&lsaquo; Previous</span>
+                            <span class="page-link" aria-hidden="true">&lsaquo;&lsaquo; </span>
                     @else
                         <li class="page-item">
-                            <a class="page-link" href="{{ $paginator->previousPageUrl() }}" rel="prev" aria-label="@lang('pagination.previous')">&lsaquo;&lsaquo; Previous</a>
+                            <a class="page-link" href="{{ $paginator->previousPageUrl() }}" rel="prev" aria-label="@lang('pagination.previous')">&lsaquo;&lsaquo; </a>
                         </li>
                     @endif
 
@@ -74,11 +74,11 @@
                     {{-- Next Page Link --}}
                     @if ($paginator->hasMorePages())
                         <li class="page-item">
-                            <a class="page-link" href="{{ $paginator->nextPageUrl() }}" rel="next" aria-label="@lang('pagination.next')">Next &rsaquo;&rsaquo;</a>
+                            <a class="page-link" href="{{ $paginator->nextPageUrl() }}" rel="next" aria-label="@lang('pagination.next')"> &rsaquo;&rsaquo;</a>
                         </li>
                     @else
                         <li class="page-item disabled" aria-disabled="true" aria-label="@lang('pagination.next')">
-                            <span class="page-link" aria-hidden="true">Next &rsaquo;&rsaquo;</span>
+                            <span class="page-link" aria-hidden="true"> &rsaquo;&rsaquo;</span>
                         </li>
                     @endif
                 </ul>
