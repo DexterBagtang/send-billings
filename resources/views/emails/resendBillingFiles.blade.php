@@ -5,8 +5,26 @@
 @endsection
 
 @section('content')
+    <style>
+        .custom-file-button input[type=file] {
+            margin-left: -2px !important;
+        }
+
+        .custom-file-button input[type=file]::-webkit-file-upload-button {
+            display: none;
+        }
+
+        .custom-file-button input[type=file]::file-selector-button {
+            display: none;
+        }
+
+        .custom-file-button:hover label {
+            background-color: #dde0e3;
+            cursor: pointer;
+        }
+    </style>
     <main>
-        <header class="page-header page-header-compact page-header-light border-bottom bg-white mb-4">
+        <header class="page-header page-header-compact page-header-light  mb-4">
             <div class="container-xl px-4">
                 <div class="page-header-content">
                     <div class="row align-items-center justify-content-between pt-3">
@@ -32,47 +50,47 @@
                                 <a class="btn-close" type="" data-bs-dismiss="alert" aria-label="Close"></a>
                             </div>
                         @endif
-{{--                        <div class="col-auto mb-3">--}}
-{{--                            <h1 class="page-header-title">--}}
-{{--                                --}}{{--                                <div class="page-header-icon"><i data-feather="file"></i></div>--}}
-{{--                                Billing Files--}}
-{{--                            </h1>--}}
-{{--                        </div>--}}
-{{--                        <div class="col-12 col-xl-auto mb-3">--}}
-{{--                            @if(session()->get('sending'))--}}
-{{--                                --}}{{--                                    <div class="alert alert-success">--}}
-{{--                                --}}{{--                                        {{ session()->get('success') }}--}}
-{{--                                --}}{{--                                    </div><br />--}}
-{{--                                <div class="alert alert-success alert-dismissible fade show float-end" role="alert">--}}
-{{--                                    <h5 class="alert-heading">Note !</h5>--}}
-{{--                                    <hr>--}}
-{{--                                    {{ session()->get('sending') }}--}}
-{{--                                    <a class="btn-close" type="" data-bs-dismiss="alert" aria-label="Close"></a>--}}
-{{--                                </div>--}}
-{{--                            @endif--}}
-{{--                                @if(session()->get('error'))--}}
-{{--                                    --}}{{--                                    <div class="alert alert-success">--}}
-{{--                                    --}}{{--                                        {{ session()->get('success') }}--}}
-{{--                                    --}}{{--                                    </div><br />--}}
-{{--                                    <div class="alert alert-danger alert-dismissible fade show float-end" role="alert">--}}
-{{--                                        <h5 class="alert-heading">Note !</h5>--}}
-{{--                                        <hr>--}}
-{{--                                        {{ session()->get('error') }}--}}
-{{--                                        <a class="btn-close" type="" data-bs-dismiss="alert" aria-label="Close"></a>--}}
-{{--                                    </div>--}}
-{{--                                @endif--}}
+                        {{--                        <div class="col-auto mb-3">--}}
+                        {{--                            <h1 class="page-header-title">--}}
+                        {{--                                --}}{{--                                <div class="page-header-icon"><i data-feather="file"></i></div>--}}
+                        {{--                                Billing Files--}}
+                        {{--                            </h1>--}}
+                        {{--                        </div>--}}
+                        {{--                        <div class="col-12 col-xl-auto mb-3">--}}
+                        {{--                            @if(session()->get('sending'))--}}
+                        {{--                                --}}{{--                                    <div class="alert alert-success">--}}
+                        {{--                                --}}{{--                                        {{ session()->get('success') }}--}}
+                        {{--                                --}}{{--                                    </div><br />--}}
+                        {{--                                <div class="alert alert-success alert-dismissible fade show float-end" role="alert">--}}
+                        {{--                                    <h5 class="alert-heading">Note !</h5>--}}
+                        {{--                                    <hr>--}}
+                        {{--                                    {{ session()->get('sending') }}--}}
+                        {{--                                    <a class="btn-close" type="" data-bs-dismiss="alert" aria-label="Close"></a>--}}
+                        {{--                                </div>--}}
+                        {{--                            @endif--}}
+                        {{--                                @if(session()->get('error'))--}}
+                        {{--                                    --}}{{--                                    <div class="alert alert-success">--}}
+                        {{--                                    --}}{{--                                        {{ session()->get('success') }}--}}
+                        {{--                                    --}}{{--                                    </div><br />--}}
+                        {{--                                    <div class="alert alert-danger alert-dismissible fade show float-end" role="alert">--}}
+                        {{--                                        <h5 class="alert-heading">Note !</h5>--}}
+                        {{--                                        <hr>--}}
+                        {{--                                        {{ session()->get('error') }}--}}
+                        {{--                                        <a class="btn-close" type="" data-bs-dismiss="alert" aria-label="Close"></a>--}}
+                        {{--                                    </div>--}}
+                        {{--                                @endif--}}
 
 
-{{--                            @if ($errors->any())--}}
-{{--                                <div class="alert alert-danger">--}}
-{{--                                    <ul>--}}
-{{--                                        @foreach ($errors->all() as $error)--}}
-{{--                                            <li>{{ $error }}</li>--}}
-{{--                                        @endforeach--}}
-{{--                                    </ul>--}}
-{{--                                </div>--}}
-{{--                            @endif--}}
-{{--                        </div>--}}
+                        {{--                            @if ($errors->any())--}}
+                        {{--                                <div class="alert alert-danger">--}}
+                        {{--                                    <ul>--}}
+                        {{--                                        @foreach ($errors->all() as $error)--}}
+                        {{--                                            <li>{{ $error }}</li>--}}
+                        {{--                                        @endforeach--}}
+                        {{--                                    </ul>--}}
+                        {{--                                </div>--}}
+                        {{--                            @endif--}}
+                        {{--                        </div>--}}
                     </div>
                 </div>
             </div>
@@ -86,149 +104,149 @@
                 <div class="card-header" style="font-size: 25px">
                     Statement of Account for the month of {{$month.'-'.$year}}
                     <div class="float-end" style="font-size: 20px">
-{{--                        Total SOA = {{}} <br>--}}
-{{--                        Ready for sending = {{$notSent}} <br>--}}
+                        {{--                        Total SOA = {{}} <br>--}}
+                        {{--                        Ready for sending = {{$notSent}} <br>--}}
                         Ready for sending = {{ $billings->total() }} <br>
 
                         {{--                        Sent Billings = {{$countSent}} <br>--}}
-{{--                        Sending = {{$countSending}} <br>--}}
-{{--                        Failed = {{$billingFailed}}--}}
+                        {{--                        Sending = {{$countSending}} <br>--}}
+                        {{--                        Failed = {{$billingFailed}}--}}
 
 
                     </div>
                 </div>
                 <div class="card-body">
-{{--                    <form  id="billingForm" method="POST" action="{{url('sendBillingFilesPost')}}" enctype="multipart/form-data">--}}
-{{--                        @csrf--}}
-{{--                        <div class="row">--}}
-{{--                            <div class="col-md-5">--}}
-{{--                                <div class="form-group">--}}
-{{--                                    <label for="form-label">Month</label>--}}
-{{--                                    <select class="form-select" aria-label="select" name="month" id="exampleSelectBorder">--}}
-{{--                                        <option value="January" {{($month == "January") ? 'selected' : ''}}>January</option>--}}
-{{--                                        <option value="February" {{($month == "February") ? 'selected' : ''}}>February</option>--}}
-{{--                                        <option value="March" {{($month == "March") ? 'selected' : ''}}>March</option>--}}
-{{--                                        <option value="April" {{($month == "April") ? 'selected' : ''}}>April</option>--}}
-{{--                                        <option value="May" {{($month == "May") ? 'selected' : ''}}>May</option>--}}
-{{--                                        <option value="June" {{($month == "June") ? 'selected' : ''}}>June</option>--}}
-{{--                                        <option value="July" {{($month == "July") ? 'selected' : ''}}>July</option>--}}
-{{--                                        <option value="August" {{($month == "August") ? 'selected' : ''}}>August</option>--}}
-{{--                                        <option value="September" {{($month == "September") ? 'selected' : ''}}>September</option>--}}
-{{--                                        <option value="October" {{($month == "October") ? 'selected' : ''}}>October</option>--}}
-{{--                                        <option value="November" {{($month == "November") ? 'selected' : ''}}>November</option>--}}
-{{--                                        <option value="December" {{($month == "December") ? 'selected' : ''}}>December</option>--}}
-{{--                                    </select>--}}
-{{--                                </div>--}}
-{{--                            </div>--}}
-{{--                            <div class="col-md-5">--}}
-{{--                                <div class="form-group">--}}
-{{--                                    <label for="form-label">Year</label>--}}
-{{--                                    <select class="form-select" aria-label="select" name="year" id="exampleSelectBorder">--}}
-{{--                                        <option value="2020" {{($year == "2020") ? 'selected' : ''}}>2020</option>--}}
-{{--                                        <option value="2021" {{($year == "2021") ? 'selected' : ''}}>2021</option>--}}
-{{--                                        <option value="2022" {{($year == "2022") ? 'selected' : ''}}>2022</option>--}}
-{{--                                        <option value="2023" {{($year == "2023") ? 'selected' : ''}}>2023</option>--}}
-{{--                                        <option value="2024" {{($year == "2024") ? 'selected' : ''}}>2024</option>--}}
-{{--                                        <option value="2025" {{($year == "2025") ? 'selected' : ''}}>2025</option>--}}
-{{--                                        <option value="2026" {{($year == "2026") ? 'selected' : ''}}>2026</option>--}}
-{{--                                        <option value="2027" {{($year == "2027") ? 'selected' : ''}}>2027</option>--}}
+                    {{--                    <form  id="billingForm" method="POST" action="{{url('sendBillingFilesPost')}}" enctype="multipart/form-data">--}}
+                    {{--                        @csrf--}}
+                    {{--                        <div class="row">--}}
+                    {{--                            <div class="col-md-5">--}}
+                    {{--                                <div class="form-group">--}}
+                    {{--                                    <label for="form-label">Month</label>--}}
+                    {{--                                    <select class="form-select" aria-label="select" name="month" id="exampleSelectBorder">--}}
+                    {{--                                        <option value="January" {{($month == "January") ? 'selected' : ''}}>January</option>--}}
+                    {{--                                        <option value="February" {{($month == "February") ? 'selected' : ''}}>February</option>--}}
+                    {{--                                        <option value="March" {{($month == "March") ? 'selected' : ''}}>March</option>--}}
+                    {{--                                        <option value="April" {{($month == "April") ? 'selected' : ''}}>April</option>--}}
+                    {{--                                        <option value="May" {{($month == "May") ? 'selected' : ''}}>May</option>--}}
+                    {{--                                        <option value="June" {{($month == "June") ? 'selected' : ''}}>June</option>--}}
+                    {{--                                        <option value="July" {{($month == "July") ? 'selected' : ''}}>July</option>--}}
+                    {{--                                        <option value="August" {{($month == "August") ? 'selected' : ''}}>August</option>--}}
+                    {{--                                        <option value="September" {{($month == "September") ? 'selected' : ''}}>September</option>--}}
+                    {{--                                        <option value="October" {{($month == "October") ? 'selected' : ''}}>October</option>--}}
+                    {{--                                        <option value="November" {{($month == "November") ? 'selected' : ''}}>November</option>--}}
+                    {{--                                        <option value="December" {{($month == "December") ? 'selected' : ''}}>December</option>--}}
+                    {{--                                    </select>--}}
+                    {{--                                </div>--}}
+                    {{--                            </div>--}}
+                    {{--                            <div class="col-md-5">--}}
+                    {{--                                <div class="form-group">--}}
+                    {{--                                    <label for="form-label">Year</label>--}}
+                    {{--                                    <select class="form-select" aria-label="select" name="year" id="exampleSelectBorder">--}}
+                    {{--                                        <option value="2020" {{($year == "2020") ? 'selected' : ''}}>2020</option>--}}
+                    {{--                                        <option value="2021" {{($year == "2021") ? 'selected' : ''}}>2021</option>--}}
+                    {{--                                        <option value="2022" {{($year == "2022") ? 'selected' : ''}}>2022</option>--}}
+                    {{--                                        <option value="2023" {{($year == "2023") ? 'selected' : ''}}>2023</option>--}}
+                    {{--                                        <option value="2024" {{($year == "2024") ? 'selected' : ''}}>2024</option>--}}
+                    {{--                                        <option value="2025" {{($year == "2025") ? 'selected' : ''}}>2025</option>--}}
+                    {{--                                        <option value="2026" {{($year == "2026") ? 'selected' : ''}}>2026</option>--}}
+                    {{--                                        <option value="2027" {{($year == "2027") ? 'selected' : ''}}>2027</option>--}}
 
-{{--                                    </select>--}}
-{{--                                </div>--}}
-{{--                            </div>--}}
+                    {{--                                    </select>--}}
+                    {{--                                </div>--}}
+                    {{--                            </div>--}}
 
-{{--                            <div class="col-md-2">--}}
-{{--                                <div class="form-group">--}}
-{{--                                    <label for="" class="form-label"></label>--}}
-{{--                                    <input type="submit" class="btn btn-success form-control" id="submit" value="Submit">--}}
-{{--                                </div>--}}
-{{--                            </div>--}}
-{{--                        </div>--}}
-{{--                    </form>--}}
+                    {{--                            <div class="col-md-2">--}}
+                    {{--                                <div class="form-group">--}}
+                    {{--                                    <label for="" class="form-label"></label>--}}
+                    {{--                                    <input type="submit" class="btn btn-success form-control" id="submit" value="Submit">--}}
+                    {{--                                </div>--}}
+                    {{--                            </div>--}}
+                    {{--                        </div>--}}
+                    {{--                    </form>--}}
 
-{{--                    <hr>--}}
+                    {{--                    <hr>--}}
 
-{{--                    <div class="accordion accordion-flush" id="accordionFlushExample">--}}
-{{--                        <div class="accordion-item">--}}
-{{--                            <h2 class="accordion-header" id="flush-headingOne">--}}
-{{--                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">--}}
-{{--                                    Show Billing--}}
-{{--                                </button>--}}
-{{--                            </h2>--}}
-{{--                            <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">--}}
-{{--                                <div class="accordion-body">--}}
-{{--                    {{  $billings->withQueryString()->links('pagination::bootstrap-results') }}--}}
+                    {{--                    <div class="accordion accordion-flush" id="accordionFlushExample">--}}
+                    {{--                        <div class="accordion-item">--}}
+                    {{--                            <h2 class="accordion-header" id="flush-headingOne">--}}
+                    {{--                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">--}}
+                    {{--                                    Show Billing--}}
+                    {{--                                </button>--}}
+                    {{--                            </h2>--}}
+                    {{--                            <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">--}}
+                    {{--                                <div class="accordion-body">--}}
+                    {{--                    {{  $billings->withQueryString()->links('pagination::bootstrap-results') }}--}}
                     <div class="">
                         {{ $billings->withQueryString()->links('pagination::bootstrap-results') }}
-                        <form action="{{url('searchResend')}}" method="GET" class="float-end">
+                        <form action="{{url('searchSend')}}" method="GET" class="float-end">
                             <input type="search" class="form-control" name="search" value="{{$search}}" placeholder="Search">
                             <input type="submit" class="d-none">
                         </form>
                     </div>
-                                    <table id="datatablesSimple2">
-                                        <thead>
-                                        <tr>
-{{--                                            <th>Name</th>--}}
-                                            {{--                            <th>Account#</th>--}}
-                                            {{--                            <th>Contract#</th>--}}
-                                            <th>Company</th>
-                                            <th>Email</th>
-                                            {{--                            <th>Month and Year</th>--}}
-                                            <th>File</th>
-                                            <th>Date Uploaded</th>
-                                            <th>Email Status</th>
-{{--                                            <th>Actions</th>--}}
-                                        </tr>
-                                        </thead>
-                                        {{--                        <tfoot>--}}
-                                        {{--                        <tr>--}}
-                                        {{--                            <th>Name</th>--}}
-                                        {{--                            <th>Account</th>--}}
-                                        {{--                            <th>Contract</th>--}}
-                                        {{--                            <th>Email</th>--}}
-                                        {{--                            <th>Company</th>--}}
-                                        {{--                            <th>Contact</th>--}}
-                                        {{--                            <th>Status</th>--}}
-                                        {{--                            <th>Actions</th>--}}
-                                        {{--                        </tr>--}}
-                                        {{--                        </tfoot>--}}
-                                        <tbody>
-                                        @foreach($billings as $billing)
-                                            <tr>
-{{--                                                <td>{{$billing->name}}</td>--}}
-                                                {{--                                <td>{{$billing->account_number}}</td>--}}
-                                                {{--                                <td>{{$billing->contract_number}}</td>--}}
-                                                <td>{{$billing->company}}</td>
-                                                <td>{{Str::limit($billing->email,40)}}</td>
+                    <table id="datatablesSimple2">
+                        <thead>
+                        <tr>
+                            {{--                                            <th>Name</th>--}}
+                            {{--                            <th>Account#</th>--}}
+                            {{--                            <th>Contract#</th>--}}
+                            <th>Company</th>
+                            <th>Email</th>
+                            {{--                            <th>Month and Year</th>--}}
+                            <th>File</th>
+                            <th>Date Uploaded</th>
+                            <th>Email Status</th>
+                            {{--                                            <th>Actions</th>--}}
+                        </tr>
+                        </thead>
+                        {{--                        <tfoot>--}}
+                        {{--                        <tr>--}}
+                        {{--                            <th>Name</th>--}}
+                        {{--                            <th>Account</th>--}}
+                        {{--                            <th>Contract</th>--}}
+                        {{--                            <th>Email</th>--}}
+                        {{--                            <th>Company</th>--}}
+                        {{--                            <th>Contact</th>--}}
+                        {{--                            <th>Status</th>--}}
+                        {{--                            <th>Actions</th>--}}
+                        {{--                        </tr>--}}
+                        {{--                        </tfoot>--}}
+                        <tbody>
+                        @foreach($billings as $billing)
+                            <tr>
+                                {{--                                                <td>{{$billing->name}}</td>--}}
+                                {{--                                <td>{{$billing->account_number}}</td>--}}
+                                {{--                                <td>{{$billing->contract_number}}</td>--}}
+                                <td>{{$billing->company}}</td>
+                                <td>{{Str::limit($billing->email,40)}}</td>
 
-                                                {{--                                <td>{{$billing->month}}-{{$billing->year}}</td>--}}
-                                                <td>
-                                                    <a href="{{asset('billing_files/'.$billing->month.'-'.$billing->year.'/'.$billing->storedFile)}}" target="_blank">
-                                                        {{$billing->filename}}
-                                                    </a>
-                                                </td>
-                                                <td>{{$billing->created_at}}</td>
-                                                <td>{{$billing->emailStatus}}
-                                                    @if($billing->emailStatus == "sent")
-                                                        <span>{{\Carbon\Carbon::parse($billing->emailDate)->diffForHumans()}}</span>
-                                                    @endif
-                                                </td>
-{{--                                                <td>--}}
-{{--                                                    <button class="btn btn-datatable btn-icon btn-transparent-dark me-2"><i data-feather="more-vertical"></i></button>--}}
-{{--                                                    <button class="btn btn-datatable btn-icon btn-transparent-dark"><i data-feather="trash-2"></i></button>--}}
-{{--                                                </td>--}}
-                                            </tr>
-                                        @endforeach
-                                        </tbody>
-                                    </table>
+                                {{--                                <td>{{$billing->month}}-{{$billing->year}}</td>--}}
+                                <td>
+                                    <a href="{{asset('billing_files/'.$billing->month.'-'.$billing->year.'/'.$billing->storedFile)}}" target="_blank">
+                                        {{$billing->filename}}
+                                    </a>
+                                </td>
+                                <td>{{$billing->created_at}}</td>
+                                <td>{{$billing->emailStatus}}
+                                    @if($billing->emailStatus == "sent")
+                                        <span>{{\Carbon\Carbon::parse($billing->emailDate)->diffForHumans()}}</span>
+                                    @endif
+                                </td>
+                                {{--                                                <td>--}}
+                                {{--                                                    <button class="btn btn-datatable btn-icon btn-transparent-dark me-2"><i data-feather="more-vertical"></i></button>--}}
+                                {{--                                                    <button class="btn btn-datatable btn-icon btn-transparent-dark"><i data-feather="trash-2"></i></button>--}}
+                                {{--                                                </td>--}}
+                            </tr>
+                        @endforeach
+                        </tbody>
+                    </table>
                     {{  $billings->withQueryString()->links('pagination::bootstrap-5') }}
 
 
                     {{--                                </div>--}}
-{{--                            </div>--}}
-{{--                        </div>--}}
+                    {{--                            </div>--}}
+                    {{--                        </div>--}}
 
-{{--                    </div>--}}
+                    {{--                    </div>--}}
 
                     <hr>
 
@@ -238,7 +256,7 @@
                         <div class="form-group">
                             <input type="hidden" name="month" value="{{$month}}">
                             <input type="hidden" name="year" value="{{$year}}">
-{{--                            <input type="submit" class="btn btn-primary btn-lg" value="Send Billing">--}}
+                            {{--                            <input type="submit" class="btn btn-primary btn-lg" value="Send Billing">--}}
                         </div>
 
                         <!-- Button trigger modal -->
@@ -247,25 +265,25 @@
                         </button>
 
                         @if($billingSending > 0)
-                        <!-- Modal -->
-                        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                            <div class="modal-dialog ">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="exampleModalLabel">Send Statement of Account</h5>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <div> Uploaded Statements of Account are still sending</div>
-                                        <br>
-                                    </div>
-                                    <div class="modal-footer">
-{{--                                        <input type="submit" class="btn btn-primary" value="Send Now">--}}
-                                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
+                            <!-- Modal -->
+                            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog ">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">Send Statement of Account</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div> Uploaded Statements of Account are still sending</div>
+                                            <br>
+                                        </div>
+                                        <div class="modal-footer">
+                                            {{--                                        <input type="submit" class="btn btn-primary" value="Send Now">--}}
+                                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
                         @elseif($notSent > 0)
                             <!-- Modal -->
                             <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -284,29 +302,18 @@
                                                     <input type="text" class="form-control" id="inputPassword3" name="subject" placeholder="Enter the Subject for these emails" required >
                                                 </div>
                                             </div>
-                                            <div class="form-group">
+                                            {{--                                            <div class="row mb-3">--}}
+                                            {{--                                                <div class="col-sm-3">--}}
+                                            {{--                                                    <div class="input-group custom-file-button">--}}
+                                            {{--                                                        <label class="input-group-text" for="inputGroupFile"><i class="fas fa-paperclip"> </i> Attach</label>--}}
+                                            {{--                                                        <input type="file" class="form-control" id="inputGroupFile">--}}
+                                            {{--                                                    </div>--}}
+                                            {{--                                                </div>--}}
+                                            {{--                                            </div>--}}
+
+                                            <div class="form-group mb-3">
                                                 <label class="col-sm-2 col-form-label">Message:</label>
                                                 <textarea class="summernote" name="message">
-{{--<pre style="font-family:Calibri,sans-serif; font-size: 11pt">--}}
-                                                    {{--Hi Ma’am/Sir;--}}
-
-                                                    {{--Good day!--}}
-
-                                                    {{--Hope this message finds you well!--}}
-
-                                                    {{--Kindly see attached softcopy of your billing for the month of <b>{{strtoupper($month)}} {{$year}}</b>.--}}
-
-
-                                                    {{--You may pay your bills on any BDO Bank nationwide using bills payment facility. Please see payment instruction for your reference.--}}
-
-                                                    {{--For those client that made payment last month or prior and was not posted, kindly send your proof of payment to <a href="mailto:Famela.sunio@philcom.com" style="font-style: italic">Famela.sunio@philcom.com</a> .--}}
-
-                                                    {{--Please settle your dues on time to avoid penalties and temporary interruption of your circuit.--}}
-
-                                                    {{--It is very well appreciated if you could acknowledge this email and if you have any concern or clarifications you may contact our mobile number <b>0917-315-8033</b>, please don’t hesitate to notify us.--}}
-
-                                                    {{--Thank you and have a nice day!--}}
-                                                    {{--</pre>--}}
 
 <div style="font-family:Calibri,sans-serif; font-size: 11pt">
 <p>Hi Ma’am/Sir;</p>
@@ -319,16 +326,24 @@
 <br>
 <p>You may pay your bills on any BDO Bank nationwide using bills payment facility. Please see payment instruction for your reference.</p>
 
-<p>For those client that made payment last month or prior and was not posted, kindly send your proof of payment to <a href="mailto:Famela.sunio@philcom.com" style="font-style: italic">Famela.sunio@philcom.com</a> .</p>
+<p>For those client that made payment last month or prior and was not posted, kindly send your proof of payment to <a href="mailto:|incharge|" style="font-style: italic">|incharge|</a> .</p>
 
 <p>Please settle your dues on time to avoid penalties and temporary interruption of your circuit.</p>
 
 <p>It is very well appreciated if you could acknowledge this email and if you have any concern or clarifications you may contact our mobile number <b>0917-315-8033</b>, please don’t hesitate to notify us.</p>
 
-<p>Thank you and have a nice day!</p>
+<p>Thank you and have a nice day!</p><br>
 </div>
 
                                                 </textarea>
+                                            </div>
+                                            <div class="row mb-3">
+                                                <div class="col-sm-3">
+                                                    <div class="input-group custom-file-button">
+                                                        <label class="input-group-text" for="inputGroupFile"><i class="fas fa-paperclip"> </i> Attachment</label>
+                                                        <input type="file" class="form-control" id="inputGroupFile" name="attachment[]" multiple>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="modal-footer">

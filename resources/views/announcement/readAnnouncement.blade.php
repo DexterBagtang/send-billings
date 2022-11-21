@@ -2,61 +2,71 @@
 
 @section('content')
     <div class="container-fluid px-4 mt-4">
-        @include('layout.announcementnav')
-        <div class="col-md-12">
-            <div class="card card-primary card-outline">
-                <div class="card-header">
-                    <h5 class="card-title">{{$announcement->subject}}</h5>
+        <div class="row">
+            @include('layout.announcementnav')
 
-                </div>
-                <!-- /.card-header -->
-                <div class="card-body p-4">
-                    <div class="mailbox-read-info mb-3">
-{{--                        <h5>Message Subject Is Placed Here</h5>--}}
-                        <h6>To: {{$announcement->emailTo}}
-                            <span class="mailbox-read-time float-end">{{\Carbon\Carbon::parse($announcement->emailDate)->format('d-M. Y h:i A')}}</span></h6>
-                    </div>
-                    <!-- /.mailbox-read-info -->
-<!--                    <div class="mailbox-controls with-border text-center">
-                        <div class="btn-group">
-                            <button type="button" class="btn btn-default btn-sm" data-container="body" title="Delete">
-                                <i class="far fa-trash-alt"></i>
-                            </button>
-                            <button type="button" class="btn btn-default btn-sm" data-container="body" title="Reply">
-                                <i class="fas fa-reply"></i>
-                            </button>
-                            <button type="button" class="btn btn-default btn-sm" data-container="body" title="Forward">
-                                <i class="fas fa-share"></i>
-                            </button>
+            <div class="col-md-10">
+                <div class="card card-primary card-outline">
+                    <div class="card-header">
+                        <div class="row">
+                            <div onclick="window.location.href='javascript:history.back()'" class="btn btn-sm btn-icon btn-blue-soft mb-4 mx-1">
+                                <i data-feather="arrow-left"></i>
+                            </div>
+                            <div onclick="window.location.href='javascript:history.back()'" class="btn btn-sm btn-icon btn-blue-soft mb-4">
+                                <i data-feather="arrow-left"></i>
+                            </div>
                         </div>
-                        &lt;!&ndash; /.btn-group &ndash;&gt;
-                        <button type="button" class="btn btn-default btn-sm" title="Print">
-                            <i class="fas fa-print"></i>
-                        </button>
-                    </div>-->
-                    <!-- /.mailbox-controls -->
-                    <div class="mailbox-read-message">
-                        {!! $announcement->content !!}
-                    </div>
-                    <!-- /.mailbox-read-message -->
-                </div>
-                <!-- /.card-body -->
-                @if($announcement->attachment != null)
-                <div class="card-footer bg-white">
 
-                        @foreach(json_decode($announcement->attachment) as $file)
-                        <div class="m-1">
-                            <a href="{{asset("announcement/$file")}}" class="btn btn-outline-dark" target="_blank"><i
-                                    class="fas fa-paperclip"></i>
-                                {{$file}}</a>
-                            <span class="mailbox-attachment-size clearfix mt-1">
+                        <h3 class="card-title">{{$announcement->subject}}</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body p-4">
+                        <div class="mailbox-read-info mb-3">
+                            {{--                        <h5>Message Subject Is Placed Here</h5>--}}
+                            <h6>To: {{$announcement->emailTo}}
+                                <span class="mailbox-read-time float-end">{{\Carbon\Carbon::parse($announcement->emailDate)->format('d-M. Y h:i A')}}</span></h6>
+                        </div>
+                        <!-- /.mailbox-read-info -->
+                        <!--                    <div class="mailbox-controls with-border text-center">
+                                                <div class="btn-group">
+                                                    <button type="button" class="btn btn-default btn-sm" data-container="body" title="Delete">
+                                                        <i class="far fa-trash-alt"></i>
+                                                    </button>
+                                                    <button type="button" class="btn btn-default btn-sm" data-container="body" title="Reply">
+                                                        <i class="fas fa-reply"></i>
+                                                    </button>
+                                                    <button type="button" class="btn btn-default btn-sm" data-container="body" title="Forward">
+                                                        <i class="fas fa-share"></i>
+                                                    </button>
+                                                </div>
+                                                &lt;!&ndash; /.btn-group &ndash;&gt;
+                                                <button type="button" class="btn btn-default btn-sm" title="Print">
+                                                    <i class="fas fa-print"></i>
+                                                </button>
+                                            </div>-->
+                        <!-- /.mailbox-controls -->
+                        <div class="mailbox-read-message">
+                            {!! $announcement->content !!}
+                        </div>
+                        <!-- /.mailbox-read-message -->
+                    </div>
+                    <!-- /.card-body -->
+                    @if($announcement->attachment != null)
+                        <div class="card-footer bg-white">
+
+                            @foreach(json_decode($announcement->attachment) as $file)
+                                <div class="m-1">
+                                    <a href="{{asset("announcement/$file")}}" class="btn btn-outline-dark" target="_blank"><i
+                                            class="fas fa-paperclip"></i>
+                                        {{$file}}</a>
+                                    <span class="mailbox-attachment-size clearfix mt-1">
                           <a href="{{asset("announcement/$file")}}" class="btn btn-outline-dark" download="{{$file}}"><i
                                   class="fas fa-cloud-download-alt"></i></a>
                         </span>
-                        </div>
+                                </div>
 
-                        @endforeach
-<!--                        <li>
+                            @endforeach
+                            <!--                        <li>
                             <span class="mailbox-attachment-icon"><i class="far fa-file-word"></i></span>
 
                             <div class="mailbox-attachment-info">
@@ -89,20 +99,22 @@
                         </span>
                             </div>
                         </li>-->
+                        </div>
+                    @endif
+                    {{--                <!-- /.card-footer -->--}}
+                    {{--                <div class="card-footer">--}}
+                    {{--                    <div class="float-right">--}}
+                    {{--                        <button type="button" class="btn btn-default"><i class="fas fa-reply"></i> Reply</button>--}}
+                    {{--                        <button type="button" class="btn btn-default"><i class="fas fa-share"></i> Forward</button>--}}
+                    {{--                    </div>--}}
+                    {{--                    <button type="button" class="btn btn-default"><i class="far fa-trash-alt"></i> Delete</button>--}}
+                    {{--                    <button type="button" class="btn btn-default"><i class="fas fa-print"></i> Print</button>--}}
+                    {{--                </div>--}}
+                    {{--                <!-- /.card-footer -->--}}
                 </div>
-                @endif
-{{--                <!-- /.card-footer -->--}}
-{{--                <div class="card-footer">--}}
-{{--                    <div class="float-right">--}}
-{{--                        <button type="button" class="btn btn-default"><i class="fas fa-reply"></i> Reply</button>--}}
-{{--                        <button type="button" class="btn btn-default"><i class="fas fa-share"></i> Forward</button>--}}
-{{--                    </div>--}}
-{{--                    <button type="button" class="btn btn-default"><i class="far fa-trash-alt"></i> Delete</button>--}}
-{{--                    <button type="button" class="btn btn-default"><i class="fas fa-print"></i> Print</button>--}}
-{{--                </div>--}}
-{{--                <!-- /.card-footer -->--}}
+                <!-- /.card -->
             </div>
-            <!-- /.card -->
+
         </div>
     </div>
 

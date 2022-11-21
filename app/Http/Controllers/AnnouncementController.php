@@ -4,16 +4,29 @@ namespace App\Http\Controllers;
 
 use App\Jobs\SendAnnouncementJob;
 use App\Models\Announcement;
-use App\Models\Composed;
 use App\Models\Composition;
-use http\Exception\BadConversionException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class AnnouncementController extends Controller
 {
+
     public function announcements(){
+        $announcements = DB::table('compositions')->orderByDesc('id')->paginate(20);
+
+//        dd($announcements);
+        return view('announcement.view_announcements')->with('announcements',$announcements);
+    }
+
+    public function view_compositions($id){
+        $announcement = DB::table('compositions')->where('id','=',$id)->first();
+//        dd($announcement);
+        return view('announcement.view_compositions')->with('announcement',$announcement);
+
+    }
+
+    public function compose_announcements(){
         $clients = DB::table('clients')->groupBy('company')->select('company')->get();
 //        dd($clients);
         return view('announcement.announcements')->with('clients',$clients);
@@ -41,28 +54,26 @@ class AnnouncementController extends Controller
            'composed_by' => Auth::user()->name,
         ]);
         $composed->save();
+        $composed_id = $composed->id;
 //        return $fileNames;
 
 
 //        $currentDate = date('Y-m-d');
 
 
-        $clients = DB::table('clients')->groupBy('email')->take(10)->get('email');
+        $clients = DB::table('clients')->groupBy('email')->take(50)->get('email');
 
         foreach ($clients as $client) {
             $announcement = new Announcement([
-               'subject' => $subject,
-                'content' => $content,
-                'attachment' => $files,
+                'composed_id' => $composed_id,
                 'emailTo' => $client->email,
                 'emailStatus' => 'For Sending',
                 'emailBy' => Auth::user()->name,
-//                'emailDate' => now(),
             ]);
             $announcement->save();
         }
 
-        $announcementsCount = DB::table('announcements')->take(10)->count();
+        $announcementsCount = DB::table('announcements')->take(20)->count();
 
         $all = $announcementsCount;
         $each = 5;
@@ -71,10 +82,13 @@ class AnnouncementController extends Controller
 
         for ($x=0; $x<=$all; $x+=$each){
             $announcements = DB::table('announcements')
+                ->select('announcements.*','compositions.subject','compositions.content','compositions.attachment')
+                ->leftJoin('compositions','announcements.composed_id','=','compositions.id')
                 ->where('emailStatus','=','For Sending')
-//                ->where('emailDate','=',$currentDate)
                 ->take($each)
                 ->get();
+//            dd($announcements);
+
             $delaySeconds = $i + $delaySecond;
 
             foreach ($announcements as $announce){
@@ -100,6 +114,8 @@ class AnnouncementController extends Controller
 
     public function sentAnnouncement(){
         $announcements = DB::table('announcements')
+            ->select('announcements.*','compositions.subject','compositions.content','compositions.attachment')
+            ->leftJoin('compositions','announcements.composed_id','=','compositions.id')
             ->where('emailStatus','=','Sent')
             ->orderByDesc('id')
             ->paginate(25);
@@ -109,24 +125,35 @@ class AnnouncementController extends Controller
     }
 
     public function readAnnouncement($id){
-        $announcement = DB::table('announcements')->where('id','=',$id)->first();
+        $announcement = DB::table('announcements')
+            ->select('announcements.*','compositions.subject','compositions.content','compositions.attachment')
+            ->leftJoin('compositions','announcements.composed_id','=','compositions.id')
+            ->where('announcements.id','=',$id)
+            ->first();
 //        dd($announcement);
         return view('announcement.readAnnouncement')->with('announcement',$announcement);
     }
 
     public function sendingAnnouncement(){
-        $announcement = DB::table('announcements')->where('emailStatus','=','Sending')->get();
-        dd($announcement);
+        $announcements = DB::table('announcements')
+            ->select('announcements.*','compositions.subject','compositions.content','compositions.attachment')
+            ->leftJoin('compositions','announcements.composed_id','=','compositions.id')
+            ->where('emailStatus','=','Sending')
+            ->paginate(20);
+//        dd($announcement);
+        return view('announcement.sendingAnnouncement')->with('announcements',$announcements);
     }
 
     public function searchAnnouncement(Request $request){
         $search = $request->search;
         $announcements = DB::table('announcements')
+            ->select('announcements.*','compositions.subject','compositions.content','compositions.attachment')
+            ->leftJoin('compositions','announcements.composed_id','=','compositions.id')
             ->where(function ($query) use ($search){
-                $query->where('subject','like',"%$search%")
-                    ->orWhere('content','like',"%$search%")
-                    ->orWhere('emailTo','like',"%$search%")
-                    ->orWhere('attachment','like',"%$search%");
+                $query->where('compositions.subject','like',"%$search%")
+                    ->orWhere('compositions.content','like',"%$search%")
+                    ->orWhere('announcements.emailTo','like',"%$search%")
+                    ->orWhere('compositions.attachment','like',"%$search%");
             })
             ->paginate(25);
 //        dd($announcement);

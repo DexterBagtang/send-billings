@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Imports\ClientImport;
 use App\Models\Client;
+use App\Models\SystemLog;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
@@ -21,17 +23,36 @@ class ClientController extends Controller
 //            ->orderBy('id','desc')
 ////            ->paginate(50);
 //            ->get();
-        $clients = DB::table('clients')->orderBy('company')->paginate(10);
+        DB::connection()->enableQueryLog();
+        $clients = DB::table('clients')
+            ->orderBy('company')
+            ->paginate(50);
+
 
         $duplicate = DB::table('clients')
-            ->groupBy('contract_number')
-            ->select('contract_number',DB::raw('count(*) as count'))
+            ->groupBy('contract_number','account_number')
+            ->select('contract_number','account_number',DB::raw('count(*) as count'))
             ->having('count','>','1')
             ->get();
+        $queries = DB::getQueryLog();
+        foreach ($queries as $item) {
+            $queriesAll[] = $item['query'];
+        }
+        $query = json_encode($queriesAll);
+
         $search = null;
 
         $url = request()->fullUrl();
         Session::put('data_url',$url);
+
+        $ip = $_SERVER['REMOTE_ADDR'];
+        $log = new SystemLog([
+            'ip_address' => $ip,
+            'user' => Auth::user()->name,
+            'action' => $query,
+            'module' => 'show clients',
+        ]);
+        $log->save();
 
 
 //        $clients = DB::table('clients')->simplePaginate();
@@ -56,6 +77,8 @@ class ClientController extends Controller
             'email'=>'required',
             'account_number'=>'required|max:99999999',
             'contract_number'=>'required|max:9999',
+            'incharge' => 'required',
+            'email_incharge' => 'required',
         ],[
             'company.required' => 'Company is empty !',
             'email.required' => 'Email is empty !',
@@ -75,20 +98,27 @@ class ClientController extends Controller
             ->where('contract_number',$request->contract_number)
             ->get();
         if (count($checkDuplicate) > 0){
-            return back()->withErrors(["Client with an account number of $request->account_number and contract number of $request->contract_number already exist in the database !"]);
+            return back()
+                ->withErrors(["Client with an account number of $request->account_number and contract number of $request->contract_number already exists in the database !"]);
         }
         //==============================================================//
 
+        DB::connection()->enableQueryLog();
         $client = new Client([
-            'name' => $request->input('company'),
+            'company' => $request->input('company'),
             'email' => $request->input('email'),
             'account_number' => $request->input('account_number'),
             'contract_number' => $request->input('contract_number'),
-            'contact' => $request->input('email'),
-            'company' => $request->input('company'),
+            'incharge' => $request->input('incharge'),
+            'incharge_email' => $request->input('email_incharge'),
         ]);
         $client->save();
-
+        $queries = DB::getQueryLog();
+        foreach ($queries as $item) {
+            $queriesAll[] = $item['query'];
+        }
+        $query = json_encode($queriesAll);
+//        dd($queries,$query);
         return redirect('clients')->with('success','Client added successfully');
 
     }
@@ -115,9 +145,10 @@ class ClientController extends Controller
         $client->company = $request->input('company');
 //        $client->email = $request->input('email');
         $client->email = $email;
-        $client->contact = $request->input('company');
         $client->account_number = $request->input('account_number');
         $client->contract_number = $request->input('contract_number');
+        $client->incharge = $request->input('incharge');
+        $client->incharge_email = $request->input('incharge_email');
 
         $client->update();
         if (Session('data_url')){

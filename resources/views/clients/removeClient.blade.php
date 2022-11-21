@@ -54,6 +54,15 @@
                                     </ul>
                                 </div>
 
+                                <div class="col-6">
+                                    <label for="inputAddress" class="form-label">Incharge</label>
+                                    <input type="text" name="incharge" value="{{$client->incharge}}" disabled class="form-control" id="inputAddress" >
+                                </div>
+                                <div class="col-6">
+                                    <label for="inputAddress2" class="form-label">Email Incharge</label>
+                                    <input type="text" name="incharge_email" value="{{$client->incharge_email}}" disabled class="form-control" id="inputAddress2">
+                                </div>
+
                                 <div class="col-12">
                                     <div class="float-end">
                                         <button type="submit" class="btn btn-primary">Remove</button>

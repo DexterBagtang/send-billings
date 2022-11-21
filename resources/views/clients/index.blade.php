@@ -48,7 +48,7 @@
                                     @if(count($duplicate) > 100)
                                          <span class="text-danger">*</span>
                                     @else
-                                        99+
+                                        <span class="text-danger">*</span>
                                     @endif
 
 

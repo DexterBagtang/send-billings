@@ -55,9 +55,10 @@
                 </div>
             @endif
 
-                @include('layout.announcementnav')
+{{--                @include('layout.announcementnav')--}}
 
             <div class="row">
+                @include('layout.announcementnav')
 {{--                <div class="col-xl-2">--}}
 {{--                    <!-- Profile picture card-->--}}
 {{--                    <div class="card mb-4 mb-xl-0">--}}
@@ -77,7 +78,7 @@
 {{--                        </div>--}}
 {{--                    </div>--}}
 {{--                </div>--}}
-                <div class="col-xl-12">
+                <div class="col-xl-10">
                     <!-- Account details card-->
                     <form method="post" action="{{url('sendAnnouncement')}}" enctype="multipart/form-data">
                         @csrf

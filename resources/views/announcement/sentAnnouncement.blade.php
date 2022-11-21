@@ -5,13 +5,15 @@
 @section('content')
     <!-- Content Wrapper. Contains page content -->
     <div class="container-fluid px-4 mt-4">
-        @include('layout.announcementnav')
 
         <!-- Main content -->
         <section class="content">
             <div class="row">
+                @include('layout.announcementnav')
+
+
                 <!-- /.col -->
-                <div class="col-md-12">
+                <div class="col-md-10">
                     <div class="card card-primary card-outline">
                         <div class="card-header">
                             <h3 class="card-title">Sent Announcements</h3>

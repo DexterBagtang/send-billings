@@ -83,6 +83,15 @@
                                     <input type="text" name="contract_number" class="form-control" value="{{$client->contract_number}}" id="inputAddress2">
                                 </div>
 
+                                <div class="col-6">
+                                    <label for="inputAddress" class="form-label">Incharge</label>
+                                    <input type="text" name="incharge" value="{{$client->incharge}}" class="form-control" id="inputAddress" >
+                                </div>
+                                <div class="col-6">
+                                    <label for="inputAddress2" class="form-label">Email Incharge</label>
+                                    <input type="text" name="incharge_email" value="{{$client->incharge_email}}" class="form-control" id="inputAddress2">
+                                </div>
+
                                 <div class="col-12">
                                     <div class="float-end">
                                         <button type="submit" class="btn btn-primary">Submit</button>

@@ -41,7 +41,8 @@ Route::middleware('auth')->group(function () {
 
         $labels = $sent->keys();
         $data = $sent->values();
-        dd($labels,$data);
+        $hostname = gethostname();
+        dd($labels,$data,$hostname);
 //        dd($sent);
 //        return view('index');
         return view('index',compact('labels','data'));
@@ -137,7 +138,9 @@ Route::middleware('auth')->group(function () {
 
 
     //===========================    Announcement  =================================================//
+    Route::get('compose_announcements',([AnnouncementController::class,'compose_announcements']));
     Route::get('announcements',([AnnouncementController::class,'announcements']));
+    Route::get('view_compositions/{id}',([AnnouncementController::class,'view_compositions']));
     Route::post('sendAnnouncement',([AnnouncementController::class,'sendAnnouncement']));
     Route::get('sentAnnouncement',([AnnouncementController::class,'sentAnnouncement']));
     Route::get('searchAnnouncement',([AnnouncementController::class,'searchAnnouncement']));

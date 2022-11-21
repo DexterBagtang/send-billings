@@ -326,7 +326,7 @@
 <br>
 <p>You may pay your bills on any BDO Bank nationwide using bills payment facility. Please see payment instruction for your reference.</p>
 
-<p>For those client that made payment last month or prior and was not posted, kindly send your proof of payment to <a href="mailto:Famela.sunio@philcom.com" style="font-style: italic">Famela.sunio@philcom.com</a> .</p>
+<p>For those client that made payment last month or prior and was not posted, kindly send your proof of payment to <a href="mailto:|incharge|" style="font-style: italic">|incharge|</a> .</p>
 
 <p>Please settle your dues on time to avoid penalties and temporary interruption of your circuit.</p>
 

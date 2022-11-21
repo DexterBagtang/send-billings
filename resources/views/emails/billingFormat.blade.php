@@ -8,6 +8,7 @@
     <title>Document</title>
 </head>
 <body style="font-family:Calibri,sans-serif; font-size: 11pt">
+
 {!! $content !!}
 
 {{--{{$message}}--}}

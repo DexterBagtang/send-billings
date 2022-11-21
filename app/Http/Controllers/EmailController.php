@@ -63,8 +63,9 @@ class EmailController extends Controller
             ->where('emailStatus','=','for sending')
             ->where('files.deleted_at','=',null)
             ->join('clients','files.clients_id','=','clients.id')
-            ->select('files.*','clients.name','clients.company','clients.email')
+            ->select('files.*','clients.company','clients.email','clients.incharge_email')
             ->paginate(10);
+//        dd($billingNotSent);
 
         $countNotSent = DB::table('files')
             ->whereIn('files.id',$billingIds)
@@ -75,6 +76,7 @@ class EmailController extends Controller
             ->join('clients','files.clients_id','=','clients.id')
             ->select('files.*','clients.name','clients.company','clients.email')
             ->count();
+
         $billingSending = DB::table('files')
 //            ->whereIn('files.id',$billingIds)
             ->where('month','=',$month)
@@ -83,12 +85,14 @@ class EmailController extends Controller
             ->where('emailStatus','=','sending')
             ->count();
 
+
         return view('emails.billingFiles')
             ->with('billings',$billingNotSent)
             ->with('month',$month)
             ->with('year',$year)
             ->with('billingSending',$billingSending)
             ->with('notSent',$countNotSent)
+//            ->with('incharge',$incharge)
             ->with('search',$search);
     }
 
@@ -220,7 +224,7 @@ class EmailController extends Controller
         $cc=$request->cc;
         $bcc=$request->bcc;
         $subjectInput=$request->subject;
-        $content=$request->message;
+        $contents=$request->message;
 
         if ($request->hasFile('attachment')){
             foreach ($request->file('attachment')as $file){
@@ -306,11 +310,13 @@ class EmailController extends Controller
                 $delaySeconds = $i+$delaySecond;
 
                 foreach ($billings as $billing) {
+                    $content = str_replace('|incharge|',"$billing->incharge_email",$contents);
                     $data =[
                       'company' => $billing->company,
                         'month' => $month,
                         'year' => $year,
                         'content' => $content,
+                        'incharge' => $billing->incharge_email,
                     ];
 
 
@@ -643,7 +649,7 @@ class EmailController extends Controller
             ->where('emailStatus','=','for resending')
             ->where('files.deleted_at','=',null)
             ->join('clients','files.clients_id','=','clients.id')
-            ->select('files.*','clients.name','clients.company','clients.email')
+            ->select('files.*','clients.company','clients.email')
             ->paginate(10);
 
         $countNotSent = DB::table('files')
@@ -672,7 +678,7 @@ class EmailController extends Controller
             ->with('search',$search);
     }
 
-    public function resendBillingNow(Request $request){
+    /*public function resendBillingNow(Request $request){
 
 //        dd($request->message);
         $month = $request->input('month');
@@ -780,6 +786,136 @@ class EmailController extends Controller
 //            Artisan::queue('queue:listen');
 
             return back()->with('sending','Statement of Accounts are now sending !');
+        }
+    }*/
+    public function resendBillingNow(Request $request){
+
+//        dd($request->message);
+        $month = $request->input('month');
+        $year = $request->input('year');
+        $cc=$request->cc;
+        $bcc=$request->bcc;
+        $subjectInput=$request->subject;
+        $contents=$request->message;
+
+        if ($request->hasFile('attachment')){
+            foreach ($request->file('attachment')as $file){
+                //            $file = $request->file('attachment');
+                $name = $file->getClientOriginalName();
+                $file->move(public_path("attachments"), $name);
+                $names[]=$name;
+            }
+        }else{
+            $names[] = null;
+        }
+//        dd($names);
+        $attachment = $names;
+//============ Filters the files , selects the latest files in case of duplicate files ============//
+        $billingsFilter = DB::table('files')
+            ->where('month','=',$month)
+            ->where('year','=',$year)
+//            ->where('emailStatus','=','for sending')
+            ->join('clients','files.clients_id','=','clients.id')
+            ->groupBy('files.filename')
+            ->select('files.filename',DB::raw('max(files.id) as id'))
+            ->get();
+
+
+        foreach ($billingsFilter as $filter){
+            $billingId = $filter->id;
+            $billingIds[]=$billingId;
+        }
+
+//        $billingsAll = DB::table('files')
+//            ->whereIn('files.id',$billingIds)
+//            ->where('month','=',$month)
+//            ->where('year','=',$year)
+//            ->whereNull('deleted_at')
+//            ->join('clients','files.clients_id','=','clients.id')
+//            ->select('clients.*','files.filename','files.month','files.year','files.emailStatus')
+//            ->get();
+        $billingsAll = DB::table('files')
+            ->whereIn('files.id',$billingIds)
+            ->where('month','=',$month)
+            ->where('year','=',$year)
+            ->whereNull('deleted_at')
+            ->join('clients','files.clients_id','=','clients.id')
+            ->select('clients.*','files.filename','files.month','files.year','files.emailStatus')
+            ->count();
+
+
+//
+//        $all=count($billingsAll);
+        $all=$billingsAll;
+        $each = 5;
+        $i=1;
+        $delaySecond=1;
+
+        $billingNotSent = DB::table('files')
+            ->whereIn('files.id',$billingIds)
+            ->where('month','=',$month)
+            ->where('year','=',$year)
+            ->where('emailStatus','=','for resending')
+            ->whereNull('deleted_at')
+            ->join('clients','files.clients_id','=','clients.id')
+            ->select('clients.*','files.filename','files.month','files.year','files.emailStatus')
+            ->get();
+        $countNotSent = count($billingNotSent);
+
+        if ($countNotSent == 0){
+//            dd("no billings to be send");
+            return redirect('sendBillingFiles')->with('error',"No SOA to be send for the month of $month-$year");
+        }
+        else{
+            for ($x=0; $x<=$all; $x+=$each){
+                $billings = DB::table('files')
+                    ->whereIn('files.id',$billingIds)
+                    ->where('month','=',$month)
+                    ->where('year','=',$year)
+                    ->where('emailStatus','=','for resending')
+                    ->whereNull('deleted_at')
+                    ->join('clients','files.clients_id','=','clients.id')
+                    ->select('clients.*','files.filename','files.month','files.year','files.emailStatus','files.id','files.storedFile')
+                    ->take($each)
+                    ->get();
+//            dd($billings);
+                $delaySeconds = $i+$delaySecond;
+
+                foreach ($billings as $billing) {
+                    $content = str_replace('|incharge|',"$billing->incharge_email",$contents);
+                    $data =[
+                        'company' => $billing->company,
+                        'month' => $month,
+                        'year' => $year,
+                        'content' => $content,
+                        'incharge' => $billing->incharge_email,
+                    ];
+
+
+                    $email = $billing->email;
+                    $id = $billing->id;
+                    $subject = "Account No - $billing->account_number Contract No - $billing->contract_number $billing->company".$subjectInput;
+                    $file = public_path("billing_files/$month-$year/$billing->storedFile");
+//                    $attachment = public_path("attachments/$name");
+//                    $attachment = $names;
+
+                    $emailJob = (new SendEmailJob($email,$file,$id,$cc,$bcc,$subject,$data,$attachment));
+                    dispatch($emailJob)->delay($delaySeconds)->onQueue('email');
+
+
+                    $update = File::query()->where('id','=',$id)->first();
+                    $update->emailStatus = "sending";
+                    $update->emailedBy= Auth::user()->name;
+                    $update->subject=$subject;
+                    $update->update();
+
+                }
+                $delaySecond = $i+= 45;
+            }
+//            dd("email sending");
+//            Artisan::queue('queue:listen');
+
+            return back()->with('sending','Statement of Accounts are now resending !');
         }
     }
 

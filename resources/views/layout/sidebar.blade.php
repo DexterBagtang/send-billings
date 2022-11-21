@@ -328,7 +328,7 @@
                     @endif
 
                     <div class="sidenav-menu-heading">Announcement</div>
-                    <a class="nav-link {{(request()->is('announcements','')) ? 'active border bg-primary-soft rounded-pill' : ''}}" href="{{url('announcements')}}">
+                    <a class="nav-link {{(request()->is('*announcement*','*Announcement*')) ? 'active border bg-primary-soft rounded-pill' : ''}}" href="{{url('announcements')}}">
                         <div class="nav-link-icon text-cyan"><i data-feather="alert-circle"></i></div>
                         Announcement
                     </a>
