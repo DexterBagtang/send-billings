@@ -19,6 +19,16 @@ class AnnouncementController extends Controller
         return view('announcement.view_announcements')->with('announcements',$announcements);
     }
 
+    public function searchCompositions(Request $request){
+        $search = $request->search;
+        $announcements = DB::table('compositions')
+            ->where('subject','like',"%$search%")
+            ->orWhere('content','like',"%$search%")
+            ->orWhere('attachment','like',"%$search%")
+            ->paginate(20);
+        return view('announcement.view_announcements')->with('announcements',$announcements)->with('search',$search);
+    }
+
     public function view_compositions($id){
         $announcement = DB::table('compositions')->where('id','=',$id)->first();
 //        dd($announcement);
@@ -145,10 +155,12 @@ class AnnouncementController extends Controller
     }
 
     public function searchAnnouncement(Request $request){
+        $status = $request->status;
         $search = $request->search;
         $announcements = DB::table('announcements')
             ->select('announcements.*','compositions.subject','compositions.content','compositions.attachment')
             ->leftJoin('compositions','announcements.composed_id','=','compositions.id')
+            ->where('announcements.emailStatus','=',$status)
             ->where(function ($query) use ($search){
                 $query->where('compositions.subject','like',"%$search%")
                     ->orWhere('compositions.content','like',"%$search%")
@@ -156,8 +168,32 @@ class AnnouncementController extends Controller
                     ->orWhere('compositions.attachment','like',"%$search%");
             })
             ->paginate(25);
+
+        if ($status == 'Sending'){
+            $view = 'sendingAnnouncement';
+        }
+        elseif($status == 'Sent'){
+            $view = 'sentAnnouncement';
+        }
+        elseif($status == 'Sending Error'){
+            $view = 'failedAnnouncement';
+        }
+        else{
+            $view = 'view_announcements';
+        }
+
 //        dd($announcement);
-        return view('announcement.sentAnnouncement')->with('announcements',$announcements)->with('search',$search);
+        return view("announcement.$view")->with('announcements',$announcements)->with('search',$search);
+    }
+
+    public function failedAnnouncement(){
+        $announcements = DB::table('announcements')
+            ->select('announcements.*','compositions.subject','compositions.content','compositions.attachment')
+            ->leftJoin('compositions','announcements.composed_id','=','compositions.id')
+            ->where('emailStatus','=','Sending Error')
+            ->paginate(20);
+//        dd($announcement);
+        return view('announcement.failedAnnouncement')->with('announcements',$announcements);
     }
 
 

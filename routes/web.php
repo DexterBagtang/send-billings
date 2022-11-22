@@ -108,6 +108,8 @@ Route::middleware('auth')->group(function () {
     Route::post('sendBillingNow',([EmailController::class,'sendBillingNow']));
     Route::get('sendBillingSent',([EmailController::class,'sendBillingSent']));
     Route::get('sendBillingSentPost',([EmailController::class,'sendBillingSentPost']));
+    Route::get('viewBillingSent/{id}',([EmailController::class,'viewBillingSent']));
+
     Route::get('sendBillingSending',([EmailController::class,'sendBillingSending']));
     Route::get('sendBillingFailed',([EmailController::class,'sendBillingFailed']));
 
@@ -140,12 +142,14 @@ Route::middleware('auth')->group(function () {
     //===========================    Announcement  =================================================//
     Route::get('compose_announcements',([AnnouncementController::class,'compose_announcements']));
     Route::get('announcements',([AnnouncementController::class,'announcements']));
+    Route::get('searchCompositions',([AnnouncementController::class,'searchCompositions']));
     Route::get('view_compositions/{id}',([AnnouncementController::class,'view_compositions']));
     Route::post('sendAnnouncement',([AnnouncementController::class,'sendAnnouncement']));
     Route::get('sentAnnouncement',([AnnouncementController::class,'sentAnnouncement']));
     Route::get('searchAnnouncement',([AnnouncementController::class,'searchAnnouncement']));
     Route::get('readAnnouncement/{id}',([AnnouncementController::class,'readAnnouncement']));
     Route::get('sendingAnnouncement',([AnnouncementController::class,'sendingAnnouncement']));
+    Route::get('failedAnnouncement',([AnnouncementController::class,'failedAnnouncement']));
 
 
 

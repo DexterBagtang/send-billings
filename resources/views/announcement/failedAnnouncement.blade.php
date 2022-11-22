@@ -16,13 +16,13 @@
                 <div class="col-md-10">
                     <div class="card card-primary card-outline">
                         <div class="card-header">
-                            <h3 class="card-title">Sent Announcements</h3>
+                            <h3 class="card-title">Failed Announcements</h3>
 
                             <form action="{{url('searchAnnouncement')}}" method="GET">
                                 @csrf
                                 <div class="card-tools">
                                     <div class="input-group ">
-                                        <input type="hidden" name="status" value="Sent">
+                                        <input type="hidden" name="status" value="Sending Error">
                                         <input type="search" name="search" class="form-control" value="{{isset($search)? "$search":''}}" placeholder="Search Mail">
                                         <input type="submit" class="d-none">
                                         <div class="input-group-append">
@@ -35,23 +35,6 @@
                                     </div>
                                 </div>
                             </form>
-
-                            <div class="row">
-                                <div onclick="window.location.href='javascript:history.back()'" class="btn btn-icon btn-blue-soft mx-2 mt-2">
-                                    <i data-feather="arrow-left"></i>
-                                </div>
-
-                                <div onclick="window.location.href='javascript:history.back()'" class="btn btn-icon btn-blue-soft mx-2 mt-2">
-                                    <i data-feather="trash-2"></i>
-                                </div>
-
-                                <div onclick="window.location.reload()" class="btn btn-icon btn-blue-soft mx-2 mt-2">
-                                    <i data-feather="rotate-cw"></i>
-                                </div>
-{{--                                    <div onclick="window.location.href='javascript:history.back()'" class="btn btn-sm btn-icon btn-blue-soft m-2">--}}
-{{--                                        <i data-feather="arrow-right"></i>--}}
-{{--                                    </div>--}}
-                            </div>
 
                             <!-- /.card-tools -->
                         </div>
@@ -179,4 +162,36 @@
 @section('script')
     <script src="https://code.jquery.com/jquery-3.5.1.min.js" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+    <script>
+        $(function () {
+            //Enable check and uncheck all functionality
+            $('.checkbox-toggle').click(function () {
+                var clicks = $(this).data('clicks')
+                if (clicks) {
+                    //Uncheck all checkboxes
+                    $('.mailbox-messages input[type=\'checkbox\']').prop('checked', false)
+                    $('.checkbox-toggle .far.fa-check-square').removeClass('fa-check-square').addClass('fa-square')
+                } else {
+                    //Check all checkboxes
+                    $('.mailbox-messages input[type=\'checkbox\']').prop('checked', true)
+                    $('.checkbox-toggle .far.fa-square').removeClass('fa-square').addClass('fa-check-square')
+                }
+                $(this).data('clicks', !clicks)
+            })
+
+            //Handle starring for font awesome
+            $('.mailbox-star').click(function (e) {
+                e.preventDefault()
+                //detect type
+                var $this = $(this).find('a > i')
+                var fa    = $this.hasClass('fa')
+
+                //Switch states
+                if (fa) {
+                    $this.toggleClass('fa-star')
+                    $this.toggleClass('fa-star-o')
+                }
+            })
+        })
+    </script>
 @endsection

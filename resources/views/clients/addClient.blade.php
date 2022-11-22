@@ -121,6 +121,8 @@
                                                     <li class="nav-item">- Account Number</li>
                                                     <li class="nav-item">- Contract Number</li>
                                                     <li class="nav-item">- Email</li>
+                                                    <li class="nav-item">- Incharge</li>
+                                                    <li class="nav-item">- Email Incharge</li>
                                                     <li class="nav-item">
                                                         <a href="{{asset('clients.csv')}}" download="csv_import_sample_file">
                                                             - download sample file

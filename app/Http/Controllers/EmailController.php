@@ -335,6 +335,8 @@ class EmailController extends Controller
                     $update->emailStatus = "sending";
                     $update->emailedBy= Auth::user()->name;
                     $update->subject=$subject;
+                    $update->contents = $content;
+                    $update->attachment = json_encode($attachment);
                     $update->update();
 
                 }
@@ -358,8 +360,9 @@ class EmailController extends Controller
             ->where('year','=',$year)
             ->where('emailStatus','=','sent')
             ->join('clients','files.clients_id','=','clients.id')
-            ->select('clients.*','files.filename','files.month','files.year',
-                'files.emailStatus','files.created_at','files.emailDate','files.emailedBy','files.storedFile')
+//            ->select('clients.*','files.filename','files.month','files.year',
+//                'files.emailStatus','files.created_at','files.emailDate','files.emailedBy','files.storedFile','files.subject','files.contents','files.attachment')
+            ->select('files.*','clients.company','clients.email')
 //            ->distinct()
             ->orderBy('files.emailDate','desc')
             ->paginate(20);
@@ -379,6 +382,20 @@ class EmailController extends Controller
             ->with('billings',$billingSent)
             ->with('search',$search)
             ->with('countSent',$countSent);
+    }
+
+    public function viewBillingSent($id){
+        $billingSent = DB::table('files')
+            ->where('files.id','=',$id)
+            ->where('emailStatus','=','sent')
+            ->join('clients','files.clients_id','=','clients.id')
+//            ->select('clients.*','files.filename','files.month','files.year',
+//                'files.emailStatus','files.created_at','files.emailDate','files.emailedBy','files.storedFile','files.subject','files.contents','files.attachment')
+            ->select('files.*','clients.company','clients.email')
+//            ->distinct()
+            ->orderBy('files.emailDate','desc')
+            ->first();
+        dd($billingSent);
     }
 
     public function sendBillingSentPost(Request $request){
@@ -659,7 +676,7 @@ class EmailController extends Controller
             ->where('emailStatus','=','for resending')
             ->whereNull('deleted_at')
             ->join('clients','files.clients_id','=','clients.id')
-            ->select('files.*','clients.name','clients.company','clients.email')
+            ->select('files.*','clients.company','clients.email')
             ->count();
         $billingSending = DB::table('files')
 //            ->whereIn('files.id',$billingIds)

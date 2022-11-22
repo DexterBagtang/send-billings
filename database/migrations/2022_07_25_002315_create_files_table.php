@@ -25,6 +25,8 @@ return new class extends Migration
             $table->dateTime('emailDate')->nullable();
             $table->string('emailedBy')->nullable();
             $table->longText('subject')->nullable();
+            $table->longText('contents')->nullable();
+            $table->string('attachment')->nullable();
             $table->softDeletes();
             $table->string('deletedBy')->nullable();
             $table->timestamps();

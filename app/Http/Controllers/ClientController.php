@@ -139,6 +139,16 @@ class ClientController extends Controller
 
 
     public function editedClient(Request $request){
+
+        //========== Checks for possible duplicate ======================//
+        $checkDuplicate = DB::table('clients')->where('account_number',$request->account_number)
+            ->where('contract_number',$request->contract_number)
+            ->get();
+        if (count($checkDuplicate) > 0){
+            return back()
+                ->withErrors(["Client with an account number of $request->account_number and contract number of $request->contract_number already exists in the database !"]);
+        }
+        //==============================================================//
         $email = implode(',',$request->email);
 //        dd($request->email,$email);
         $client = Client::find($request->id);

@@ -17,14 +17,19 @@
                             </div>
                         </div>
 
-                        <h3 class="card-title">{{$announcement->subject}}</h3>
+                        <h3 class="card-title">{{$announcement->subject}}
+                            <span class="mailbox-read-time float-end">{{\Carbon\Carbon::parse($announcement->emailDate)->format('d-M. Y h:i A')}}</span>
+                        </h3>
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body p-4">
                         <div class="mailbox-read-info mb-3">
                             {{--                        <h5>Message Subject Is Placed Here</h5>--}}
-                            <h6>To: {{$announcement->emailTo}}
-                                <span class="mailbox-read-time float-end">{{\Carbon\Carbon::parse($announcement->emailDate)->format('d-M. Y h:i A')}}</span></h6>
+                            <h6><a href="mailto:{{$announcement->emailTo}}">
+                                    To:  {{$announcement->emailTo}}
+                                </a>
+
+                            </h6>
                         </div>
                         <!-- /.mailbox-read-info -->
                         <!--                    <div class="mailbox-controls with-border text-center">

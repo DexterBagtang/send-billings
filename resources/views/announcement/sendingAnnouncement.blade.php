@@ -21,6 +21,7 @@
                                 @csrf
                                 <div class="card-tools">
                                     <div class="input-group ">
+                                        <input type="hidden" name="status" value="Sending">
                                         <input type="search" name="search" class="form-control" value="{{isset($search)? "$search":''}}" placeholder="Search Mail">
                                         <input type="submit" class="d-none">
                                         <div class="input-group-append">

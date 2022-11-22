@@ -17,10 +17,11 @@
                         <div class="card-header">
                             <h3 class="card-title">Announcements</h3>
 
-                            <form action="{{url('searchAnnouncement')}}" method="GET">
+                            <form action="{{url('searchCompositions')}}" method="GET">
                                 @csrf
                                 <div class="card-tools">
                                     <div class="input-group ">
+{{--                                        <input type="hidden" name="status" value=" ">--}}
                                         <input type="search" name="search" class="form-control" value="{{isset($search)? "$search":''}}" placeholder="Search Mail">
                                         <input type="submit" class="d-none">
                                         <div class="input-group-append">
