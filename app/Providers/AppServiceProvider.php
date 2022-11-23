@@ -45,6 +45,13 @@ class AppServiceProvider extends ServiceProvider
 //            ->count();
         View::share('sendings',$billingSending);
 
+        $announcements = DB::table('announcements')
+            ->select('announcements.*','compositions.subject','compositions.content','compositions.attachment')
+            ->leftJoin('compositions','announcements.composed_id','=','compositions.id')
+            ->where('emailStatus','=','Sending')
+            ->count();
+        View::share('blasting',$announcements);
+
         $billings = DB::table('files')
             ->where('month','=',$month)
             ->where('year','=',$year)

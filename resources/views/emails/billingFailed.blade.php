@@ -2,6 +2,7 @@
 
 @section('link')
     <meta http-equiv="refresh" content="30">
+{{--    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" >--}}
 @endsection
 
 @section('content')
@@ -55,6 +56,28 @@
         </header>
         <!-- Main page content-->
         <div class="container-xl px-4 mt-4">
+
+            <div class="modal fade" id="empModal" >
+                <div class="modal-dialog modal-lg">
+
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title">Employee Info</h4>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                        </div>
+                        <div class="modal-body">
+                            <table class="w-100" id="tblempinfo">
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             @if($search !== null)
                 <div class="text-black text-lg">Search results for: "{{$search}}"</div>
             @endif
@@ -140,7 +163,7 @@
                             <input type="submit" class="d-none">
                         </form>
                     </div>
-                    <table id="datatablesSimple2">
+                    <table class="table table-bordered table-hover" id="empTable">
                         <thead>
                         <tr>
                             {{--                            <th>Account#</th>--}}
@@ -171,15 +194,15 @@
                         {{--                        </tfoot>--}}
                         <tbody>
                         @foreach($billings as $billing)
-                            <tr>
-                                <td>{{$billing->company}}</td>
+                            <tr style="cursor: pointer"  >
+                                <td  class="viewdetails" data-id="{{$billing->id}}">{{Str::limit($billing->company,30)}}</td>
                                 {{--                                <td>{{$billing->account_number}}</td>--}}
                                 {{--                                <td>{{$billing->contract_number}}</td>--}}
                                 <td>{{Str::limit($billing->email,30)}}</td>
                                 {{--                                <td>{{$billing->month}}-{{$billing->year}}</td>--}}
                                 <td>
                                     <a href="{{asset('billing_files/'.$billing->month.'-'.$billing->year.'/'.$billing->storedFile)}}" target="_blank">
-                                        {{$billing->filename}}
+                                        {{Str::limit($billing->filename,30)}}
                                     </a>
                                 </td>
                                 <td>{{$billing->emailStatus}}</td>
@@ -303,6 +326,43 @@
 @endsection
 
 @section('script')
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+{{--    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" ></script>--}}
     <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
     <script src="{{asset('js/datatables/datatables-simple-demo.js')}}"></script>
+    <script type='text/javascript'>
+        $(document).ready(function(){
+
+            $('#empTable').on('click','.viewdetails',function(){
+                var empid = $(this).attr('data-id');
+
+                if(empid > 0){
+
+                    // AJAX request
+                    var url = "{{url('getId/empid')}}";
+                    url = url.replace('empid',empid);
+
+                    // console.log('url');
+                    // alert(url);
+
+                    // Empty modal data
+                    $('#tblempinfo tbody').empty();
+
+                    $.ajax({
+                        url: url,
+                        dataType: 'json',
+                        success: function(response){
+
+                            // Add employee details
+                            $('#tblempinfo tbody').html(response.html);
+
+                            // Display Modal
+                            $('#empModal').modal('show');
+                        }
+                    });
+                }
+            });
+
+        });
+    </script>
 @endsection

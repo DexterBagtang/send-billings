@@ -149,20 +149,20 @@
                         {{--                        </tfoot>--}}
                         <tbody>
                         @foreach($billings as $billing)
-                            <tr>
+                            <tr style="cursor: pointer">
 {{--                                <td>{{$billing->name}}</td>--}}
                                 {{--                                <td>{{$billing->account_number}}</td>--}}
                                 {{--                                <td>{{$billing->contract_number}}</td>--}}
-                                <td>{{Str::limit($billing->email,40)}}</td>
-                                <td>{{$billing->company}}</td>
+                                <td onclick="window.location.href='{{url("viewBilling/$billing->id")}}'">{{Str::limit($billing->email,40)}}</td>
+                                <td onclick="window.location.href='{{url("viewBilling/$billing->id")}}'">{{Str::limit($billing->company,40)}}</td>
                                 {{--                                <td>{{$billing->month}}-{{$billing->year}}</td>--}}
                                 <td>
                                     <a href="{{asset('billing_files/'.$billing->month.'-'.$billing->year.'/'.$billing->storedFile)}}" target="_blank">
                                         {{$billing->filename}}
                                     </a>
                                 </td>
-                                <td>{{$billing->created_at}}</td>
-                                <td>{{$billing->emailStatus}}</td>
+                                <td onclick="window.location.href='{{url("viewBilling/$billing->id")}}'">{{$billing->created_at}}</td>
+                                <td onclick="window.location.href='{{url("viewBilling/$billing->id")}}'">{{$billing->emailStatus}}</td>
 {{--                                <td>--}}
 {{--                                    <button class="btn btn-datatable btn-icon btn-transparent-dark me-2"><i data-feather="more-vertical"></i></button>--}}
 {{--                                    <button class="btn btn-datatable btn-icon btn-transparent-dark"><i data-feather="trash-2"></i></button>--}}

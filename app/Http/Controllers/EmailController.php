@@ -322,7 +322,7 @@ class EmailController extends Controller
 
                     $email = $billing->email;
                     $id = $billing->id;
-                    $subject = "Account No - $billing->account_number Contract No - $billing->contract_number $billing->company".$subjectInput;
+                    $subject = "Account No - $billing->account_number Contract No - $billing->contract_number $billing->company ".$subjectInput;
                     $file = public_path("billing_files/$month-$year/$billing->storedFile");
 //                    $attachment = public_path("attachments/$name");
 //                    $attachment = $names;
@@ -384,7 +384,7 @@ class EmailController extends Controller
             ->with('countSent',$countSent);
     }
 
-    public function viewBillingSent($id){
+    public function viewBilling($id){
         $billingSent = DB::table('files')
             ->where('files.id','=',$id)
             ->where('emailStatus','=','sent')
@@ -395,7 +395,8 @@ class EmailController extends Controller
 //            ->distinct()
             ->orderBy('files.emailDate','desc')
             ->first();
-        dd($billingSent);
+//        dd($billingSent);
+        return view('emails.viewBilling')->with('billing',$billingSent);
     }
 
     public function sendBillingSentPost(Request $request){
@@ -663,11 +664,12 @@ class EmailController extends Controller
             ->whereIn('files.id',$billingIds)
             ->where('month','=',$month)
             ->where('year','=',$year)
-            ->where('emailStatus','=','for resending')
+            ->where('emailStatus','like','%for resending%')
             ->where('files.deleted_at','=',null)
             ->join('clients','files.clients_id','=','clients.id')
             ->select('files.*','clients.company','clients.email')
             ->paginate(10);
+//        dd($billingNotSent);
 
         $countNotSent = DB::table('files')
             ->whereIn('files.id',$billingIds)
@@ -911,7 +913,7 @@ class EmailController extends Controller
 
                     $email = $billing->email;
                     $id = $billing->id;
-                    $subject = "Account No - $billing->account_number Contract No - $billing->contract_number $billing->company".$subjectInput;
+                    $subject = "Account No - $billing->account_number Contract No - $billing->contract_number $billing->company  ".$subjectInput;
                     $file = public_path("billing_files/$month-$year/$billing->storedFile");
 //                    $attachment = public_path("attachments/$name");
 //                    $attachment = $names;
@@ -998,6 +1000,34 @@ class EmailController extends Controller
             ->with('billingSending',$billingSending)
             ->with('notSent',$countNotSent)
             ->with('search',$search);
+    }
+
+    public function getId($empid){
+        $billing = DB::table('files')
+            ->where('files.id','=',$empid)
+            ->join('clients','files.clients_id','=','clients.id')
+            ->select('files.*','clients.company','clients.email')
+            ->first();
+
+        $html = "";
+        if (!empty($billing)){
+            $html = "<tr>
+              <td width='30%'><b>ID:</b></td>
+              <td width='70%'> ".$billing->id."</td>
+           </tr>
+           <tr>
+              <td width='30%'><b>Name:</b></td>
+              <td width='70%'> ".$billing->company."</td>
+           </tr>
+           <tr>
+              <td width='30%'><b>Email:</b></td>
+              <td width='70%'> ".$billing->email."</td>
+           </tr>";
+        }
+        $response['html'] = $html;
+
+        return response()->json($response);
+
     }
 
 

@@ -176,11 +176,30 @@
                     </div>
                 </div>
             </div>
+            <br><br>
+            <div class="row">
+                <div class="col-xl-4 mb-4">
+                    <!-- Dashboard example card 1-->
+                    <a class="card lift h-100 " href="{{url('announcements')}}">
+                        <div class="card-body d-flex justify-content-center flex-column">
+                            <div class="d-flex align-items-center justify-content-between">
+                                <div class="me-3">
+                                    <i class="feather-xl text-primary mb-3 fas fa-bullhorn"></i>
+{{--                                    <i class="feather-xl text-primary mb-3" data-feather="users"></i>--}}
+                                    <h5>Email Blast</h5>
+                                    <div class="text-muted small">There are <span class="text-danger">{{number_format($clientsCount,0,',')}}</span> contract numbers</div>
+                                </div>
+                                <img src="{{asset('assets/img/illustrations/blasting.jpg')}}" alt="..." style="width: 8rem" />
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
 
 
-            <!-- Main page content-->
+<!--            &lt;!&ndash; Main page content&ndash;&gt;
             <div class="container-xl px-4 mt-2">
-                <!-- Area chart example-->
+                &lt;!&ndash; Area chart example&ndash;&gt;
                 <div class="card mb-4">
                     <div class="card-header">Area Chart Example</div>
                     <div class="card-body">
@@ -190,7 +209,7 @@
                 </div>
                 <div class="row">
                     <div class="col-lg-6">
-                        <!-- Bar chart example-->
+                        &lt;!&ndash; Bar chart example&ndash;&gt;
                         <div class="card mb-4">
                             <div class="card-header">Bar Chart Example</div>
                             <div class="card-body">
@@ -200,7 +219,7 @@
                         </div>
                     </div>
                     <div class="col-lg-6">
-                        <!-- Pie chart example-->
+                        &lt;!&ndash; Pie chart example&ndash;&gt;
                         <div class="card mb-4">
                             <div class="card-header">Pie Chart Example</div>
                             <div class="card-body">
@@ -211,7 +230,7 @@
                     </div>
                 </div>
 
-            </div>
+            </div>-->
 
 
         </div>

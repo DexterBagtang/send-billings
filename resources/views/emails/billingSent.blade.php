@@ -155,20 +155,20 @@
                                         <tbody>
                                         @foreach($billings as $billing)
                                             <tr style="cursor: pointer">
-                                                <td onclick="window.location.href='{{url("viewBillingSent/$billing->id")}}'">{{Str::limit($billing->company,40)}}</td>
+                                                <td onclick="window.location.href='{{url("viewBilling/$billing->id")}}'">{{Str::limit($billing->company,40)}}</td>
 
                                                 {{--                                <td>{{$billing->account_number}}</td>--}}
                                                 {{--                                <td>{{$billing->contract_number}}</td>--}}
-                                                <td onclick="window.location.href='{{url("viewBillingSent/$billing->id")}}'">{{Str::limit($billing->email,40)}}</td>
+                                                <td onclick="window.location.href='{{url("viewBilling/$billing->id")}}'">{{Str::limit($billing->email,40)}}</td>
                                                 {{--                                <td>{{$billing->month}}-{{$billing->year}}</td>--}}
                                                 <td>
                                                     <a href="{{asset('billing_files/'.$billing->month.'-'.$billing->year.'/'.$billing->storedFile)}}" target="_blank">
                                                         {{Str::limit($billing->filename,40)}}
                                                     </a>
                                                 </td>
-                                                <td onclick="window.location.href='{{url("viewBillingSent/$billing->id")}}'">{{\Carbon\Carbon::parse($billing->emailDate)->format('d-M-Y h:i:s A')}}</td>
-                                                <td onclick="window.location.href='{{url("viewBillingSent/$billing->id")}}'">{{$billing->emailedBy}}</td>
-                                                <td onclick="window.location.href='{{url("viewBillingSent/$billing->id")}}'">{{$billing->emailStatus}} <span>{{\Carbon\Carbon::parse($billing->emailDate)->diffForHumans()}}</span></td>
+                                                <td onclick="window.location.href='{{url("viewBilling/$billing->id")}}'">{{\Carbon\Carbon::parse($billing->emailDate)->format('d-M-Y h:i:s A')}}</td>
+                                                <td onclick="window.location.href='{{url("viewBilling/$billing->id")}}'">{{$billing->emailedBy}}</td>
+                                                <td onclick="window.location.href='{{url("viewBilling/$billing->id")}}'">{{$billing->emailStatus}} <span>{{\Carbon\Carbon::parse($billing->emailDate)->diffForHumans()}}</span></td>
 {{--                                                <td>--}}
 {{--                                                    <button class="btn btn-datatable btn-icon btn-transparent-dark me-2"><i data-feather="more-vertical"></i></button>--}}
 {{--                                                    <button class="btn btn-datatable btn-icon btn-transparent-dark"><i data-feather="trash-2"></i></button>--}}

@@ -68,7 +68,7 @@ class SendEmailJob implements ShouldQueue
         $file->update();
 
 
-        Mail::to('Dexter.Bagtang@philcom.com')
+        Mail::to('dexterbagtang@outlook.com')
 //        Mail::to(['Dexter.Bagtang@philcom.com','Lloyd.Torres@philcom.com'])
 
             //        Mail::to($this->email)

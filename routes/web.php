@@ -108,7 +108,7 @@ Route::middleware('auth')->group(function () {
     Route::post('sendBillingNow',([EmailController::class,'sendBillingNow']));
     Route::get('sendBillingSent',([EmailController::class,'sendBillingSent']));
     Route::get('sendBillingSentPost',([EmailController::class,'sendBillingSentPost']));
-    Route::get('viewBillingSent/{id}',([EmailController::class,'viewBillingSent']));
+    Route::get('viewBilling/{id}',([EmailController::class,'viewBilling']));
 
     Route::get('sendBillingSending',([EmailController::class,'sendBillingSending']));
     Route::get('sendBillingFailed',([EmailController::class,'sendBillingFailed']));
@@ -150,6 +150,9 @@ Route::middleware('auth')->group(function () {
     Route::get('readAnnouncement/{id}',([AnnouncementController::class,'readAnnouncement']));
     Route::get('sendingAnnouncement',([AnnouncementController::class,'sendingAnnouncement']));
     Route::get('failedAnnouncement',([AnnouncementController::class,'failedAnnouncement']));
+
+
+    Route::get('getId/{id}',([EmailController::class,'getId']));
 
 
 

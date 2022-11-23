@@ -347,7 +347,33 @@
                                             </div>
                                         </div>
                                         <div class="modal-footer">
-                                            <input type="submit" class="btn btn-primary" value="Send Now">
+                                            @if($blasting > 0)
+                                                <!-- Modal -->
+                                                <div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                    <div class="modal-dialog modal-dialog-centered ">
+                                                        <div class="modal-content bg-danger-soft shadow">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title" id="exampleModalLabel">Unable to send !</h5>
+                                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <div>Announcements are still sending at this moment, You're able to send this after all the announcements are sent.</div>
+                                                                <br>
+                                                                <div>Check still sending announcements <a href="{{url('sendingAnnouncement')}}">here.</a></div>
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                {{--                                        <input type="submit" class="btn btn-primary" value="Send Now">--}}
+                                                                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal2">
+                                                    Send Now
+                                                </button>
+                                            @else
+                                                <input type="submit" class="btn btn-primary" value="Send Now">
+                                            @endif
                                             <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
                                         </div>
                                     </div>

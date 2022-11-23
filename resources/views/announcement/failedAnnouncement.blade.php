@@ -36,6 +36,23 @@
                                 </div>
                             </form>
 
+                            <div class="row">
+                                <div onclick="window.location.href='javascript:history.back()'" class="btn btn-icon btn-blue-soft mx-2 mt-2">
+                                    <i data-feather="arrow-left"></i>
+                                </div>
+
+                                <div onclick="window.location.href='javascript:history.back()'" class="btn btn-icon btn-blue-soft mx-2 mt-2">
+                                    <i data-feather="trash-2"></i>
+                                </div>
+
+                                <div onclick="window.location.reload()" class="btn btn-icon btn-blue-soft mx-2 mt-2">
+                                    <i data-feather="rotate-cw"></i>
+                                </div>
+                                {{--                                    <div onclick="window.location.href='javascript:history.back()'" class="btn btn-sm btn-icon btn-blue-soft m-2">--}}
+                                {{--                                        <i data-feather="arrow-right"></i>--}}
+                                {{--                                    </div>--}}
+                            </div>
+
                             <!-- /.card-tools -->
                         </div>
                         <!-- /.card-header -->

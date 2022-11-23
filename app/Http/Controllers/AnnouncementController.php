@@ -71,7 +71,7 @@ class AnnouncementController extends Controller
 //        $currentDate = date('Y-m-d');
 
 
-        $clients = DB::table('clients')->groupBy('email')->take(50)->get('email');
+        $clients = DB::table('clients')->groupBy('email')->take(20)->get('email');
 
         foreach ($clients as $client) {
             $announcement = new Announcement([

@@ -51,7 +51,7 @@ class SendAnnouncementJob implements ShouldQueue
         $announcement->emailDate = now();
         $announcement->update();
 
-        Mail::mailer('smtp2')->to('Dexter.Bagtang@philcom.com')
+        Mail::mailer('smtp2')->to('dexterbagtang@outlook.com')
             ->send(new SendAnnouncementMail($this->fileNames,$this->data,$this->subject));
 
         $announcement = Announcement::query()->where('id','=',$this->id)->first();
