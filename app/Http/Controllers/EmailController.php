@@ -6,12 +6,14 @@ use App\Jobs\ResendJob;
 use App\Jobs\SendEmailJob;
 use App\Mail\ResendMail;
 use App\Models\File;
+use App\Models\SystemLog;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\View;
 use function _PHPStan_9a6ded56a\React\Promise\all;
 
 class EmailController extends Controller
@@ -322,7 +324,9 @@ class EmailController extends Controller
 
                     $email = $billing->email;
                     $id = $billing->id;
-                    $subject = "Account No - $billing->account_number Contract No - $billing->contract_number $billing->company ".$subjectInput;
+//                    $subject = "Account No - $billing->account_number Contract No - $billing->contract_number $billing->company ".$subjectInput;
+                    $subject = "$billing->account_number$billing->contract_number $billing->company ".$subjectInput;
+
                     $file = public_path("billing_files/$month-$year/$billing->storedFile");
 //                    $attachment = public_path("attachments/$name");
 //                    $attachment = $names;
@@ -338,6 +342,14 @@ class EmailController extends Controller
                     $update->contents = $content;
                     $update->attachment = json_encode($attachment);
                     $update->update();
+
+                    $logs = new SystemLog([
+                        'ip_address' => $_SERVER['REMOTE_ADDR'],
+                        'user' => Auth::user()->name,
+                        'action' => $update,
+                        'module' => 'for send',
+                    ]);
+                    $logs->save();
 
                 }
                 $delaySecond = $i+= 45;
@@ -387,7 +399,7 @@ class EmailController extends Controller
     public function viewBilling($id){
         $billingSent = DB::table('files')
             ->where('files.id','=',$id)
-            ->where('emailStatus','=','sent')
+//            ->where('emailStatus','=','sent')
             ->join('clients','files.clients_id','=','clients.id')
 //            ->select('clients.*','files.filename','files.month','files.year',
 //                'files.emailStatus','files.created_at','files.emailDate','files.emailedBy','files.storedFile','files.subject','files.contents','files.attachment')
@@ -486,6 +498,8 @@ class EmailController extends Controller
             ->join('clients','files.clients_id','=','clients.id')
             ->select('files.*','clients.company','clients.email')
             ->paginate(50);
+//        dd($billingSent);
+
         $countSending = DB::table('files')
             ->where('month','=',$month)
             ->where('year','=',$year)
@@ -913,7 +927,8 @@ class EmailController extends Controller
 
                     $email = $billing->email;
                     $id = $billing->id;
-                    $subject = "Account No - $billing->account_number Contract No - $billing->contract_number $billing->company  ".$subjectInput;
+//                    $subject = "Account No - $billing->account_number Contract No - $billing->contract_number $billing->company  ".$subjectInput;
+                    $subject = "$billing->account_number$billing->contract_number $billing->company ".$subjectInput;
                     $file = public_path("billing_files/$month-$year/$billing->storedFile");
 //                    $attachment = public_path("attachments/$name");
 //                    $attachment = $names;
@@ -1008,21 +1023,39 @@ class EmailController extends Controller
             ->join('clients','files.clients_id','=','clients.id')
             ->select('files.*','clients.company','clients.email')
             ->first();
+//        dd($billing);
+        $view = view('emails.viewBilling2')->with('billing',$billing)->render();
+//        $view = View::make('emails.viewBilling', (array)$billing);
+//        dd($view);
 
         $html = "";
         if (!empty($billing)){
-            $html = "<tr>
-              <td width='30%'><b>ID:</b></td>
-              <td width='70%'> ".$billing->id."</td>
+            $html = $view;
+            /*"<tr>
+              <td width='10%'><b>ID:</b></td>
+              <td width='90%'> ".$billing->id."</td>
            </tr>
            <tr>
-              <td width='30%'><b>Name:</b></td>
-              <td width='70%'> ".$billing->company."</td>
+              <td width='10%'><b>Company:</b></td>
+              <td width='90%'> ".$billing->company."</td>
            </tr>
            <tr>
-              <td width='30%'><b>Email:</b></td>
-              <td width='70%'> ".$billing->email."</td>
-           </tr>";
+              <td width='10%'><b>Email:</b></td>
+              <td width='90%'> ".$billing->email."</td>
+           </tr>
+           <tr>
+              <td width='10%' class='align-top'><b>Content:</b></td>
+              <td width='90%'> ".$billing->contents."</td>
+           </tr>
+           <tr>
+              <td width='10%' class='align-top'><b>Attachments:</b></td>
+              <td width='90%'> ".$billing->attachment."</td>
+           </tr>
+           <tr>
+              <td width='10%' class='align-top'><b>Emailed By:</b></td>
+              <td width='90%'> ".$billing->emailedBy."</td>
+           </tr>
+          ";*/
         }
         $response['html'] = $html;
 

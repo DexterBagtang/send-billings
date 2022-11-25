@@ -47,7 +47,7 @@ class AppServiceProvider extends ServiceProvider
 
         $announcements = DB::table('announcements')
             ->select('announcements.*','compositions.subject','compositions.content','compositions.attachment')
-            ->leftJoin('compositions','announcements.composed_id','=','compositions.id')
+            ->leftJoin('compositions','announcements.compositions_id','=','compositions.id')
             ->where('emailStatus','=','Sending')
             ->count();
         View::share('blasting',$announcements);

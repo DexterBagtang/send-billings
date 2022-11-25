@@ -1,7 +1,7 @@
 @extends('layout.app')
 
 @section('link')
-    <meta http-equiv="refresh" content="30">
+    <meta http-equiv="refresh" content="120">
 {{--    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" >--}}
 @endsection
 
@@ -58,12 +58,12 @@
         <div class="container-xl px-4 mt-4">
 
             <div class="modal fade" id="empModal" >
-                <div class="modal-dialog modal-lg">
+                <div class="modal-dialog modal-xl">
 
                     <!-- Modal content-->
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h4 class="modal-title">Employee Info</h4>
+{{--                            <h4 class="modal-title">Details</h4>--}}
                             <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                         </div>
                         <div class="modal-body">
@@ -163,51 +163,34 @@
                             <input type="submit" class="d-none">
                         </form>
                     </div>
-                    <table class="table table-bordered table-hover" id="empTable">
+                    <table class="empTable" id="datatablesSimple2">
                         <thead>
                         <tr>
-                            {{--                            <th>Account#</th>--}}
-                            {{--                            <th>Contract#</th>--}}
-
                             <th>Company</th>
                             <th>Email</th>
-                            {{--                            <th>Month and Year</th>--}}
                             <th>File</th>
                             <th>Email Status</th>
                             <th>Emailed By</th>
                             <th>Date Emailed</th>
                             <th>Action</th>
-{{--                            <th>Actions</th>--}}
                         </tr>
                         </thead>
-                        {{--                        <tfoot>--}}
-                        {{--                        <tr>--}}
-                        {{--                            <th>Name</th>--}}
-                        {{--                            <th>Account</th>--}}
-                        {{--                            <th>Contract</th>--}}
-                        {{--                            <th>Email</th>--}}
-                        {{--                            <th>Company</th>--}}
-                        {{--                            <th>Contact</th>--}}
-                        {{--                            <th>Status</th>--}}
-                        {{--                            <th>Actions</th>--}}
-                        {{--                        </tr>--}}
-                        {{--                        </tfoot>--}}
                         <tbody>
                         @foreach($billings as $billing)
                             <tr style="cursor: pointer"  >
                                 <td  class="viewdetails" data-id="{{$billing->id}}">{{Str::limit($billing->company,30)}}</td>
                                 {{--                                <td>{{$billing->account_number}}</td>--}}
                                 {{--                                <td>{{$billing->contract_number}}</td>--}}
-                                <td>{{Str::limit($billing->email,30)}}</td>
+                                <td class="viewdetails" data-id="{{$billing->id}}">{{Str::limit($billing->email,30)}}</td>
                                 {{--                                <td>{{$billing->month}}-{{$billing->year}}</td>--}}
                                 <td>
                                     <a href="{{asset('billing_files/'.$billing->month.'-'.$billing->year.'/'.$billing->storedFile)}}" target="_blank">
                                         {{Str::limit($billing->filename,30)}}
                                     </a>
                                 </td>
-                                <td>{{$billing->emailStatus}}</td>
-                                <td>{{$billing->emailedBy}}</td>
-                                <td>{{$billing->emailDate}}</td>
+                                <td class="viewdetails" data-id="{{$billing->id}}">{{$billing->emailStatus}}</td>
+                                <td class="viewdetails" data-id="{{$billing->id}}">{{$billing->emailedBy}}</td>
+                                <td class="viewdetails" data-id="{{$billing->id}}">{{$billing->emailDate}}</td>
                                 @if($sendings > 0)
                                     <td>
                                         <a href="{{url("editClient/$billing->clients_id")}}"
@@ -264,63 +247,8 @@
                         </tbody>
                     </table>
                     {{ $billings->withQueryString()->links('pagination::bootstrap-5') }}
-                    {{--                                </div>--}}
-                    {{--                            </div>--}}
-                    {{--                        </div>--}}
-
-                    {{--                    </div>--}}
-
-
-
-                    {{--                    <form action="{{url('sendBillingNow')}}" method="POST" enctype="multipart/form-data">--}}
-                    {{--                        @csrf--}}
-                    {{--                        <div class="form-group">--}}
-                    {{--                            <input type="hidden" name="month" value="{{$month}}">--}}
-                    {{--                            <input type="hidden" name="year" value="{{$year}}">--}}
-                    {{--                            --}}{{--                            <input type="submit" class="btn btn-primary btn-lg" value="Send Billing">--}}
-                    {{--                        </div>--}}
-
-                    {{--                        <!-- Button trigger modal -->--}}
-                    {{--                        <button type="button" class="btn btn-primary btn-lg" data-bs-toggle="modal" data-bs-target="#exampleModal">--}}
-                    {{--                            Send Billings--}}
-                    {{--                        </button>--}}
-
-                    {{--                        <!-- Modal -->--}}
-                    {{--                        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">--}}
-                    {{--                            <div class="modal-dialog">--}}
-                    {{--                                <div class="modal-content">--}}
-                    {{--                                    <div class="modal-header">--}}
-                    {{--                                        <h5 class="modal-title" id="exampleModalLabel">Send Billing</h5>--}}
-                    {{--                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>--}}
-                    {{--                                    </div>--}}
-                    {{--                                    <div class="modal-body">--}}
-                    {{--                                        You are about to send the billings for the month of {{$month.'-'.$year}}--}}
-                    {{--                                    </div>--}}
-                    {{--                                    <div class="modal-footer">--}}
-                    {{--                                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>--}}
-                    {{--                                        <input type="submit" class="btn btn-primary" value="Send Now">--}}
-                    {{--                                    </div>--}}
-                    {{--                                </div>--}}
-                    {{--                            </div>--}}
-                    {{--                        </div>--}}
-                    {{--                    </form>--}}
                 </div>
             </div>
-            {{--            <div class="card card-icon mb-4">--}}
-            {{--                <div class="row g-0">--}}
-            {{--                    <div class="col-auto card-icon-aside bg-primary"><i class="me-1 text-white-50" data-feather="alert-triangle"></i></div>--}}
-            {{--                    <div class="col">--}}
-            {{--                        <div class="card-body py-5">--}}
-            {{--                            <h5 class="card-title">Third-Party Documentation Available</h5>--}}
-            {{--                            <p class="card-text">Simple DataTables is a third party plugin that is used to generate the demo table above. For more information about how to use Simple DataTables with your project, please visit the official documentation.</p>--}}
-            {{--                            <a class="btn btn-primary btn-sm" href="https://github.com/fiduswriter/Simple-DataTables" target="_blank">--}}
-            {{--                                <i class="me-1" data-feather="external-link"></i>--}}
-            {{--                                Visit Simple DataTables Docs--}}
-            {{--                            </a>--}}
-            {{--                        </div>--}}
-            {{--                    </div>--}}
-            {{--                </div>--}}
-            {{--            </div>--}}
         </div>
     </main>
 @endsection
@@ -333,7 +261,7 @@
     <script type='text/javascript'>
         $(document).ready(function(){
 
-            $('#empTable').on('click','.viewdetails',function(){
+            $('.empTable').on('click','.viewdetails',function(){
                 var empid = $(this).attr('data-id');
 
                 if(empid > 0){

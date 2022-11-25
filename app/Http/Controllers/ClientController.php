@@ -45,14 +45,14 @@ class ClientController extends Controller
         $url = request()->fullUrl();
         Session::put('data_url',$url);
 
-        $ip = $_SERVER['REMOTE_ADDR'];
+        /*$ip = $_SERVER['REMOTE_ADDR'];
         $log = new SystemLog([
             'ip_address' => $ip,
             'user' => Auth::user()->name,
             'action' => $query,
             'module' => 'show clients',
         ]);
-        $log->save();
+        $log->save();*/
 
 
 //        $clients = DB::table('clients')->simplePaginate();
@@ -103,7 +103,6 @@ class ClientController extends Controller
         }
         //==============================================================//
 
-        DB::connection()->enableQueryLog();
         $client = new Client([
             'company' => $request->input('company'),
             'email' => $request->input('email'),
@@ -113,11 +112,14 @@ class ClientController extends Controller
             'incharge_email' => $request->input('email_incharge'),
         ]);
         $client->save();
-        $queries = DB::getQueryLog();
-        foreach ($queries as $item) {
-            $queriesAll[] = $item['query'];
-        }
-        $query = json_encode($queriesAll);
+
+        $logs = new SystemLog([
+            'ip_address' => $_SERVER['REMOTE_ADDR'],
+            'user' => Auth::user()->name,
+            'action' => $client,
+            'module' => 'added client',
+        ]);
+        $logs->save();
 //        dd($queries,$query);
         return redirect('clients')->with('success','Client added successfully');
 
@@ -140,14 +142,21 @@ class ClientController extends Controller
 
     public function editedClient(Request $request){
 
+
         //========== Checks for possible duplicate ======================//
-        $checkDuplicate = DB::table('clients')->where('account_number',$request->account_number)
+        $checkDuplicate = DB::table('clients')
+            ->where('account_number',$request->account_number)
             ->where('contract_number',$request->contract_number)
-            ->get();
-        if (count($checkDuplicate) > 0){
-            return back()
-                ->withErrors(["Client with an account number of $request->account_number and contract number of $request->contract_number already exists in the database !"]);
+            ->first();
+//        dd($checkDuplicate);
+
+        if (isset($checkDuplicate)){
+            if($request->id != $checkDuplicate->id){
+                return back()
+                    ->withErrors(["Client with an account number of $request->account_number and contract number of $request->contract_number already exists in the database !"]);
+            }
         }
+
         //==============================================================//
         $email = implode(',',$request->email);
 //        dd($request->email,$email);
@@ -161,6 +170,15 @@ class ClientController extends Controller
         $client->incharge_email = $request->input('incharge_email');
 
         $client->update();
+
+        $logs = new SystemLog([
+            'ip_address' => $_SERVER['REMOTE_ADDR'],
+            'user' => Auth::user()->name,
+            'action' => $client,
+            'module' => 'edited client',
+        ]);
+
+        $logs->save();
         if (Session('data_url')){
             return redirect(Session('data_url'))->with('success','Client edited successfully');
         }
@@ -196,6 +214,12 @@ class ClientController extends Controller
 //        (new ClientImport)->import('users.xlsx', null, \Maatwebsite\Excel\Excel::XLSX);
 
 
+        $logs = new SystemLog([
+            'ip_address' => $_SERVER['REMOTE_ADDR'],
+            'user' => Auth::user()->name,
+            'action' => $request->csv,
+            'module' => 'import client',
+        ]);
 
 
         return redirect('clients')->with('success','Successfully added clients');
@@ -300,6 +324,15 @@ class ClientController extends Controller
         $client = Client::find($request->id);
         $client->disabled_at = now();
         $client->delete();
+
+        $logs = new SystemLog([
+            'ip_address' => $_SERVER['REMOTE_ADDR'],
+            'user' => Auth::user()->name,
+            'action' => $client,
+            'module' => 'deleted client',
+        ]);
+        $logs->save();
+
         if (Session('data_url')){
             return redirect(Session('data_url'))->with('success',"You have removed $client->company with contract number of $client->contract_number");
         }

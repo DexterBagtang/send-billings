@@ -57,8 +57,8 @@
 
                             @foreach(json_decode($announcement->attachment) as $file)
                                 <div class="m-1">
-                                    <a href="{{asset("announcement/$file")}}" class="btn btn-outline-dark" target="_blank"><i
-                                            class="fas fa-paperclip"></i>
+                                    <a href="{{asset("announcement/$file")}}" class="btn btn-outline-dark" target="_blank">
+                                        <i class="fas fa-paperclip"></i>
                                         {{$file}}</a>
                                     <span class="mailbox-attachment-size clearfix mt-1">
                           <a href="{{asset("announcement/$file")}}" class="btn btn-outline-dark" download="{{$file}}"><i

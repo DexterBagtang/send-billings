@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Client;
 use App\Models\File;
+use App\Models\SystemLog;
 use App\Models\Upload;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
@@ -87,6 +88,7 @@ class UploadController extends Controller
                     $bill_file->uploader = Auth::user()->name;
                     $bill_file->emailStatus = "for sending";
                     $bill_file->save();
+
                     $id = DB::table('files')->orderBy('id', 'desc')->first();
                     $ids[] = $id->id;
                     $filename[] = $bill_file->filename;
@@ -105,6 +107,14 @@ class UploadController extends Controller
                 $upload->month = $month;
                 $upload->year = $year;
                 $upload->save();
+
+                $logs = new SystemLog([
+                    'ip_address' => $_SERVER['REMOTE_ADDR'],
+                    'user' => Auth::user()->name,
+                    'action' => $upload,
+                    'module' => 'newly uploaded statements of account',
+                ]);
+                $logs->save();
 
             }
 //        DB::table('uploads')->insert([

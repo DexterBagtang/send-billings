@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('announcements', function (Blueprint $table) {
             $table->id();
-            $table->integer('composed_id')->nullable();
+            $table->foreignId('compositions_id')->nullable();
             $table->longText('emailTo');
             $table->string('emailStatus');
             $table->string('emailBy')->nullable();

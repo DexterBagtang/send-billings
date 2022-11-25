@@ -107,10 +107,17 @@
 {{--                                                <td class="mailbox-name"><a href="{{url("readAnnouncement/$announcement->id")}}">To: {{Str::limit($announcement->emailTo,25)}}</a></td>--}}
                                                 <td style="cursor: pointer" onclick="window.location.href='{{'view_compositions/'.$announcement->id}}'" class="mailbox-subject">
 {{--                                                    <a href="{{'view_compositions/'.$announcement->id}}">--}}
-                                                        {!!Str::limit(("<b>".$announcement->subject."</b>" ." - ". str_replace(array("p>"),'span>',$announcement->content)),150)!!}
+{{--                                                        {!!Str::limit(("<b>".$announcement->subject."</b>" ." - ". str_replace(array("p>"),'span>',$announcement->content)),150)!!}--}}
 {{--                                                    </a>--}}
+                                                    {!!Str::limit(("<b>".$announcement->subject."</b>" ." - ". strip_tags($announcement->content)),130)!!}
+
                                                 </td>
-                                                <td class="mailbox-attachment"></td>
+                                                <td class="mailbox-attachment">
+                                                    @if($announcement->attachment != null)
+                                                    <i class="fas fa-paperclip"></i>
+                                                    @else
+                                                    @endif
+                                                </td>
                                                 <td class="mailbox-date">{{\Carbon\Carbon::parse($announcement->created_at)->diffForHumans()}}</td>
                                             </tr>
                                         @endforeach

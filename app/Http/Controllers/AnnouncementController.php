@@ -64,7 +64,7 @@ class AnnouncementController extends Controller
            'composed_by' => Auth::user()->name,
         ]);
         $composed->save();
-        $composed_id = $composed->id;
+        $compositions_id = $composed->id;
 //        return $fileNames;
 
 
@@ -75,7 +75,7 @@ class AnnouncementController extends Controller
 
         foreach ($clients as $client) {
             $announcement = new Announcement([
-                'composed_id' => $composed_id,
+                'compositions_id' => $compositions_id,
                 'emailTo' => $client->email,
                 'emailStatus' => 'For Sending',
                 'emailBy' => Auth::user()->name,
@@ -93,7 +93,7 @@ class AnnouncementController extends Controller
         for ($x=0; $x<=$all; $x+=$each){
             $announcements = DB::table('announcements')
                 ->select('announcements.*','compositions.subject','compositions.content','compositions.attachment')
-                ->leftJoin('compositions','announcements.composed_id','=','compositions.id')
+                ->leftJoin('compositions','announcements.compositions_id','=','compositions.id')
                 ->where('emailStatus','=','For Sending')
                 ->take($each)
                 ->get();
@@ -125,19 +125,25 @@ class AnnouncementController extends Controller
     public function sentAnnouncement(){
         $announcements = DB::table('announcements')
             ->select('announcements.*','compositions.subject','compositions.content','compositions.attachment')
-            ->leftJoin('compositions','announcements.composed_id','=','compositions.id')
+            ->leftJoin('compositions','announcements.compositions_id','=','compositions.id')
             ->where('emailStatus','=','Sent')
             ->orderByDesc('id')
             ->paginate(25);
+        $announcements = Announcement::all()->composition->subject;
+//        $composition = Composition::find(1)->announcement->emailTo;
+        dd($announcements);
 
-//        dd($announcements);
+//        $composition = Composition::find(1);
+//        $announcement = $composition->emailTo;
+
+        dd($announcement);
         return view('announcement.sentAnnouncement')->with('announcements',$announcements);
     }
 
     public function readAnnouncement($id){
         $announcement = DB::table('announcements')
             ->select('announcements.*','compositions.subject','compositions.content','compositions.attachment')
-            ->leftJoin('compositions','announcements.composed_id','=','compositions.id')
+            ->leftJoin('compositions','announcements.compositions_id','=','compositions.id')
             ->where('announcements.id','=',$id)
             ->first();
 //        dd($announcement);
@@ -147,7 +153,7 @@ class AnnouncementController extends Controller
     public function sendingAnnouncement(){
         $announcements = DB::table('announcements')
             ->select('announcements.*','compositions.subject','compositions.content','compositions.attachment')
-            ->leftJoin('compositions','announcements.composed_id','=','compositions.id')
+            ->leftJoin('compositions','announcements.compositions_id','=','compositions.id')
             ->where('emailStatus','=','Sending')
             ->paginate(20);
 //        dd($announcement);
@@ -159,7 +165,7 @@ class AnnouncementController extends Controller
         $search = $request->search;
         $announcements = DB::table('announcements')
             ->select('announcements.*','compositions.subject','compositions.content','compositions.attachment')
-            ->leftJoin('compositions','announcements.composed_id','=','compositions.id')
+            ->leftJoin('compositions','announcements.compositions_id','=','compositions.id')
             ->where('announcements.emailStatus','=',$status)
             ->where(function ($query) use ($search){
                 $query->where('compositions.subject','like',"%$search%")
@@ -189,7 +195,7 @@ class AnnouncementController extends Controller
     public function failedAnnouncement(){
         $announcements = DB::table('announcements')
             ->select('announcements.*','compositions.subject','compositions.content','compositions.attachment')
-            ->leftJoin('compositions','announcements.composed_id','=','compositions.id')
+            ->leftJoin('compositions','announcements.compositions_id','=','compositions.id')
             ->where('emailStatus','=','Sending Error')
             ->paginate(20);
 //        dd($announcement);
