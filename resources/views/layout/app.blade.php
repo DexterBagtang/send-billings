@@ -7,9 +7,11 @@
     <meta name="description" content="" />
     <meta name="author" content="" />
     <title>PhilCom - Billing</title>
+{{--    @notifyCss--}}
     <link href="https://cdn.jsdelivr.net/npm/litepicker/dist/css/litepicker.css" rel="stylesheet" />
     <link href="{{asset('css/styles.css')}}" rel="stylesheet" />
     <link rel="icon" type="image/x-icon" href="{{asset('assets/img/email.png')}}" />
+
     @yield('link')
     <script data-search-pseudo-elements defer src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.28.0/feather.min.js" crossorigin="anonymous"></script>
@@ -24,18 +26,21 @@
 <body class="nav-fixed ">
 <!-- Navbar -->
 @include('layout.navbar')
+
 <!-- Navbar -->
 
 <!-- Sidebar -->
 @include('layout.sidebar')
 <!-- Sidebar end -->
 @if(session()->get('denied'))
-    <div class="alert alert-danger">
-        {{ session()->get('denied') }}
-    </div><br />
+        <div class="alert alert-danger m-5">
+            <button class="btn-close float-end" type="button" data-bs-dismiss="alert" aria-label="Close"></button>
+            {{ session()->get('denied') }}
+        </div><br />
 @endif
+{{--@include('notify::components.notify')--}}
 
-
+{{--<x:notify-messages />--}}
         {{--Main Content--}}
         @yield('content')
         {{-- Main Content --}}
@@ -56,6 +61,8 @@
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 <script src="{{asset('js/scripts.js')}}"></script>
+<script src="{{asset('js/toasts.js')}}"></script>
+{{--@notifyJs--}}
 @yield('script')
 </body>
 </html>

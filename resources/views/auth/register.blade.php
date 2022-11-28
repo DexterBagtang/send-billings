@@ -36,6 +36,7 @@
                                 required autocomplete="new-password" />
             </div>
 
+
             <!-- Confirm Password -->
             <div class="mt-4">
                 <x-label for="password_confirmation" :value="__('Confirm Password')" />
@@ -43,6 +44,17 @@
                 <x-input id="password_confirmation" class="block mt-1 w-full"
                                 type="password"
                                 name="password_confirmation" required />
+            </div>
+
+            <div class="mt-4">
+                <x-label for="role" :value="__('Role')" />
+                <select class="block mt-1 w-full form-select" id="inputPassword" name="role">
+                    <option value="" readonly>Select Role</option>
+                    @foreach($roles as $role)
+                        <option value="{{$role->id}}">{{$role->role_name}}</option>
+                    @endforeach
+
+                </select>
             </div>
 
             <div class="flex items-center justify-end mt-4">

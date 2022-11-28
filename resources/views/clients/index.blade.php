@@ -1,6 +1,12 @@
 @extends('layout.app')
 
+
+
 @section('content')
+    <link rel="stylesheet" type="text/css"
+          href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+
+
 
     <main>
         <!-- Main page content-->
@@ -14,8 +20,11 @@
                         &middot; {{\Carbon\Carbon::now()->format('F d, Y')}}
                     </div>
                 </div>
+                @if(Auth::user()->roles_id == 1)
                 <a href="{{url('addClient')}}" class="btn btn-primary">Add Client</a>
+                @endif
             </div>
+
             @if($search !== null)
             <div class="text-black text-lg">Search results for: "{{$search}}"</div>
             @endif
@@ -105,20 +114,24 @@
 
 {{--                            </td>--}}
                             <td>
+                                @if(Auth::user()->roles_id == 1)
                                 <a href="{{url("editClient/$client->id")}}"
                                    class="btn btn-datatable btn-icon btn-outline-primary m-1" title="Edit">
                                     <i data-feather="edit-3"></i>
                                 </a>
+                                @endif
 
                                 <a href="{{url("viewClient/$client->id")}}" id="exampleModal"
                                    class="btn btn-datatable btn-icon btn-outline-success m-1" title="View">
                                     <i data-feather="eye"></i>
                                 </a>
 
+                                @if(Auth::user()->roles_id == 1)
                                 <a href="{{url("removeClient/$client->id")}}" id="exampleModal"
                                    class="btn btn-datatable btn-icon btn-outline-danger m-1" title="Remove">
                                     <i data-feather="user-minus"></i>
                                 </a>
+                                @endif
                             </td>
                         </tr>
                         @endforeach

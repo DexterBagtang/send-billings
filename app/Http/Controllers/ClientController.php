@@ -75,8 +75,8 @@ class ClientController extends Controller
         $this->validate($request,[
            'company'=>'required',
             'email'=>'required',
-            'account_number'=>'required|max:99999999',
-            'contract_number'=>'required|max:9999',
+            'account_number'=>'required|max:8|min:8',
+            'contract_number'=>'required|max:4|min:4',
             'incharge' => 'required',
             'email_incharge' => 'required',
         ],[

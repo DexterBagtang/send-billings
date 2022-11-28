@@ -38,27 +38,14 @@
 {{--        </header>--}}
         <!-- Main page content-->
         <div class="container-fluid px-4 mt-4">
-            @if(session()->get('success'))
-                <div class="alert alert-success">
-                    {{ session()->get('success') }}
-                </div><br />
-            @endif
 
-
-            @if ($errors->any())
-                <div class="alert alert-danger">
-                    <ul>
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-            @endif
 
 {{--                @include('layout.announcementnav')--}}
 
             <div class="row">
+                {{-- Email Blast side bar --}}
                 @include('layout.announcementnav')
+                {{--End of email blase side bar --}}
 {{--                <div class="col-xl-2">--}}
 {{--                    <!-- Profile picture card-->--}}
 {{--                    <div class="card mb-4 mb-xl-0">--}}
@@ -79,6 +66,24 @@
 {{--                    </div>--}}
 {{--                </div>--}}
                 <div class="col-xl-10">
+                    @if(session()->get('success'))
+                        <div class="alert alert-success">
+                            {{ session()->get('success') }}
+                        </div><br />
+                    @endif
+
+
+                    @if ($errors->any())
+                        <div class="alert alert-danger" role="alert">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}
+                                        <button class="btn-close float-end" type="button" data-bs-dismiss="alert" aria-label="Close"></button>
+                                    </li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
                     <!-- Account details card-->
                     <form method="post" action="{{url('sendAnnouncement')}}" enctype="multipart/form-data">
                         @csrf
@@ -97,7 +102,7 @@
                                 </div>
                                 <div class="input-group">
                                     <span class="input-group-text">Subject:</span>
-                                    <input type="text" class="form-control" name="subject" aria-label="With textarea" required>
+                                    <input type="text" class="form-control" name="subject" value="{{old('subject')}}" aria-label="With textarea" required>
                                 </div>
                                 {{--                                            <div class="row mb-3">--}}
                                 {{--                                                <div class="col-sm-3">--}}

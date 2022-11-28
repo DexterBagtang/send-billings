@@ -31,6 +31,7 @@
                             @if ($errors->any())
                                 <div class="alert alert-danger">
                                     <ul>
+                                        <button class="btn-close float-end" type="button" data-bs-dismiss="alert" aria-label="Close"></button></li>
                                         @foreach ($errors->all() as $error)
                                             <li>{{ $error }}</li>
                                         @endforeach

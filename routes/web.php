@@ -23,8 +23,9 @@ use Illuminate\Support\Facades\View;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
 Route::middleware('auth')->group(function () {
-    Route::get('test', function () {
+/*    Route::get('test', function () {
 //
 //        $billingSent = DB::table('files')
 //            ->where('month','=',$month)
@@ -46,23 +47,24 @@ Route::middleware('auth')->group(function () {
 //        dd($sent);
 //        return view('index');
         return view('index',compact('labels','data'));
-    });
-    //-----------------Dashboard-----------------------------------//
+    });*/
+
+        //-----------------Dashboard-----------------------------------//
     Route::get('/',([DashboardController::class,'dashboard']));
 
     //-----------------Clients-------------------------------------//
     Route::get('clients/',([ClientController::class,'index']));
-    Route::get('addClient',([ClientController::class,'addClient']));
+    Route::get('addClient',([ClientController::class,'addClient']))->middleware('checkAdmin');
     Route::post('addedClient',([ClientController::class,'addedClient']));
     Route::get('editClient/{id}',([ClientController::class,'editClient']));
-    Route::post('editedClient',([ClientController::class,'editedClient']));
+    Route::post('editedClient',([ClientController::class,'editedClient']))->middleware('checkAdmin');
     Route::get('viewClient/{id}',([ClientController::class,'viewClient']));
-    Route::get('removeClient/{id}',([ClientController::class,'removeClient']));
+    Route::get('removeClient/{id}',([ClientController::class,'removeClient']))->middleware('checkAdmin');
     Route::post('removedClient',([ClientController::class,'removedClient']));
-    Route::get('removeClientDuplicate/{id}',([ClientController::class,'removeClientDuplicate']));
+    Route::get('removeClientDuplicate/{id}',([ClientController::class,'removeClientDuplicate']))->middleware('checkAdmin');
     Route::post('removedClientDuplicate',([ClientController::class,'removedClientDuplicate']));
-    Route::get('edit_client/{id}',([ClientController::class,'edit_client']));
-    Route::post('importClient',([ClientController::class,'importClient']));
+    Route::get('edit_client/{id}',([ClientController::class,'edit_client']))->middleware('checkAdmin');
+    Route::post('importClient',([ClientController::class,'importClient']))->middleware('checkAdmin');
     Route::get('duplicateClient',([ClientController::class,'duplicateClient']));
     Route::get('searchClient',([ClientController::class,'searchClient']));
     Route::get('searchDuplicateClient',([ClientController::class,'searchDuplicateClient']));
@@ -71,7 +73,7 @@ Route::middleware('auth')->group(function () {
 
     //------------------------UPload--------------------------------------//
 
-    Route::get('uploadFile',([UploadController::class,'upload']));
+    Route::get('uploadFile',([UploadController::class,'upload']))->middleware('checkAdmin');
     Route::post('uploadedFile',([UploadController::class,'uploaded']));
 
     Route::get('uploadedFiles',([UploadController::class,'uploadedFiles']));
@@ -105,7 +107,7 @@ Route::middleware('auth')->group(function () {
     //-----------------------Send Billing Files --------------------------------//
     Route::get('sendBillingFiles',([EmailController::class,'sendBillingFiles']));
     Route::post('sendBillingFilesPost',([EmailController::class,'sendBillingFilesPost']));
-    Route::post('sendBillingNow',([EmailController::class,'sendBillingNow']));
+    Route::post('sendBillingNow',([EmailController::class,'sendBillingNow']))->middleware('checkAdmin');
     Route::get('sendBillingSent',([EmailController::class,'sendBillingSent']));
     Route::get('sendBillingSentPost',([EmailController::class,'sendBillingSentPost']));
     Route::get('viewBilling/{id}',([EmailController::class,'viewBilling']));
@@ -113,10 +115,10 @@ Route::middleware('auth')->group(function () {
     Route::get('sendBillingSending',([EmailController::class,'sendBillingSending']));
     Route::get('sendBillingFailed',([EmailController::class,'sendBillingFailed']));
 
-    Route::get('resendBilling/{id}',([EmailController::class,'resendBilling']));
+    Route::get('resendBilling/{id}',([EmailController::class,'resendBilling']))->middleware('checkAdmin');
 
     Route::get('resendBillingFiles',([EmailController::class,'resendBillingFiles']));
-    Route::post('resendBillingNow',([EmailController::class,'resendBillingNow']));
+    Route::post('resendBillingNow',([EmailController::class,'resendBillingNow']))->middleware('checkAdmin');
 
 
     //---------------------Search SoA ---------------------------------------------//
@@ -140,7 +142,7 @@ Route::middleware('auth')->group(function () {
 
 
     //===========================    Announcement  =================================================//
-    Route::get('compose_announcements',([AnnouncementController::class,'compose_announcements']));
+    Route::get('compose_announcements',([AnnouncementController::class,'compose_announcements']))->middleware('checkAdmin');
     Route::get('announcements',([AnnouncementController::class,'announcements']));
     Route::get('searchCompositions',([AnnouncementController::class,'searchCompositions']));
     Route::get('view_compositions/{id}',([AnnouncementController::class,'view_compositions']));
@@ -158,6 +160,8 @@ Route::middleware('auth')->group(function () {
 
 
 });
+
+
 
 
 

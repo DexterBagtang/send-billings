@@ -104,9 +104,10 @@
                             <div class="d-flex justify-content-between align-items-center">
                                 <div class="me-3">
                                     <div class="text-white-75 small">Send {{$month}} SoA</div>
-                                    <div class="text-lg fw-bold">{{$monthBillings}}</div>
+                                    <div class="text-lg fw-bold"><i class="fas fa-envelope"></i></div>
                                 </div>
-                                <i class="feather-xl text-white-50" data-feather="mail"></i>
+{{--                                <i class="feather-xl text-white-50" data-feather="mail"></i>--}}
+                                <i class="fa fa-mail-bulk feather-xl text-white-50"></i>
                             </div>
                         </div>
                         <div class="card-footer d-flex align-items-center justify-content-between small">
@@ -187,7 +188,7 @@
                                     <i class="feather-xl text-primary mb-3 fas fa-bullhorn"></i>
 {{--                                    <i class="feather-xl text-primary mb-3" data-feather="users"></i>--}}
                                     <h5>Email Blast</h5>
-                                    <div class="text-muted small">There are <span class="text-danger">{{number_format($clientsCount,0,',')}}</span> contract numbers</div>
+                                    <div class="text-muted small"> <span class="text-danger">{{number_format($announcements,0,',')}}</span> emails sent.</div>
                                 </div>
                                 <img src="{{asset('assets/img/illustrations/blasting.jpg')}}" alt="..." style="width: 8rem" />
                             </div>

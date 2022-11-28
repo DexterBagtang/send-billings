@@ -18,9 +18,14 @@ class CheckAdmin
      */
     public function handle(Request $request, Closure $next)
     {
-        if (Auth::user()->email !== 'soa.admin@philcom.com'){
+        if (Auth::user()->roles_id !== 1){
+//            notify()->success('test');
+//            connectify('success','error','error');
+//            drakify('success');
+//            smilify('success', 'You are successfully reconnected');
+//            emotify('success', 'You are awesome, your data was successfully created');
             return back()->with('denied','Access denied !');
-//            return back();
+//            return back()->notify()->success('test');
         }
         return $next($request);
     }

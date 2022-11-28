@@ -62,6 +62,17 @@
                                         <input class="form-control" id="inputPassword" name="password_confirmation" type="password" placeholder="Confirm password" />
                                     </div>
 
+                                    <div class="mb-3">
+                                        <label class="small mb-1" for="inputPassword">Role</label>
+                                        <select class="form-select" id="inputPassword" name="role">
+                                            <option value="" readonly>Select Role</option>
+                                            @foreach($roles as $role)
+                                            <option value="{{$role->id}}">{{$role->role_name}}</option>
+                                            @endforeach
+
+                                        </select>
+                                    </div>
+
                                     {{--                                    <!-- Form Group (login box)-->--}}
                                     <div class="d-flex align-items-center justify-content-between mt-4 mb-0">
 {{--                                        @if (Route::has('password.request'))--}}

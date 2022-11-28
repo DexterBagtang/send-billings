@@ -46,6 +46,13 @@ class DashboardController extends Controller
             ->where('emailStatus','=','sending error')
             ->count();
 
+        $announcements = DB::table('announcements')
+            ->select('announcements.*','compositions.subject','compositions.content','compositions.attachment')
+            ->leftJoin('compositions','announcements.compositions_id','=','compositions.id')
+            ->where('emailStatus','=','Sent')
+            ->orderByDesc('id')
+            ->count();
+
         $time = date('H');
         if ($time < 12){
             $greet = "Good morning";
@@ -68,7 +75,8 @@ class DashboardController extends Controller
             ->with('failed',$monthBillingFailed)
             ->with('clientsCount',$clientsCount)
             ->with('billingsCount',$billingsCount)
-            ->with('greet',$greet);
+            ->with('greet',$greet)
+            ->with('announcements',$announcements);
 
     }
 

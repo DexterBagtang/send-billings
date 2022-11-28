@@ -10,11 +10,13 @@
 <div class="col-lg-2">
     <div class="nav-fixed">
 
+        @if(\Illuminate\Support\Facades\Auth::user()->roles_id == 1 )
         <div class="my-2">
             <a href="{{url('compose_announcements')}}" class="d-grid">
                 <div class="btn btn-primary lift-sm">Compose</div>
             </a>
         </div>
+        @endif
 
         <div class="card">
             <nav class="sidenav sidenav-light">

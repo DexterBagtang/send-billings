@@ -16,6 +16,7 @@ class AnnouncementController extends Controller
         $announcements = DB::table('compositions')->orderByDesc('id')->paginate(20);
 
 //        dd($announcements);
+
         return view('announcement.view_announcements')->with('announcements',$announcements);
     }
 
@@ -43,6 +44,11 @@ class AnnouncementController extends Controller
     }
 
     public function sendAnnouncement(Request $request){
+        $this->validate($request,[
+            'message' => 'required',
+        ],[
+            'message.required' => 'Body should not be empty !'
+        ]);
         $subject = $request->subject;
         $content = $request->message;
 
@@ -129,14 +135,14 @@ class AnnouncementController extends Controller
             ->where('emailStatus','=','Sent')
             ->orderByDesc('id')
             ->paginate(25);
-        $announcements = Announcement::all()->composition->subject;
+//        $announcements = Announcement::all()->composition->subject;
 //        $composition = Composition::find(1)->announcement->emailTo;
-        dd($announcements);
+//        dd($announcements);
 
 //        $composition = Composition::find(1);
 //        $announcement = $composition->emailTo;
 
-        dd($announcement);
+//        dd($announcement);
         return view('announcement.sentAnnouncement')->with('announcements',$announcements);
     }
 
