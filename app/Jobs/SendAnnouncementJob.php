@@ -50,9 +50,11 @@ class SendAnnouncementJob implements ShouldQueue
         $announcement->emailStatus = "Sending Error";
         $announcement->emailDate = now();
         $announcement->update();
+        $recipients = str_replace([' ',],'',$this->email);
 
-        Mail::mailer('smtp2')->to('dexterbagtang@outlook.com')
-            ->send(new SendAnnouncementMail($this->fileNames,$this->data,$this->subject));
+//        Mail::mailer('smtp2')->to('dexterbagtang@outlook.com')
+                    Mail::mailer('smtp2')->to($recipients)
+                        ->send(new SendAnnouncementMail($this->fileNames,$this->data,$this->subject));
 
         $announcement = Announcement::query()->where('id','=',$this->id)->first();
         $announcement->emailStatus = "Sent";

@@ -658,24 +658,8 @@ class EmailController extends Controller
             $billingIds[]=$billingId;
         }
 
-//        dd($billingsFilter,$billingIds);
-
-        /*$billings = DB::table('files')
-            ->whereIn('files.id',$billingIds)
-            ->where('month','=',$month)
-            ->where('year','=',$year)
-            ->whereNull('deleted_at')
-            ->join('clients','files.clients_id','=','clients.id')
-//            ->groupBy('files.clients_id')
-            ->select('files.*','clients.name','clients.company','clients.email')
-//            ->select('clients.*','files.filename','files.month','files.year','files.emailStatus')
-//            ->distinct()
-//            ->orderBy('files.created_at','desc')
-            ->get();
-        dd($billings);*/
-
         $billingNotSent = DB::table('files')
-            ->whereIn('files.id',$billingIds)
+//            ->whereIn('files.id',$billingIds)
             ->where('month','=',$month)
             ->where('year','=',$year)
             ->where('emailStatus','like','%for resending%')
@@ -686,7 +670,7 @@ class EmailController extends Controller
 //        dd($billingNotSent);
 
         $countNotSent = DB::table('files')
-            ->whereIn('files.id',$billingIds)
+//            ->whereIn('files.id',$billingIds)
             ->where('month','=',$month)
             ->where('year','=',$year)
             ->where('emailStatus','=','for resending')

@@ -115,9 +115,7 @@
 
                                 <div class="form-group mb-3">
                                     <label class="col-sm-2 col-form-label">Message:</label>
-                                    <textarea class="summernote" name="message" required>
-
-                                    </textarea>
+                                    <textarea class="summernote" name="message" required></textarea>
                                 </div>
                                 <div class="row mb-3">
                                     <div class="col-sm-3">

@@ -315,7 +315,6 @@
                                                 <label class="col-sm-2 col-form-label">Message:</label>
                                                 <textarea class="summernote" name="message">
 
-<div style="font-family:Calibri,sans-serif; font-size: 11pt">
 <p>Hi Ma’am/Sir;</p>
 
 <p>Good day!</p>
@@ -333,7 +332,6 @@
 <p>It is very well appreciated if you could acknowledge this email and if you have any concern or clarifications you may contact our mobile number <b>0917-315-8033</b>, please don’t hesitate to notify us.</p>
 
 <p>Thank you and have a nice day!</p><br>
-</div>
 
                                                 </textarea>
                                             </div>
