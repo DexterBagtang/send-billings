@@ -56,7 +56,7 @@ Route::middleware('auth')->group(function () {
     Route::get('clients/',([ClientController::class,'index']));
     Route::get('addClient',([ClientController::class,'addClient']))->middleware('checkAdmin');
     Route::post('addedClient',([ClientController::class,'addedClient']));
-    Route::get('editClient/{id}',([ClientController::class,'editClient']));
+    Route::get('editClient/{id}',([ClientController::class,'editClient']))->middleware('checkAdmin');
     Route::post('editedClient',([ClientController::class,'editedClient']))->middleware('checkAdmin');
     Route::get('viewClient/{id}',([ClientController::class,'viewClient']));
     Route::get('removeClient/{id}',([ClientController::class,'removeClient']))->middleware('checkAdmin');
@@ -152,18 +152,15 @@ Route::middleware('auth')->group(function () {
     Route::get('readAnnouncement/{id}',([AnnouncementController::class,'readAnnouncement']));
     Route::get('sendingAnnouncement',([AnnouncementController::class,'sendingAnnouncement']));
     Route::get('failedAnnouncement',([AnnouncementController::class,'failedAnnouncement']));
+    Route::get('deleteAnnouncement',([AnnouncementController::class,'deleteAnnouncement']));
+    Route::get('deleteComposition',([AnnouncementController::class,'deleteComposition']));
+    Route::get('mark/{status}',([AnnouncementController::class,'mark']));
+    Route::get('unmark/{status}',([AnnouncementController::class,'unmark']));
+    Route::get('resendAnnouncement',([AnnouncementController::class,'resendAnnouncement']));
 
 
     Route::get('getId/{id}',([EmailController::class,'getId']));
-
-
-
-
 });
-
-
-
-
 
 
 

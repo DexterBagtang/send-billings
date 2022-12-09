@@ -18,14 +18,8 @@ class CheckAdmin
      */
     public function handle(Request $request, Closure $next)
     {
-        if (Auth::user()->roles_id !== 1){
-//            notify()->success('test');
-//            connectify('success','error','error');
-//            drakify('success');
-//            smilify('success', 'You are successfully reconnected');
-//            emotify('success', 'You are awesome, your data was successfully created');
+        if (Auth::user()->roles_id > 2){
             return back()->with('denied','Access denied !');
-//            return back()->notify()->success('test');
         }
         return $next($request);
     }

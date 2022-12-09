@@ -3,11 +3,6 @@
 
 
 @section('content')
-    <link rel="stylesheet" type="text/css"
-          href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
-
-
-
     <main>
         <!-- Main page content-->
         <div class="container-fluid px-5 mt-4">
@@ -20,7 +15,7 @@
                         &middot; {{\Carbon\Carbon::now()->format('F d, Y')}}
                     </div>
                 </div>
-                @if(Auth::user()->roles_id == 1)
+                @if(Auth::user()->roles_id == 1 || Auth::user()->roles_id == 2)
                 <a href="{{url('addClient')}}" class="btn btn-primary">Add Client</a>
                 @endif
             </div>
@@ -31,14 +26,7 @@
             <div class="card">
                 <div class="float-end">
                     @if(session()->get('success'))
-                        {{--                            <div class="alert alert-success">--}}
-                        {{--                                {{ session()->get('success') }}--}}
-                        {{--                                <a class="btn-close" type="" data-bs-dismiss="alert" aria-label="Close"></a>--}}
-
-                        {{--                            </div><br />--}}
                         <div class="alert alert-success alert-dismissible fade show float-end m-3" role="alert">
-                            {{--                                <h5 class="alert-heading"></h5>--}}
-                            {{--                                <hr>--}}
                             {{ session()->get('success') }}
                             <a class="btn-close" type="" data-bs-dismiss="alert" aria-label="Close"></a>
                         </div>
@@ -65,9 +53,6 @@
                             </a>
                         </li>
                         @endif
-{{--                        <li class="nav-item">--}}
-{{--                            <a class="nav-link" href="#" tabindex="-1" aria-disabled="true">Removed</a>--}}
-{{--                        </li>--}}
                     </ul>
                 </div>
                 <div class="card-body">
@@ -85,13 +70,10 @@
                     <table id="datatablesSimple3">
                         <thead>
                         <tr>
-{{--                            <th>Name</th>--}}
                             <th>Company</th>
                             <th>Account#</th>
                             <th>Contract#</th>
                             <th>Email</th>
-{{--                            <th>Contact</th>--}}
-{{--                            <th>Status</th>--}}
                             <th>Actions</th>
 
                         </tr>
@@ -103,18 +85,8 @@
                             <td>{{$client->account_number}}</td>
                             <td>{{$client->contract_number}}</td>
                             <td title="{{$client->email}}">{{Str::limit($client->email,50)}}</td>
-{{--                            <td>{{$client->email}}</td>--}}
-{{--                            <td>{{$client->contact}}</td>--}}
-{{--                            <td>--}}
-{{--                                @if($client->disabled_at == null)--}}
-{{--                                    <div class="badge bg-primary text-white rounded-pill">Active</div>--}}
-{{--                                @else--}}
-{{--                                    <div class="badge bg-warning text-white rounded-pill">Disabled</div>--}}
-{{--                                @endif--}}
-
-{{--                            </td>--}}
                             <td>
-                                @if(Auth::user()->roles_id == 1)
+                                @if(Auth::user()->roles_id == 1 || Auth::user()->roles_id == 2)
                                 <a href="{{url("editClient/$client->id")}}"
                                    class="btn btn-datatable btn-icon btn-outline-primary m-1" title="Edit">
                                     <i data-feather="edit-3"></i>
@@ -126,7 +98,7 @@
                                     <i data-feather="eye"></i>
                                 </a>
 
-                                @if(Auth::user()->roles_id == 1)
+                                @if(Auth::user()->roles_id == 1 || Auth::user()->roles_id == 2)
                                 <a href="{{url("removeClient/$client->id")}}" id="exampleModal"
                                    class="btn btn-datatable btn-icon btn-outline-danger m-1" title="Remove">
                                     <i data-feather="user-minus"></i>
@@ -137,7 +109,6 @@
                         @endforeach
                         </tbody>
                     </table>
-{{--                    {{$clients->links()}}--}}
                     {{  $clients->withQueryString()->links('pagination::bootstrap-5') }}
                 </div>
             </div>

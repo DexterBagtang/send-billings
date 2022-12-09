@@ -8,6 +8,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Mail\SentMessage;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Auth;
@@ -58,33 +59,43 @@ class SendEmailJob implements ShouldQueue
      */
     public function handle()
     {
-        $file = File::query()
-//            ->where('email','=',$this->email)
-            ->where('id','=',$this->id)
-            ->first();
-        $file->emailStatus = "sending error";
+//        $file = File::query()
+//            ->where('id','=',$this->id)
+//            ->first();
+//        $file->emailStatus = "sending error";
+//        $file->emailDate = now();
+//        $file->update();
+//
+////        $recipients = str_replace([' ',],'',$this->email);
+//
+//        Mail::to('Dexter.Bagtang@philcom.com')
+////        Mail::to(['Dexter.Bagtang@philcom.com','Lloyd.Torres@philcom.com'])
+////      Mail::to('dexterbagtang@gmail.com')
+//
+//
+//            //        Mail::to($recipients)
+////            ->cc($this->cc)
+////                ->cc('dexterbagtang@gmail.com')
+//            ->bcc($this->bcc)
+//            ->send(new SendMail($this->file,$this->subject/*.' '.$this->email*/,$this->data,$this->attachment));
+//
+//        $file = File::query()
+//            ->where('id','=',$this->id)
+//            ->first();
+//        $file->emailStatus = "sent";
+//        $file->emailDate = now();
+//        $file->update();
+        try {
+            $recipients = str_replace([' '],'',$this->email);
+            $email = Mail::to('Dexter.Bagtang@philcom.com')
+                ->send(new SendMail($this->file,$this->subject/*.' '.$this->email*/,$this->data,$this->attachment));
+
+            $file = File::query()->where('id','=',$this->id)->first();
+            $file->emailStatus = "sent";
+        }catch (\Exception $e){
+            $this->emailStatus = "sending error";
+        }
         $file->emailDate = now();
-//        $file->emailedBy = Auth::user()->name;
         $file->update();
-
-
-        Mail::to('dexterbagtang@outlook.com')
-//        Mail::to(['Dexter.Bagtang@philcom.com','Lloyd.Torres@philcom.com'])
-
-            //        Mail::to($this->email)
-//            ->cc($this->cc)
-//                ->cc('dexterbagtang@gmail.com')
-            ->bcc($this->bcc)
-            ->send(new SendMail($this->file,$this->subject/*.' '.$this->email*/,$this->data,$this->attachment));
-
-        $file = File::query()
-//            ->where('email','=',$this->email)
-            ->where('id','=',$this->id)
-            ->first();
-        $file->emailStatus = "sent";
-        $file->emailDate = now();
-//        $file->emailedBy = auth()->user()->name;
-        $file->update();
-//        sleep(1 );
     }
 }

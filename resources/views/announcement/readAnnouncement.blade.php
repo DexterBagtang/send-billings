@@ -12,9 +12,9 @@
                             <div onclick="window.location.href='javascript:history.back()'" class="btn btn-sm btn-icon btn-blue-soft mb-4 mx-1">
                                 <i data-feather="arrow-left"></i>
                             </div>
-                            <div onclick="window.location.href='javascript:history.back()'" class="btn btn-sm btn-icon btn-blue-soft mb-4">
-                                <i data-feather="arrow-left"></i>
-                            </div>
+{{--                            <div onclick="window.location.href='javascript:history.back()'" class="btn btn-sm btn-icon btn-blue-soft mb-4">--}}
+{{--                                <i data-feather="arrow-left"></i>--}}
+{{--                            </div>--}}
                         </div>
 
                         <h3 class="card-title">{{$announcement->subject}}

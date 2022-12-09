@@ -41,22 +41,6 @@ class UploadController extends Controller
             $year = $request->input('year');
             $count = count($request->billing_file);
 
-//        if ($count > 500){
-//            return back()->withErrors(['upload exceeds the limit !']);
-//        }
-
-
-//        $upload = new Upload();
-//        $upload->files_id = null;
-//        $upload->uploader = Auth::user()->name;
-//        $upload->fileNames = "null";
-//        $upload->fileCount = $count;
-//        $upload->month = $month;
-//        $upload->year = $year;
-//        $upload->save();
-
-
-//
 
             if ($request->hasFile('billing_file')) {
                 foreach ($request->file('billing_file') as $file) {
@@ -115,23 +99,7 @@ class UploadController extends Controller
                     'module' => 'newly uploaded statements of account',
                 ]);
                 $logs->save();
-
             }
-//        DB::table('uploads')->insert([
-//                'files_id' => 1,
-//                'uploader' => Auth::user()->name,
-//                'fileNames' => "names",
-//                'fileCount' => $count,
-//                'month' => $month,
-//                'year' => $year,
-//                'created_at' => now(),
-//                'updated_at' => now()
-//            ]);
-
-
-
-
-
         return redirect('/uploadedFiles')->with('success',"Successfully uploaded $count files for the month of $month-$year");
 
         // ========================= Create demo files for testing =======================================//
@@ -217,19 +185,8 @@ class UploadController extends Controller
             $copy = public_path()."/file/$year-$month/$fileName";
             copy($source,$copy);
 
-
-//            $file = new File();
-//            $file->filename = $fileName;
-//            $file->clients_id = $employee->id;
-//            $file->month = $request->input('month');;
-//            $file->year = $request->input('year');
-//            $file->uploader = Auth::user()->name;
-//            $file->emailStatus = "not sent";
-//            $file->save();
         }
         dd("NICE ONE");
-
-
     }
 
     public function generatePDF(){
@@ -260,7 +217,6 @@ class UploadController extends Controller
            Storage::disk('c-drive')->put("Users\Dexter.Bagtang\Documents\generated-pdf/$filename.pdf",$get,'public');
         }
         return redirect('uploadFile')->with('success','clients pdf generated');
-
     }
 
 

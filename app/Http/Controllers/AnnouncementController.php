@@ -60,7 +60,7 @@ class AnnouncementController extends Controller
             }
             $files = json_encode($fileNames);
         }else{
-            $fileNames[]=null;
+            $fileNames=null;
             $files =null;
         }
         $composed = new Composition([
@@ -133,7 +133,7 @@ class AnnouncementController extends Controller
             ->select('announcements.*','compositions.subject','compositions.content','compositions.attachment')
             ->leftJoin('compositions','announcements.compositions_id','=','compositions.id')
             ->where('emailStatus','=','Sent')
-            ->orderByDesc('id')
+            ->orderByDesc('emailDate')
             ->paginate(25);
 //        $announcements = Announcement::all()->composition->subject;
 //        $composition = Composition::find(1)->announcement->emailTo;
@@ -206,6 +206,138 @@ class AnnouncementController extends Controller
             ->paginate(20);
 //        dd($announcement);
         return view('announcement.failedAnnouncement')->with('announcements',$announcements);
+    }
+
+    public function deleteAnnouncement(Request $request){
+        if (is_null($request->ids)){
+            return back()->withErrors(['No items selected !']);
+        }
+
+        $announcements = DB::table('announcements')->whereIn('id',$request->ids)->get();
+        if(!isset($announcements)){
+            return back()->withErrors(['No items checked !']);
+        }
+        foreach ($announcements as $announcement) {
+            $update = Announcement::find($announcement->id);
+            $update->emailStatus = 'Removed';
+            $update->save();
+        }
+        return back()->with('success','Successfully Removed');
+    }
+
+    public function mark($status){
+        $check = 'checked';
+        $announcements = DB::table('announcements')
+            ->select('announcements.*','compositions.subject','compositions.content','compositions.attachment')
+            ->leftJoin('compositions','announcements.compositions_id','=','compositions.id')
+            ->where('emailStatus','=',$status)
+            ->paginate(20);
+//        dd($announcement);
+        if ($status == 'Sending'){
+            $view = 'sendingAnnouncement';
+        }elseif($status == 'Sent'){
+            $view = 'sentAnnouncement';
+        }else{
+            $view = 'failedAnnouncement';
+        }
+
+        return view("announcement.$view")->with('announcements',$announcements)->with('check',$check);
+//        dd('mark all');
+    }
+
+    public function unmark($status){
+
+        $check = null;
+        $announcements = DB::table('announcements')
+            ->select('announcements.*','compositions.subject','compositions.content','compositions.attachment')
+            ->leftJoin('compositions','announcements.compositions_id','=','compositions.id')
+            ->where('emailStatus','=',$status)
+            ->paginate(20);
+//        dd($announcement);
+        if ($status == 'Sending'){
+            $view = 'sendingAnnouncement';
+        }elseif($status == 'Sent'){
+            $view = 'sentAnnouncement';
+        }else{
+            $view = 'failedAnnouncement';
+        }
+        return view("announcement.$view")->with('announcements',$announcements)->with('check',$check);
+    }
+
+    public function resendAnnouncement(Request $request){
+        if (is_null($request->ids)){
+            return back()->withErrors(['No items selected !']);
+        }
+//        dd($request->ids);
+
+
+
+        $announcementsCount = DB::table('announcements')->whereIn('id',$request->ids)->count();
+//        dd($announcementsCount);
+
+        $all = $announcementsCount;
+        $each = 5;
+        $i = 1;
+        $delaySecond = 0;
+
+        for ($x=0; $x<=$all; $x+=$each){
+            $announcements = DB::table('announcements')
+                ->select('announcements.*','compositions.subject','compositions.content','compositions.attachment')
+                ->leftJoin('compositions','announcements.compositions_id','=','compositions.id',)
+                ->where('emailStatus','=','Sending Error')
+                ->whereIn('announcements.id',$request->ids)
+                ->take($each)
+                ->get();
+//            dd($announcements);
+
+            $delaySeconds = $i + $delaySecond;
+
+            foreach ($announcements as $announce){
+                $data = [
+                    'content' => $announce->content,
+                ];
+                $email = $announce->emailTo;
+                $id = $announce->id;
+                $subject = $announce->subject;
+                if ($announce->attachment != null){
+                    $fileNames = json_decode($announce->attachment);
+                }else{
+                    $fileNames = null;
+                }
+//                dd(json_decode($fileNames));
+//                dd($announce);
+
+//                $announcement = Announcement::query()->where('id',$id)->first();
+//                dd($announcement);
+                $emailJob = (new SendAnnouncementJob($data,$subject,$id,$email,$fileNames));
+                dispatch($emailJob)->delay($delaySeconds)->onQueue('announcement');
+
+                $update = Announcement::query()->where('id',$id)->first();
+                $update->emailStatus = 'Sending';
+                $update->update();
+            }
+            $delaySecond = $i += 35;
+
+        }
+        return redirect('failedAnnouncement')->with('success',"Announcement is now sending !");
+    }
+
+    public function deleteComposition(Request $request){
+        if (is_null($request->ids)){
+            return back()->withErrors(['No items selected !']);
+        }
+
+        $announcements = DB::table('compositions')->whereIn('id',$request->ids)->get();
+        if(!isset($announcements)){
+            return back()->withErrors(['No items checked !']);
+        }
+
+        foreach ($announcements as $announcement) {
+            $update = Composition::find($announcement->id);
+//            $update->emailStatus = 'Removed';
+            $update->delete();
+        }
+        return back()->with('success','Successfully Removed');
     }
 
 

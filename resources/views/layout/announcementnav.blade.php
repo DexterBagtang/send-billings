@@ -1,16 +1,8 @@
-<!-- Account page navigation-->
-{{--<nav class="nav nav-borders">--}}
-{{--    <a class="nav-link {{ (request()->is('compose_announcements')) ? 'active ms-0' : '' }}" href="{{url('compose_announcements')}}">Compose Announcement</a>--}}
-{{--    <a class="nav-link {{ (request()->is('announcements')) ? 'active ms-0' : '' }}" href="{{url('announcements')}}"> Announcement</a>--}}
-{{--    <a class="nav-link {{ (request()->is('sendingAnnouncement')) ? 'active' : '' }}" href="{{url('sendingAnnouncement')}}">Sending</a>--}}
-{{--    <a class="nav-link {{ (request()->is('sentAnnouncement','searchAnnouncement','readAnnouncement*')) ? 'active' : '' }}" href="{{url('sentAnnouncement')}}">Sent</a>--}}
-{{--</nav>--}}
-{{--<hr class="mt-0 mb-4" />--}}
 
 <div class="col-lg-2">
     <div class="nav-fixed">
 
-        @if(\Illuminate\Support\Facades\Auth::user()->roles_id == 1 )
+        @if(\Illuminate\Support\Facades\Auth::user()->roles_id <= 2 )
         <div class="my-2">
             <a href="{{url('compose_announcements')}}" class="d-grid">
                 <div class="btn btn-primary lift-sm">Compose</div>
@@ -30,9 +22,16 @@
                         </a>
 
                         <a class="nav-link p-3 border {{ (request()->is('sendingAnnouncement')) ? 'bg-primary-soft' : '' }}" href="{{url('sendingAnnouncement')}}">
-                            <div class="nav-link-icon">
-                                <i data-feather="loader"></i>
-                            </div>
+
+                            @if($blasting > 0)
+                                <div class="nav-link-icon spinner-grow spinner-grow-sm text-warning" role="status">
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
+                            @else
+                                <div class="nav-link-icon">
+                                    <i data-feather="loader"></i>
+                                </div>
+                            @endif
                             Sending
                         </a>
 
@@ -49,14 +48,10 @@
                             </div>
                             Failed
                         </a>
-
                     </div>
                 </div>
                 {{--                        <div class="sidenav-footer">SB Sidenav Footer</div>--}}
             </nav>
-
         </div>
-
-
     </div>
 </div>

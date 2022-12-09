@@ -35,31 +35,6 @@ class FileController extends Controller
         $month = $request->input('month');
         $year= $request->input('year');
         $search = $request->input('search');
-//        dd($month,$year,$search);
-
-/*        $billingss = DB::table('files')
-            ->where('clients.company','like',"%$search%")
-            ->orWhere('clients.account_number','like',"%$search%")
-            ->orWhere('clients.contract_number','like',"%$search%")
-            ->orWhere('clients.email','like',"%$search%")
-            ->join('clients','files.clients_id','=','clients.id')
-            ->select('clients.*','files.filename','files.month','files.year','files.created_at','files.uploader','files.storedFile','files.id')
-            ->get();
-        if (count($billingss) > 0){
-            foreach($billingss as $id){
-                $ids[] = $id->id;
-            }
-            $billings = DB::table('files')
-                ->whereIn('files.id',$ids)
-                ->where('month','=',$month)
-                ->where('year','=',$year)
-                ->whereNull('deleted_at')
-                ->join('clients','files.clients_id','=','clients.id')
-                ->select('clients.*','files.filename','files.month','files.year','files.created_at','files.uploader','files.storedFile','files.id')
-                ->paginate(10);
-        }else{
-            $billings=DB::table('files')->where('id',null)->paginate();
-        }*/
 
         $billings = DB::table('files')
             ->where('month','=',$month)
@@ -75,25 +50,6 @@ class FileController extends Controller
             ->select('clients.*','files.filename','files.month','files.year','files.created_at','files.uploader','files.storedFile','files.id')
             ->paginate(10);
 
-
-/*        $billings = DB::table('files')
-            ->where('clients.company','like',"%$search%")
-            ->orWhere('clients.account_number','like',"%$search%")
-            ->orWhere('clients.contract_number','like',"%$search%")
-//            ->orWhere('clients.email','like',"%$search%")
-            ->where('month','=',$month)
-            ->where('year','=',$year)
-            ->whereNull('deleted_at')
-            ->join('clients','files.clients_id','=','clients.id')
-            ->select('clients.*','files.filename','files.month','files.year','files.created_at','files.uploader','files.storedFile','files.id')
-            ->paginate(10);
-
-
-
-        dd($billingss,$ids,$billings);
-
-
-        dd($billingss);*/
         return view('files.billingFiles')->with('billings',$billings)->with('month',$month)->with('year',$year)->with('search',$search);
     }
 
@@ -175,15 +131,6 @@ class FileController extends Controller
         $month = $request->input('month');
         $year= $request->input('year');
         $search = $request->input('search');
-
-        /*$deletedFiles = DB::table('files')
-            ->where('filename','like',"%$search%")
-            ->orWhere('uploader','like',"%$search%")
-            ->orWhere('deletedBy','like',"%$search%")
-            ->whereNotNull('deleted_at')
-            ->where('month','=',$month)
-            ->where('year','=',$year)
-            ->paginate(10);*/
 
         $deletedFiles = DB::table('files')
             ->whereNotNull('deleted_at')

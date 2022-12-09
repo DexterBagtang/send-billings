@@ -186,40 +186,18 @@
                                     <table id="datatablesSimple2">
                                         <thead>
                                         <tr>
-{{--                                            <th>Name</th>--}}
-                                            {{--                            <th>Account#</th>--}}
-                                            {{--                            <th>Contract#</th>--}}
                                             <th>Company</th>
                                             <th>Email</th>
-                                            {{--                            <th>Month and Year</th>--}}
                                             <th>File</th>
                                             <th>Date Uploaded</th>
                                             <th>Email Status</th>
-{{--                                            <th>Actions</th>--}}
                                         </tr>
                                         </thead>
-                                        {{--                        <tfoot>--}}
-                                        {{--                        <tr>--}}
-                                        {{--                            <th>Name</th>--}}
-                                        {{--                            <th>Account</th>--}}
-                                        {{--                            <th>Contract</th>--}}
-                                        {{--                            <th>Email</th>--}}
-                                        {{--                            <th>Company</th>--}}
-                                        {{--                            <th>Contact</th>--}}
-                                        {{--                            <th>Status</th>--}}
-                                        {{--                            <th>Actions</th>--}}
-                                        {{--                        </tr>--}}
-                                        {{--                        </tfoot>--}}
                                         <tbody>
                                         @foreach($billings as $billing)
                                             <tr>
-{{--                                                <td>{{$billing->name}}</td>--}}
-                                                {{--                                <td>{{$billing->account_number}}</td>--}}
-                                                {{--                                <td>{{$billing->contract_number}}</td>--}}
                                                 <td>{{$billing->company}}</td>
                                                 <td>{{Str::limit($billing->email,40)}}</td>
-
-                                                {{--                                <td>{{$billing->month}}-{{$billing->year}}</td>--}}
                                                 <td>
                                                     <a href="{{asset('billing_files/'.$billing->month.'-'.$billing->year.'/'.$billing->storedFile)}}" target="_blank">
                                                         {{$billing->filename}}

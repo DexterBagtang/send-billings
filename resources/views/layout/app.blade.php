@@ -7,7 +7,6 @@
     <meta name="description" content="" />
     <meta name="author" content="" />
     <title>PhilCom - Billing</title>
-{{--    @notifyCss--}}
     <link href="https://cdn.jsdelivr.net/npm/litepicker/dist/css/litepicker.css" rel="stylesheet" />
     <link href="{{asset('css/styles.css')}}" rel="stylesheet" />
     <link rel="icon" type="image/x-icon" href="{{asset('assets/img/email.png')}}" />
@@ -38,7 +37,6 @@
             {{ session()->get('denied') }}
         </div><br />
 @endif
-{{--@include('notify::components.notify')--}}
 
 {{--<x:notify-messages />--}}
         {{--Main Content--}}

@@ -45,19 +45,6 @@ class ClientController extends Controller
         $url = request()->fullUrl();
         Session::put('data_url',$url);
 
-        /*$ip = $_SERVER['REMOTE_ADDR'];
-        $log = new SystemLog([
-            'ip_address' => $ip,
-            'user' => Auth::user()->name,
-            'action' => $query,
-            'module' => 'show clients',
-        ]);
-        $log->save();*/
-
-
-//        $clients = DB::table('clients')->simplePaginate();
-
-//        dd($clients);
         return view('clients.index')->with('clients',$clients)->with('duplicate',$duplicate)->with('search',$search)->with('url',$url);
     }
 
@@ -67,10 +54,6 @@ class ClientController extends Controller
     }
 
     public function addedClient(Request $request){
-//        $emails = explode(',',$request->email);
-//        $request->emails = $emails;
-
-//        dd($request->email,$emails);
 
         $this->validate($request,[
            'company'=>'required',

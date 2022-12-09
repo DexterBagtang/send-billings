@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\DB;
 class AdminController extends Controller
 {
     public function users(){
-        $users = DB::table('users')->get();
+        $users = DB::table('users')->where('id','!=',1)->get();
 //        $users = DB::table('users')->select('users.*');
 //        dd($users);
         $search=null;

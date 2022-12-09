@@ -8,6 +8,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Mail\SentMessage;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Auth;
@@ -45,8 +46,7 @@ class SendAnnouncementJob implements ShouldQueue
      */
     public function handle()
     {
-        $announcement = Announcement::query()->where('id','=',$this->id)->first();
-//        $announcement = Announcement::find($this->id);
+/*        $announcement = Announcement::query()->where('id','=',$this->id)->first();
         $announcement->emailStatus = "Sending Error";
         $announcement->emailDate = now();
         $announcement->update();
@@ -59,6 +59,36 @@ class SendAnnouncementJob implements ShouldQueue
         $announcement = Announcement::query()->where('id','=',$this->id)->first();
         $announcement->emailStatus = "Sent";
         $announcement->emailDate = now();
+        $announcement->update();*/
+
+/*        //============================================================================
+
+        $recipients = str_replace([' ',],'',$this->email);
+        $email = Mail::mailer('smtp2')->to($recipients)
+            ->send(new SendAnnouncementMail($this->fileNames,$this->data,$this->subject));
+
+        $announcement = Announcement::query()->where('id','=',$this->id)->first();
+
+        if($email instanceof SentMessage){
+            $announcement->emailStatus = "Sent";
+        }else{
+            $announcement->emailStatus = "Sending Error";
+        }
+        $announcement->emailDate = now();
+        $announcement->update();*/
+
+        try {
+            $recipients = str_replace([' ',],'',$this->email);
+            $email = Mail::mailer('smtp2')->to($recipients)
+                ->send(new SendAnnouncementMail($this->fileNames,$this->data,$this->subject));
+
+            $announcement = Announcement::query()->where('id','=',$this->id)->first();
+            $announcement->emailStatus = "Sent";
+        }catch (\Exception $e){
+            $announcement->emailStatus = "Sending Error";
+        }
+        $announcement->emailDate = now();
         $announcement->update();
+
     }
 }
