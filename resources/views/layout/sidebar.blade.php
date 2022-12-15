@@ -79,7 +79,7 @@
                     <div class="sidenav-menu-heading">Announcement</div>
                     <a class="nav-link {{(request()->is('*announcement*','*Announcement*')) ? 'active border bg-primary-soft rounded-pill' : ''}}" href="{{url('announcements')}}">
                         <div class="nav-link-icon text-cyan"><i class="fas fa-bullhorn"></i></div>
-                        Email Blast
+                        Email Blasting
                     </a>
 
 {{--                    <!-- Sidenav Accordion (Flows)-->--}}
