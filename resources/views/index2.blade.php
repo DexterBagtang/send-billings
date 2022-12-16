@@ -177,9 +177,10 @@
                     </div>
                 </div>
             </div>
-            <br><br>
+            <br>
+            <hr>
             <div class="row">
-                <div class="col-xl-4 mb-4">
+                <div class="col-xl-4 mb-4 mt-4">
                     <!-- Dashboard example card 1-->
                     <a class="card lift h-100 " href="{{url('announcements')}}">
                         <div class="card-body d-flex justify-content-center flex-column">

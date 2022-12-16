@@ -44,10 +44,17 @@ class AnnouncementController extends Controller
     }
 
     public function sendAnnouncement(Request $request){
+        $clientsCount = DB::table('clients')->count();
+        $clientsCount = 0;
+        if ($clientsCount <= 0){
+            return back()->withErrors(['You have to upload clients first!']);
+        }
         $this->validate($request,[
+            'subject' => 'required',
             'message' => 'required',
         ],[
-            'message.required' => 'Body should not be empty !'
+            'message.required' => 'Body should not be empty !',
+            'subject.required' => 'Subject should not be empty !'
         ]);
         $subject = $request->subject;
         $content = $request->message;
