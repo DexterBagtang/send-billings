@@ -9,7 +9,7 @@
             <!-- Custom page header alternative example-->
             <div class="d-flex justify-content-between align-items-sm-center flex-column flex-sm-row mb-4">
                 <div class="me-4 mb-3 mb-sm-0 ms-5">
-                    <h1 class="mb-0">Clients</h1>
+                    <h1 class="mb-0">Clientsss</h1>
                     <div class="small">
                         <span class="fw-500 text-primary">{{\Carbon\Carbon::now()->format('l')}}</span>
                         &middot; {{\Carbon\Carbon::now()->format('F d, Y')}}
