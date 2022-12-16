@@ -61,9 +61,11 @@
                                 <i data-feather="arrow-left"></i>
                             </div>
 
+                            @if(\Illuminate\Support\Facades\Auth::user()->roles_id <= 2 )
                             <div onclick="event.preventDefault();if (!confirm('Are you sure delete ?')) { return false } this.closest('form').submit();" class="btn btn-icon btn-blue-soft mx-2 mt-2">
                                 <i data-feather="trash-2"></i>
                             </div>
+                            @endif
 
                             <div onclick="window.location.reload()" class="btn btn-icon btn-blue-soft mx-2 mt-2">
                                 <i data-feather="rotate-cw"></i>

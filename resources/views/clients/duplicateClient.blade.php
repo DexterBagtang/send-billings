@@ -117,12 +117,13 @@
                                        class="btn btn-datatable btn-icon btn-outline-success m-1" title="View">
                                         <i data-feather="eye"></i>
                                     </a>
-                                        @if(Auth::user()->roles_id <= 1)
+
+                                    @if(Auth::user()->roles_id <= 2)
                                     <a href="{{url("removeClientDuplicate/$duplicate->id")}}" id="exampleModal"
                                        class="btn btn-datatable btn-icon btn-outline-danger m-1" title="Remove">
                                         <i data-feather="user-minus"></i>
                                     </a>
-                                        @endif
+                                    @endif
 
 {{--                                    <a href="#"--}}
 {{--                                       class="btn btn-datatable btn-icon btn-transparent-dark me-2" title="Remove">--}}

@@ -85,17 +85,21 @@ class SendEmailJob implements ShouldQueue
 //        $file->emailStatus = "sent";
 //        $file->emailDate = now();
 //        $file->update();
+        $file = File::query()->where('id','=',$this->id)->first();
         try {
+
             $recipients = str_replace([' '],'',$this->email);
-            $email = Mail::to('Dexter.Bagtang@philcom.com')
+            Mail::to('dexterbagtang@gmail.com')
                 ->send(new SendMail($this->file,$this->subject/*.' '.$this->email*/,$this->data,$this->attachment));
 
-            $file = File::query()->where('id','=',$this->id)->first();
             $file->emailStatus = "sent";
+            $file->emailDate = now();
+
         }catch (\Exception $e){
-            $this->emailStatus = "sending error";
+            $file->emailStatus = "sending error";
+            $file->emailDate = now();
+
         }
-        $file->emailDate = now();
         $file->update();
     }
 }

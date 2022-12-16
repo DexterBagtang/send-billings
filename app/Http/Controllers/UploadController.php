@@ -25,6 +25,10 @@ class UploadController extends Controller
 
     //------------Upload Generated Pdf ------------    //------------Upload Generated Pdf ------------    //------------Upload Generated Pdf ------------    //------------Upload Generated Pdf ------------    //------------Upload Generated Pdf ------------
     public function uploaded(Request $request){
+        $clientsCount = DB::table('clients')->count();
+        if ($clientsCount <= 0){
+            return back()->withErrors(['You have to upload clients first!']);
+        }
             $this->validate($request, [
                 'month' => 'required',
                 'year' => 'required',

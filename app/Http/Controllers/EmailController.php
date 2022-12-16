@@ -310,7 +310,7 @@ class EmailController extends Controller
                     $email = $billing->email;
                     $id = $billing->id;
 //                    $subject = "Account No - $billing->account_number Contract No - $billing->contract_number $billing->company ".$subjectInput;
-                    $subject = "$billing->account_number$billing->contract_number $billing->company ".$subjectInput;
+                    $subject = "$billing->account_number$billing->contract_number $billing->company - ".$subjectInput;
 
                     $file = public_path("billing_files/$month-$year/$billing->storedFile");
 //                    $attachment = public_path("attachments/$name");
@@ -741,11 +741,12 @@ class EmailController extends Controller
             ->whereIn('files.id',$billingIds)
             ->where('month','=',$month)
             ->where('year','=',$year)
-            ->where('emailStatus','=','for resending')
+            ->where('emailStatus','like','%for resending%')
             ->whereNull('deleted_at')
             ->join('clients','files.clients_id','=','clients.id')
             ->select('clients.*','files.filename','files.month','files.year','files.emailStatus')
             ->get();
+//        dd($billingNotSent);
         $countNotSent = count($billingNotSent);
 
         if ($countNotSent == 0){

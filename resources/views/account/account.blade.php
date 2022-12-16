@@ -131,18 +131,18 @@
                                     <input class="form-control" id="inputEmailAddress" type="email" placeholder="Enter your email address" value="{{$user->email}}" />
                                 </div>
                                 <!-- Form Row-->
-                                <div class="row gx-3 mb-3">
-                                    <!-- Form Group (phone number)-->
-                                    <div class="col-md-6">
-                                        <label class="small mb-1" for="inputPhone">Phone number</label>
-                                        <input class="form-control" id="inputPhone" type="tel" placeholder="Enter your phone number" value="555-123-4567" />
-                                    </div>
-                                    <!-- Form Group (birthday)-->
-                                    <div class="col-md-6">
-                                        <label class="small mb-1" for="inputBirthday">Birthday</label>
-                                        <input class="form-control" id="inputBirthday" type="text" name="birthday" placeholder="Enter your birthday" value="06/10/1988" />
-                                    </div>
-                                </div>
+{{--                                <div class="row gx-3 mb-3">--}}
+{{--                                    <!-- Form Group (phone number)-->--}}
+{{--                                    <div class="col-md-6">--}}
+{{--                                        <label class="small mb-1" for="inputPhone">Phone number</label>--}}
+{{--                                        <input class="form-control" id="inputPhone" type="tel" placeholder="Enter your phone number" value="555-123-4567" />--}}
+{{--                                    </div>--}}
+{{--                                    <!-- Form Group (birthday)-->--}}
+{{--                                    <div class="col-md-6">--}}
+{{--                                        <label class="small mb-1" for="inputBirthday">Birthday</label>--}}
+{{--                                        <input class="form-control" id="inputBirthday" type="text" name="birthday" placeholder="Enter your birthday" value="06/10/1988" />--}}
+{{--                                    </div>--}}
+{{--                                </div>--}}
                                 <!-- Save changes button-->
                                 <button class="btn btn-primary" type="button">Save changes</button>
                             </form>

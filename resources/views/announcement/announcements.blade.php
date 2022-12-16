@@ -152,7 +152,7 @@
                                         Send Now
                                     </button>
                                 @else
-                                <input type="submit" class="btn btn-primary" value="Send Now">
+                                <input onclick="event.preventDefault();if (!confirm('Are you sure to send your composition ?')) { return false } this.closest('form').submit();" type="submit" class="btn btn-primary" value="Send Now">
                                 @endif
                                 <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
                             </div>
