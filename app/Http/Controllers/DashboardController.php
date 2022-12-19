@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use _PHPStan_9a6ded56a\Nette\Neon\Exception;
+use App\Models\SystemLog;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
@@ -102,6 +103,14 @@ class DashboardController extends Controller
             $user = User::find(Auth::user() -> id);
             $user->profile_picture = $profile_name;
             $user->update();
+
+            $logs = new SystemLog([
+                'ip_address' => $_SERVER['REMOTE_ADDR'],
+                'user' => Auth::user()->name,
+                'action' => $user,
+                'module' => 'uploaded new profile picture',
+            ]);
+            $logs->save();
         }
 
 

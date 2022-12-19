@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Jobs\SendAnnouncementJob;
 use App\Models\Announcement;
 use App\Models\Composition;
+use App\Models\SystemLog;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -45,7 +46,7 @@ class AnnouncementController extends Controller
 
     public function sendAnnouncement(Request $request){
         $clientsCount = DB::table('clients')->count();
-        $clientsCount = 0;
+//        $clientsCount = 0;
         if ($clientsCount <= 0){
             return back()->withErrors(['You have to upload clients first!']);
         }
@@ -77,11 +78,16 @@ class AnnouncementController extends Controller
            'composed_by' => Auth::user()->name,
         ]);
         $composed->save();
+
+        $logs = new SystemLog([
+            'ip_address' => $_SERVER['REMOTE_ADDR'],
+            'user' => Auth::user()->name,
+            'action' => $composed,
+            'module' => 'new composition added',
+        ]);
+        $logs->save();
+
         $compositions_id = $composed->id;
-//        return $fileNames;
-
-
-//        $currentDate = date('Y-m-d');
 
 
         $clients = DB::table('clients')->groupBy('email')->take(20)->get('email');
@@ -95,6 +101,13 @@ class AnnouncementController extends Controller
             ]);
             $announcement->save();
         }
+        $logs = new SystemLog([
+            'ip_address' => $_SERVER['REMOTE_ADDR'],
+            'user' => Auth::user()->name,
+            'action' => $announcement,
+            'module' => 'new announcements created',
+        ]);
+        $logs->save();
 
         $announcementsCount = DB::table('announcements')->take(20)->count();
 
@@ -128,6 +141,14 @@ class AnnouncementController extends Controller
                 $update = Announcement::query()->where('id',$id)->first();
                 $update->emailStatus = 'Sending';
                 $update->update();
+
+                $logs = new SystemLog([
+                    'ip_address' => $_SERVER['REMOTE_ADDR'],
+                    'user' => Auth::user()->name,
+                    'action' => $update,
+                    'module' => 'announcement starts sending',
+                ]);
+                $logs->save();
             }
             $delaySecond = $i += 35;
 
@@ -160,6 +181,13 @@ class AnnouncementController extends Controller
             ->where('announcements.id','=',$id)
             ->first();
 //        dd($announcement);
+        $logs = new SystemLog([
+            'ip_address' => $_SERVER['REMOTE_ADDR'],
+            'user' => Auth::user()->name,
+            'action' => json_encode($announcement),
+            'module' => 'view announcement',
+        ]);
+        $logs->save();
         return view('announcement.readAnnouncement')->with('announcement',$announcement);
     }
 
@@ -228,6 +256,14 @@ class AnnouncementController extends Controller
             $update = Announcement::find($announcement->id);
             $update->emailStatus = 'Removed';
             $update->save();
+
+            $logs = new SystemLog([
+                'ip_address' => $_SERVER['REMOTE_ADDR'],
+                'user' => Auth::user()->name,
+                'action' => $update,
+                'module' => 'announcement removed',
+            ]);
+            $logs->save();
         }
         return back()->with('success','Successfully Removed');
     }
@@ -322,6 +358,14 @@ class AnnouncementController extends Controller
                 $update = Announcement::query()->where('id',$id)->first();
                 $update->emailStatus = 'Sending';
                 $update->update();
+
+                $logs = new SystemLog([
+                    'ip_address' => $_SERVER['REMOTE_ADDR'],
+                    'user' => Auth::user()->name,
+                    'action' => $update,
+                    'module' => 'start resending',
+                ]);
+                $logs->save();
             }
             $delaySecond = $i += 35;
 
@@ -343,6 +387,14 @@ class AnnouncementController extends Controller
             $update = Composition::find($announcement->id);
 //            $update->emailStatus = 'Removed';
             $update->delete();
+
+            $logs = new SystemLog([
+                'ip_address' => $_SERVER['REMOTE_ADDR'],
+                'user' => Auth::user()->name,
+                'action' => $update,
+                'module' => 'delete composition',
+            ]);
+            $logs->save();
         }
         return back()->with('success','Successfully Removed');
     }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\File;
+use App\Models\SystemLog;
 use App\Models\Upload;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -28,6 +29,18 @@ class FileController extends Controller
 //            ->distinct()
 //            ->orderBy('files.created_at','desc')
             ->paginate(10);
+//        dd($billings->items());
+
+        //========= System logs =======//
+        $logs = new SystemLog([
+            'ip_address' => $_SERVER['REMOTE_ADDR'],
+            'user' => Auth::user()->name,
+            'action' => request()->fullUrl(),
+            'module' => 'view uploaded SoA',
+        ]);
+        $logs->save();
+        //==================================//
+
         return view('files.billingFiles')->with('billings',$billings)->with('month',$month)->with('year',$year)->with('search',$search);
     }
 
@@ -50,6 +63,14 @@ class FileController extends Controller
             ->select('clients.*','files.filename','files.month','files.year','files.created_at','files.uploader','files.storedFile','files.id')
             ->paginate(10);
 
+        $logs = new SystemLog([
+            'ip_address' => $_SERVER['REMOTE_ADDR'],
+            'user' => Auth::user()->name,
+            'action' => request()->fullUrl(),
+            'module' => 'search uploaded SoA',
+        ]);
+        $logs->save();
+
         return view('files.billingFiles')->with('billings',$billings)->with('month',$month)->with('year',$year)->with('search',$search);
     }
 
@@ -63,6 +84,14 @@ class FileController extends Controller
             ->whereNull('deleted_at')
             ->where('clients_id','=',null)
             ->paginate(10);
+
+        $logs = new SystemLog([
+            'ip_address' => $_SERVER['REMOTE_ADDR'],
+            'user' => Auth::user()->name,
+            'action' => request()->fullUrl(),
+            'module' => 'view unknown uploaded SoA',
+        ]);
+        $logs->save();
         return view('files.billingUnknown')->with('nullFiles',$nullFiles)->with('month',$month)->with('year',$year)->with('search',$search);
     }
 
@@ -95,6 +124,15 @@ class FileController extends Controller
             ->select('filename',DB::raw('count(*) as count'))
             ->having('count','>','1')
             ->paginate(10);
+
+        $logs = new SystemLog([
+            'ip_address' => $_SERVER['REMOTE_ADDR'],
+            'user' => Auth::user()->name,
+            'action' => request()->fullUrl(),
+            'module' => 'view duplicate uploaded SoA',
+        ]);
+        $logs->save();
+
         return view('files.billingDuplicate')->with('duplicateFiles',$duplicateFiles)->with('month',$month)->with('year',$year)->with('search',$search);
     }
 
@@ -190,6 +228,14 @@ class FileController extends Controller
         $duplicate->update();
         $duplicate->delete();
 
+        $logs = new SystemLog([
+            'ip_address' => $_SERVER['REMOTE_ADDR'],
+            'user' => Auth::user()->name,
+            'action' => $duplicate,
+            'module' => 'delete duplicate uploaded SoA',
+        ]);
+        $logs->save();
+
 
         return back()->with('success','Duplicate removed');
     }
@@ -198,6 +244,14 @@ class FileController extends Controller
         $restore = File::withTrashed()->find($id);
 //        dd($restore);
         $restore->restore();
+
+        $logs = new SystemLog([
+            'ip_address' => $_SERVER['REMOTE_ADDR'],
+            'user' => Auth::user()->name,
+            'action' => $restore,
+            'module' => 'restore deleted uploaded SoA',
+        ]);
+        $logs->save();
 
         return redirect('billingRemoved')->with('success','Invoice restored');
     }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\SystemLog;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\Registered;
@@ -40,7 +41,7 @@ class RegisteredUserController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
-            'role' => ['required']
+            'role' => ['required'],
         ]);
 
         $user = User::create([
@@ -52,8 +53,14 @@ class RegisteredUserController extends Controller
 
         event(new Registered($user));
 
+        $logs = new SystemLog([
+            'ip_address' => $_SERVER['REMOTE_ADDR'],
+            'user' => Auth::user()->name,
+            'action' => $user,
+            'module' => 'register new user',
+        ]);
+        $logs->save();
 //        Auth::login($user);
-
 //        return redirect(RouteServiceProvider::HOME);
 //        return redirect('login')->with('success','user registered !');
         return redirect('users')->with('success','New User registered');

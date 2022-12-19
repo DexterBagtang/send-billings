@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Jobs\ResendJob;
 use App\Jobs\SendEmailJob;
 use App\Mail\ResendMail;
 use App\Models\File;
@@ -14,7 +13,6 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\View;
-use function _PHPStan_9a6ded56a\React\Promise\all;
 
 class EmailController extends Controller
 {
@@ -339,6 +337,7 @@ class EmailController extends Controller
                 }
                 $delaySecond = $i+= 45;
             }
+
 //            dd("email sending");
 //            Artisan::queue('queue:listen');
 
@@ -361,15 +360,8 @@ class EmailController extends Controller
             ->orderBy('files.emailDate','desc')
             ->paginate(20);
 
-//        dd($billingSent);
-        $countSent = DB::table('files')
-            ->where('month','=',$month)
-            ->where('year','=',$year)
-            ->where('emailStatus','=','sent')
-            ->join('clients','files.clients_id','=','clients.id')
-            ->select('files.id')
-            ->orderBy('files.emailDate','desc')
-            ->count();
+        $countSent = $billingSent->total();
+
         return view('emails.billingSent')
             ->with('month',$month)
             ->with('year',$year)
@@ -386,6 +378,14 @@ class EmailController extends Controller
             ->orderBy('files.emailDate','desc')
             ->first();
 //        dd($billingSent);
+        $logs = new SystemLog([
+            'ip_address' => $_SERVER['REMOTE_ADDR'],
+            'user' => Auth::user()->name,
+            'action' => request()->fullUrl().json_encode($billingSent),
+            'module' => 'view billing details',
+        ]);
+        $logs->save();
+
         return view('emails.viewBilling')->with('billing',$billingSent);
     }
 
@@ -403,15 +403,7 @@ class EmailController extends Controller
             ->orderBy('files.emailDate','desc')
             ->paginate(50);
 
-        $countSent = DB::table('files')
-            ->where('month','=',$month)
-            ->where('year','=',$year)
-            ->where('emailStatus','=','sent')
-            ->join('clients','files.clients_id','=','clients.id')
-            ->select('files.id')
-            ->orderBy('files.emailDate','desc')
-            ->count();
-
+        $countSent = $billingSent->total();
 
         return view('emails.billingSent')
             ->with('month',$month)
@@ -797,6 +789,14 @@ class EmailController extends Controller
                     $update->subject=$subject;
                     $update->update();
 
+                    $logs = new SystemLog([
+                        'ip_address' => $_SERVER['REMOTE_ADDR'],
+                        'user' => Auth::user()->name,
+                        'action' => $update,
+                        'module' => 'billing resending',
+                    ]);
+                    $logs->save();
+
                 }
                 $delaySecond = $i+= 45;
             }
@@ -877,6 +877,13 @@ class EmailController extends Controller
             ->join('clients','files.clients_id','=','clients.id')
             ->select('files.*','clients.company','clients.email')
             ->first();
+        $logs = new SystemLog([
+            'ip_address' => $_SERVER['REMOTE_ADDR'],
+            'user' => Auth::user()->name,
+            'action' => request()->fullUrl().json_encode($billing),
+            'module' => 'view billing details modal',
+        ]);
+        $logs->save();
 //        dd($billing);
         $view = view('emails.viewBilling2')->with('billing',$billing)->render();
 //        $view = View::make('emails.viewBilling', (array)$billing);

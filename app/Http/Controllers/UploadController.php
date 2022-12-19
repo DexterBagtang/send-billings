@@ -100,7 +100,7 @@ class UploadController extends Controller
                     'ip_address' => $_SERVER['REMOTE_ADDR'],
                     'user' => Auth::user()->name,
                     'action' => $upload,
-                    'module' => 'newly uploaded statements of account',
+                    'module' => ' uploaded statements of account',
                 ]);
                 $logs->save();
             }
@@ -159,6 +159,14 @@ class UploadController extends Controller
             ->whereIn('files.id',$filesId)
             ->where('clients_id','=',null)
             ->get();
+
+        $logs = new SystemLog([
+            'ip_address' => $_SERVER['REMOTE_ADDR'],
+            'user' => Auth::user()->name,
+            'action' => json_encode($upload),
+            'module' => 'view uploads',
+        ]);
+        $logs->save();
 //        dd($nullFiles);
         return view('files.viewUploadedFiles')->with('upload',$upload)
             ->with('nullFiles',$nullFiles)

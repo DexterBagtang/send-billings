@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
+use App\Models\SystemLog;
 use App\Providers\RouteServiceProvider;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -37,6 +38,14 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
+        $logs = new SystemLog([
+            'ip_address' => $_SERVER['REMOTE_ADDR'],
+            'user' => Auth::user()->name,
+            'action' => $request,
+            'module' => 'login user',
+        ]);
+        $logs->save();
+
 
         return redirect()->intended(RouteServiceProvider::HOME);
     }
@@ -49,10 +58,6 @@ class AuthenticatedSessionController extends Controller
      */
     public function destroy(Request $request)
     {
-        $old_login = $request->user()->login;
-        $request->user()->update([
-            'last_login' => $old_login,
-        ]);
 
         Auth::guard('web')->logout();
 
@@ -62,6 +67,11 @@ class AuthenticatedSessionController extends Controller
 
 
         $request->session()->regenerateToken();
+
+        $old_login = $request->user()->login;
+        $request->user()->update([
+            'last_login' => $old_login,
+        ]);
 
         return redirect('/');
     }

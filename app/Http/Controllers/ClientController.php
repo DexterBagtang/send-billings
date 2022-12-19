@@ -154,14 +154,16 @@ class ClientController extends Controller
 
         $client->update();
 
+        //========= System logs =======//
         $logs = new SystemLog([
             'ip_address' => $_SERVER['REMOTE_ADDR'],
             'user' => Auth::user()->name,
             'action' => $client,
             'module' => 'edited client',
         ]);
-
         $logs->save();
+        //==================================//
+
         if (Session('data_url')){
             return redirect(Session('data_url'))->with('success','Client edited successfully');
         }
