@@ -248,21 +248,34 @@ class ClientController extends Controller
         $search = $request->input('search');
 
         $clients = DB::table('clients')
-            ->where('company','like',"%$search%")
-            ->orWhere('account_number','like',"%$search%")
-            ->orWhere('contract_number','like',"%$search%")
-            ->orWhere('email','like',"%$search%")
-            ->groupBy('contract_number')
-            ->select('contract_number',DB::raw('count(*) as count'))
+            ->groupBy('contract_number','account_number')
+            ->select('contract_number','account_number',DB::raw('count(*) as count'))
             ->having('count','>','1')
             ->get();
+//        dd($clients);
+
         if (count($clients) > 0){
             foreach ($clients as $client){
-                $data[] = $client->contract_number;
+                $duplicates = DB::table('clients')
+                    ->where('account_number','=',$client->account_number)
+                    ->where('contract_number','=',$client->contract_number)
+                    ->get('id');
+                foreach ($duplicates as $duplicate){
+                    $ids[]=$duplicate->id;
+                }
             }
-//
+//            dd($ids);
+
             $duplicates = DB::table('clients')
-                ->whereIn('contract_number',$data)
+                ->whereIn('id',$ids)
+                ->where(function ($query) use($search){
+                    $query->where('company','like',"%$search%")
+                        ->orWhere('account_number','like',"%$search%")
+                        ->orWhere('contract_number','like',"%$search%")
+                        ->orWhere('email','like',"%$search%");
+                })
+                ->orderByDesc('account_number')
+                ->orderBy('contract_number')
                 ->paginate(10);
         }else{
             $duplicates = DB::table('clients')
