@@ -132,12 +132,14 @@ Route::middleware('auth')->group(function () {
     //------------------Account Profile ---------------------------------------------//
     Route::get('account',([DashboardController::class,'account']));
     Route::post('uploadProfile',([DashboardController::class,'uploadProfile']));
+    Route::get('changePassword',([DashboardController::class,'changePassword']));
+    Route::post('updatePassword',([DashboardController::class,'updatePassword']));
 
 
     //------------------Admin-------------------------------------------------------//
     Route::middleware('checkAdmin')->group(function () {
         Route::get('users',([AdminController::class,'users']));
-        Route::post('search-users',([AdminController::class,'searchUsers']));
+        Route::get('search-users',([AdminController::class,'searchUsers']));
     });
 
 

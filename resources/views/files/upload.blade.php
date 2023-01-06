@@ -9,7 +9,7 @@
                         <div class="col-auto mb-3">
                             <h1 class="page-header-title">
 {{--                                <div class="page-header-icon"><i data-feather="upload"></i></div>--}}
-                                Upload Generated Statement of Account
+                                Upload Statement of Account
                             </h1>
                         </div>
                         <div class="col-12 col-xl-auto mb-3"></div>
@@ -32,7 +32,7 @@
                                     <li class="nav-item">- <strong class="alert-black">Maximum files per upload is 1500</strong></li>
                                     <li class="nav-item">- Please wait until files are uploaded</li>
                                     <li class="nav-item">- Uploading may take a while</li>
-                                    <li class="nav-item">- instruction 4</li>
+{{--                                    <li class="nav-item">- instruction 4</li>--}}
                                 </ul>
                             </div>
                         </div>

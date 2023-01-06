@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class DashboardController extends Controller
 {
@@ -115,6 +116,37 @@ class DashboardController extends Controller
 
 
         return back()->with('success','Profile picture uploaded');
+    }
+
+    public function changePassword(){
+        return view('account.change_password');
+    }
+
+    public function updatePassword(Request $request){
+        $this->validate($request,[
+            'currentPassword' => 'required',
+            'newPassword' => 'required|confirmed'
+        ]);
+
+        if (!(Hash::check($request->get('currentPassword'), Auth::user()->password))) {
+            // The passwords matches
+            return back()->withErrors([ "Your current password does not matches with the password you provided. Please try again."]);
+        }
+
+        $user = Auth::user();
+        $user->password = Hash::make($request->newPassword);
+        $user->update();
+
+        Auth::guard('web')->logout();
+        $request->session()->invalidate();
+
+
+
+        $request->session()->regenerateToken();
+
+
+
+        return redirect('login')->with('success','Password changed successfully !');
     }
 
 }

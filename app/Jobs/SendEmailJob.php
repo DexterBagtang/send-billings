@@ -88,8 +88,9 @@ class SendEmailJob implements ShouldQueue
         $file = File::query()->where('id','=',$this->id)->first();
         try {
 
-            $recipients = str_replace([' '],'',$this->email);
-            Mail::to('dexterbagtang@gmail.com')
+            $recipient = str_replace([' '],'',$this->email);
+            $recipients = explode(',',$recipient);
+            Mail::to($recipients)
                 ->send(new SendMail($this->file,$this->subject/*.' '.$this->email*/,$this->data,$this->attachment));
 
             $file->emailStatus = "sent";

@@ -35,7 +35,7 @@
             <nav class="nav nav-borders">
                 <a class="nav-link active ms-0" href="{{url('account')}}">Profile</a>
 {{--                <a class="nav-link" href="account-billing.html">Billing</a>--}}
-{{--                <a class="nav-link" href="account-security.html">Security</a>--}}
+                <a class="nav-link" href="{{url('changePassword')}}">Change Password</a>
 {{--                <a class="nav-link" href="account-notifications.html">Notifications</a>--}}
             </nav>
             <hr class="mt-0 mb-4" />
@@ -144,7 +144,7 @@
 {{--                                    </div>--}}
 {{--                                </div>--}}
                                 <!-- Save changes button-->
-                                <button class="btn btn-primary" type="button">Save changes</button>
+{{--                                <button class="btn btn-primary" type="button">Save changes</button>--}}
                             </form>
                         </div>
                     </div>

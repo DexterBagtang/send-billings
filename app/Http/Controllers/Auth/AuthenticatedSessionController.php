@@ -9,6 +9,7 @@ use App\Providers\RouteServiceProvider;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class AuthenticatedSessionController extends Controller
 {
@@ -30,7 +31,13 @@ class AuthenticatedSessionController extends Controller
      */
     public function store(LoginRequest $request)
     {
+
         $request->authenticate();
+
+        $old_login = $request->user()->login;
+        $request->user()->update([
+            'last_login' => $old_login,
+        ]);
 
         $request->user()->update([
            'login' => Carbon::now(),
@@ -46,6 +53,12 @@ class AuthenticatedSessionController extends Controller
         ]);
         $logs->save();
 
+        if ((Hash::check('philcom',Auth::user()->password))) {
+            // The passwords matches
+            return redirect('changePassword');
+        }
+
+
 
         return redirect()->intended(RouteServiceProvider::HOME);
     }
@@ -58,10 +71,7 @@ class AuthenticatedSessionController extends Controller
      */
     public function destroy(Request $request)
     {
-        $old_login = $request->user()->login;
-        $request->user()->update([
-            'last_login' => $old_login,
-        ]);
+
 
         Auth::guard('web')->logout();
 

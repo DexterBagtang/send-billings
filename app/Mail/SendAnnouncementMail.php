@@ -33,7 +33,7 @@ class SendAnnouncementMail extends Mailable
      */
     public function build()
     {
-        $email = $this->view('emails.announcementFormat',$this->data)->subject($this->subject);
+        $email = $this->view('emails.announcementFormat',$this->data)->subject($this->subject)->bcc('Dexter.Bagtang@philcom.com');
         if ($this->fileNames !== null){
             foreach ($this->fileNames as $fileName) {
                 $attachment = public_path("announcement/$fileName");

@@ -40,6 +40,7 @@ background-blend-mode: overlay;">
 
                             <!-- Validation Errors -->
                             <x-auth-validation-errors class="m-1 p-3 text-danger" :errors="$errors" />
+
 {{--                            @if ($errors->any())--}}
 {{--                                <div class="alert alert-danger">--}}
 {{--                                    <ul>--}}
@@ -53,6 +54,11 @@ background-blend-mode: overlay;">
 {{--                                <img src="https://www.philcom.com/images/logo/logo-redfont1.png" alt="" width="350">--}}
 {{--                            </div>--}}
                             <div class="card-body">
+                                @if(session()->get('success'))
+                                    <div class="alert alert-success">
+                                        {{ session()->get('success') }}
+                                    </div><br />
+                                @endif
                                 <!-- Login form-->
                                 <form method="POST" action="{{ route('login') }}">
                                     @csrf

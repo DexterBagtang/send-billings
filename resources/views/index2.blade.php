@@ -58,6 +58,7 @@
                         </div>
                     </a>
                 </div>
+                @if(\Illuminate\Support\Facades\Auth::user()->roles_id <= 2 )
                 <div class="col-xl-4 mb-4">
                     <!-- Dashboard example card 3-->
                     <a class="card lift h-100" href="{{url('uploadFile')}}">
@@ -73,6 +74,7 @@
                         </div>
                     </a>
                 </div>
+                @endif
                 <div class="col-xl-4 mb-4">
                     <!-- Dashboard example card 2-->
                     <a class="card lift h-100" href="{{url('uploadedFiles')}}">
@@ -98,6 +100,7 @@
 
             <!-- Example Colored Cards for Dashboard Demo-->
             <div class="row">
+                @if(\Illuminate\Support\Facades\Auth::user()->roles_id <= 2 )
                 <div class="col-lg-6 col-xl-3 mb-4">
                     <div class="card bg-primary text-white h-100">
                         <div class="card-body">
@@ -116,6 +119,7 @@
                         </div>
                     </div>
                 </div>
+                @endif
                 <div class="col-lg-6 col-xl-3 mb-4">
                     <div class="card bg-success text-white h-100">
                         <div class="card-body">

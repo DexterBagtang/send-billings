@@ -41,6 +41,23 @@
 {{--<x:notify-messages />--}}
         {{--Main Content--}}
         @yield('content')
+{{--        User Manual Modal--}}
+        <div class="modal fade" id="exampleModalLg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-xl" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">User Guide</h5>
+                        <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+{{--                        <embed src="{{asset('userguide.pdf')}}" width="100%" height="600">--}}
+                        <object data="{{asset('userguide.pdf')}}" type="application/pdf" width="100%" height="600"></object>
+                    </div>
+                    <div class="modal-footer"><button class="btn btn-primary" type="button" data-bs-dismiss="modal">Close</button></div>
+                </div>
+            </div>
+        </div>
+{{--        End of User Manual Modal--}}
         {{-- Main Content --}}
 
         <footer class="footer-admin mt-auto footer-light">

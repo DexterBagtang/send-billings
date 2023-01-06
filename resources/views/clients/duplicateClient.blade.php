@@ -13,7 +13,7 @@
                         &middot; {{\Carbon\Carbon::now()->format('F d, Y')}}
                     </div>
                 </div>
-                @if(Auth::user()->roles_id == 1)
+                @if(Auth::user()->roles_id <= 2)
                 <a href="{{url('addClient')}}" class="btn btn-primary position-relative">Add Client</a>
                 @endif
             </div>

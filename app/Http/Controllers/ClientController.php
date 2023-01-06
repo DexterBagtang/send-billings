@@ -125,6 +125,27 @@ class ClientController extends Controller
 
     public function editedClient(Request $request){
 
+        $this->validate($request,[
+            'company'=>'required',
+            'email'=>'required',
+            'account_number'=>'required|max:8|min:8',
+            'contract_number'=>'required|max:4|min:4',
+            'incharge' => 'required',
+            'incharge_email' => 'required',
+        ],[
+            'company.required' => 'Company is empty !',
+            'email.required' => 'Email is empty !',
+            'email.email' => 'Please enter a valid email',
+            'account_number.required' => 'Account Number is required',
+            'account_number.integer' => 'Invalid Account number',
+            'account_number.max' => 'Account Number must not be greater than 8 digits',
+            'account_number.min' => 'Account Number must be at least 8 digits',
+            'contract_number.required' => 'Contract Number is required',
+            'contract_number.integer' => 'Invalid Contract number',
+            'contract_number.max' => 'Contract Number must not be greater than 4 digits',
+            'contract_number.min' => 'Contract Number must be at least 4 digits'
+
+        ]);
 
         //========== Checks for possible duplicate ======================//
         $checkDuplicate = DB::table('clients')
@@ -141,7 +162,9 @@ class ClientController extends Controller
         }
 
         //==============================================================//
-        $email = implode(',',$request->email);
+        $filtered = array_filter($request->email);
+        $email = implode(',',$filtered);
+//        dd($request->email,$filtered,$email);
 //        dd($request->email,$email);
         $client = Client::find($request->id);
         $client->company = $request->input('company');
@@ -205,6 +228,7 @@ class ClientController extends Controller
             'action' => $request->csv,
             'module' => 'import client',
         ]);
+        $logs->save();
 
 
         return redirect('clients')->with('success','Successfully added clients');

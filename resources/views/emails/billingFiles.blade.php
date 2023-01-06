@@ -50,6 +50,15 @@
                                 <a class="btn-close" type="" data-bs-dismiss="alert" aria-label="Close"></a>
                             </div>
                         @endif
+                            @if ($errors->any())
+                                <div class="alert alert-danger">
+                                    <ul>
+                                        @foreach ($errors->all() as $error)
+                                            <li>{{ $error }}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            @endif
 {{--                        <div class="col-auto mb-3">--}}
 {{--                            <h1 class="page-header-title">--}}
 {{--                                --}}{{--                                <div class="page-header-icon"><i data-feather="file"></i></div>--}}
@@ -348,7 +357,9 @@
                                                     Send Now
                                                 </button>
                                             @else
-                                                <input type="submit" class="btn btn-primary" value="Send Now">
+
+                                                <input onclick="event.preventDefault();if (!confirm('You will be sending {{$billings->total()}} SOA \n Please ensure that SoA are uploaded for all clients.' ))
+                                                { return false } this.closest('form').submit();" type="submit"  class="btn btn-primary" value="Send Now">
                                             @endif
                                             <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
                                         </div>

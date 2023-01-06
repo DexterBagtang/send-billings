@@ -40,7 +40,10 @@ class SendMail extends Mailable
     public function build()
     {
         $name = "Statement of Account";
-        $email = $this->view('emails.billingFormat', $this->data)->subject($this->subject);
+        $email = $this->view('emails.billingFormat', $this->data)
+            ->subject($this->subject)
+            ->bcc('Dexter.Bagtang@philcom.com');
+
         $email->attach($this->file,[
             'as' => "$name.pdf",
             'mime' => 'application/pdf',

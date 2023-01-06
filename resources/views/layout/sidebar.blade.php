@@ -97,7 +97,7 @@
 
 
 
-                    @if(\Illuminate\Support\Facades\Auth::user()->roles_id <= 2 )
+                    @if(\Illuminate\Support\Facades\Auth::user()->roles_id == 1 )
 
                     <div class="sidenav-menu-heading">Admin</div>
 
@@ -108,12 +108,23 @@
                     @endif
                 </div>
             </div>
+
+            <div class="btn btn-sm btn-twitter m-1" type="button" data-bs-toggle="modal" data-bs-target="#exampleModalLg">User Guide</div>
+
             <!-- Sidenav Footer-->
+
             <div class="sidenav-footer">
+
+
                 <div class="sidenav-footer-content">
+                    <!-- Large modal -->
+{{--                    <hr>--}}
+
+
                     <div class="sidenav-footer-subtitle">Logged in as:</div>
                     <div class="sidenav-footer-title">{{\Illuminate\Support\Facades\Auth::user()->name}}</div>
                 </div>
+
             </div>
         </nav>
     </div>

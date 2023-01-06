@@ -15,7 +15,7 @@
                         &middot; {{\Carbon\Carbon::now()->format('F d, Y')}}
                     </div>
                 </div>
-                @if(Auth::user()->roles_id == 1 || Auth::user()->roles_id == 2)
+                @if(Auth::user()->roles_id <= 2)
                 <a href="{{url('addClient')}}" class="btn btn-primary">Add Client</a>
                 @endif
             </div>
@@ -86,7 +86,7 @@
                             <td>{{$client->contract_number}}</td>
                             <td title="{{$client->email}}">{{Str::limit($client->email,50)}}</td>
                             <td>
-                                @if(Auth::user()->roles_id == 1 || Auth::user()->roles_id == 2)
+                                @if(Auth::user()->roles_id <= 2)
                                 <a href="{{url("editClient/$client->id")}}"
                                    class="btn btn-datatable btn-icon btn-outline-primary m-1" title="Edit">
                                     <i data-feather="edit-3"></i>
@@ -98,7 +98,7 @@
                                     <i data-feather="eye"></i>
                                 </a>
 
-                                @if(Auth::user()->roles_id == 1 || Auth::user()->roles_id == 2)
+                                @if(Auth::user()->roles_id <= 2)
                                 <a href="{{url("removeClient/$client->id")}}" id="exampleModal"
                                    class="btn btn-datatable btn-icon btn-outline-danger m-1" title="Remove">
                                     <i data-feather="user-minus"></i>

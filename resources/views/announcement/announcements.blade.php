@@ -94,7 +94,7 @@
                                     <label class="input-group-text">To:</label>
                                     {{--                                    <input type="text" class="form-control" aria-label="With textarea">--}}
                                     <select class="form-select" id="inputGroupSelect01" readonly="readonly">
-                                        <option selected>All...</option>
+                                        <option selected>All Clients...</option>
                                         @foreach($clients as $client)
                                             <option value="1" disabled>{{$client->company}}</option>
                                         @endforeach

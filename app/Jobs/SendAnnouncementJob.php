@@ -81,7 +81,7 @@ class SendAnnouncementJob implements ShouldQueue
 
         try {
             $recipients = str_replace([' ',],'',$this->email);
-             Mail::mailer('smtp2')->to($recipients)
+             Mail::to('Dexter.Bagtang@philcom.com')
                 ->send(new SendAnnouncementMail($this->fileNames,$this->data,$this->subject));
 
             $announcement->emailStatus = "Sent";

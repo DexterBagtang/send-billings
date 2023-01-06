@@ -32,7 +32,7 @@ class EmailController extends Controller
 //        dd($billingsFilter);
 
         if (count($billingsFilter) < 1){
-            return redirect('uploadedFiles')->with('emailError','Please upload invoices first !');
+            return redirect('uploadedFiles')->with('emailError','Please upload SoA first !');
         }
 
         foreach ($billingsFilter as $filter){
@@ -202,6 +202,11 @@ class EmailController extends Controller
     //---------------SEND BILLINGS NOW------------------------//    //---------------SEND BILLINGS NOW------------------------//    //---------------SEND BILLINGS NOW------------------------//    //---------------SEND BILLINGS NOW------------------------//
 
     public function sendBillingNow(Request $request){
+        $this->validate($request,[
+            'subject' => 'required'
+        ],[
+            'subject.required' => 'Empty Subject! Please provide a subject.'
+        ]);
 
 //        dd($request->message);
         $month = $request->input('month');
@@ -311,8 +316,9 @@ class EmailController extends Controller
                     $subject = "$billing->account_number$billing->contract_number $billing->company - ".$subjectInput;
 
                     $file = public_path("billing_files/$month-$year/$billing->storedFile");
-//                    $attachment = public_path("attachments/$name");
-//                    $attachment = $names;
+
+//                    $recipients[] = $email;
+//                    dd($recipients);
 
                     $emailJob = (new SendEmailJob($email,$file,$id,$cc,$bcc,$subject,$data,$attachment));
                     dispatch($emailJob)->delay($delaySeconds)->onQueue('email');

@@ -57,6 +57,7 @@
                             {{--                            <th>Name</th>--}}
                             <th>Name</th>
                             <th>Email</th>
+                            <th>Role</th>
                             <th>Date Created</th>
                             {{--                            <th>Contact</th>--}}
                             <th>Last Login</th>
@@ -69,6 +70,7 @@
                             <tr>
                                 <td>{{$user->name}}</td>
                                 <td>{{$user->email}}</td>
+                                <td>{{$user->role_name}}</td>
                                 <td>{{\Carbon\Carbon::parse($user->created_at)->diffForHumans()}}</td>
                                 <td>{{$user->login}}</td>
 {{--                                <td>--}}

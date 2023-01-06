@@ -90,7 +90,7 @@ class AnnouncementController extends Controller
         $compositions_id = $composed->id;
 
 
-        $clients = DB::table('clients')->groupBy('email')->take(20)->get('email');
+        $clients = DB::table('clients')->groupBy('email')->take(1)->get('email');
 
         foreach ($clients as $client) {
             $announcement = new Announcement([
